@@ -40,6 +40,7 @@ class Carreira(ModeloCadastro):
         else:
             print(f"Erro: Só é possível remover objetos Skill da carreira {self.nome}.")
 
+
     def listar_skills(self):
         """Retorna uma lista com os nomes das skills associadas à carreira."""
         return [skill.nome for skill in self.__skills_requeridas]
