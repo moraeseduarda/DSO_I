@@ -1,7 +1,7 @@
 from models.status import Status
 from models.skill import Skill
 
-class ProjetosPessoais:
+class ProjetoPessoal:
     def __init__(self, nome: str, descricao: str, skill_relacionada_obj, status):
         
         if isinstance(nome, str):
