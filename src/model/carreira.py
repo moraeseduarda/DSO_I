@@ -1,7 +1,6 @@
-from models.modelo_cadastro import ModeloCadastro
-from models.skill import Skill
+from model.skill import Skill
 
-class Carreira(ModeloCadastro):
+class Carreira():
     """Representa uma carreira profissional."""
     def __init__(self, nome: str, id: int, descricao: str):
         super().__init__(nome, id)

@@ -1,8 +1,7 @@
-from models.material_estudo import MaterialEstudo
-from models.nivel_proficiencia import NivelProficiencia
-from models.modelo_cadastro import ModeloCadastro
+from model.material_estudo import MaterialEstudo
+from model.nivel_proficiencia import NivelProficiencia
 
-class Skill(ModeloCadastro):
+class Skill():
     def __init__(self, nome: str, id: int, descricao: str, material_estudo, nivel_proficiencia):
         super().__init__(nome, id) 
 

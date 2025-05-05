@@ -1,10 +1,9 @@
-from models.modelo_cadastro import ModeloCadastro
-from models.carreira import Carreira
-from models.projeto_pessoal import ProjetoPessoal
-from models.skill import Skill
-from models.status import Status, STATUS_CONCLUIDO
+from model.carreira import Carreira
+from model.projeto_pessoal import ProjetoPessoal
+from model.skill import Skill
+from model.status import Status, STATUS_CONCLUIDO
 
-class Usuario(ModeloCadastro):
+class Usuario():
     def __init__(self, id: int, nome: str, carreira_escolhida: Carreira, projeto: ProjetoPessoal):
         super().__init__(nome, id)
         self.__carreira_escolhida = carreira_escolhida
