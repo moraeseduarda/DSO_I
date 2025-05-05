@@ -8,6 +8,7 @@ class TelaCarreira:
         print('4 - Listar carreira')
         print('5 - Retornar')
         opcao = int(input('Digite a opção desejada: '))
+        print('\n')
         return opcao
     
     def pega_dados_carreira(self):

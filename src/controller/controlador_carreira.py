@@ -44,7 +44,7 @@ class ControladorCarreira():
         self.__controlador_sistema.abre_tela()
         
     def abre_tela(self):
-        lista_opcoes = {1: self.incluir_carreira, 2: self.alterar_carreira, 3: self.lista_carreira, 4: self.excluir_carreira, 0: self.retornar}
+        lista_opcoes = {1: self.incluir_carreira, 2: self.alterar_carreira, 3: self.lista_carreira, 4: self.excluir_carreira, 5: self.retornar}
         
         continua = True
         while continua:

@@ -8,4 +8,5 @@ class TelaSistema:
         print('3 - USUÁRIO')
         print('0 - SAIR')
         opcao = int(input('Digite a opção desejada: '))
+        print('\n')
         return opcao
