@@ -17,10 +17,9 @@ class ControladorSistema:
         exit(0)
     
     def abre_tela(self):
-        opcoes = {1:self.cadastra_carreira, 0:self.encerra_sistema}
+        opcoes = {1: self.cadastra_carreira, 0: self.encerra_sistema}
         
         while True:
             opcao_escolhida = self.__tela_sistema.tela_opcoes()
-            funcao_escolhida = lista_opcoes[opcao_escolhida]
+            funcao_escolhida = opcoes[opcao_escolhida]  
             funcao_escolhida()
-            
