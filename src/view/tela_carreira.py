@@ -20,9 +20,9 @@ class TelaCarreira:
         return {'id': id, 'nome': nome, 'descricao': descricao}
     
     def mostra_carreira(self, dados_carreira):
-        print('ID DO CARREIRA: ' + str(dados_carreira['carreira'].id))
-        print('TITULO DO CARREIRA: ' + dados_carreira['carreira'].titulo)
-        print('DESCRICAO DO CARREIRA: ' + dados_carreira['carreira'].descricao)
+        print('ID DA CARREIRA: ', dados_carreira['id'])
+        print('NOME DA CARREIRA: ', dados_carreira['nome'])
+        print('DESCRICAO DA CARREIRA: ', dados_carreira['descricao'])
         print('\n')
         
     def seleciona_carreira(self):

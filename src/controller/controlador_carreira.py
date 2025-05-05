@@ -16,18 +16,32 @@ class ControladorCarreira():
     
     def incluir_carreira(self):
         dados_carreira = self.__tela_carreira.pega_dados_carreira()
-        nova_carreira = Carreira(dados_carreira['id'], dados_carreira['nome'], dados_carreira['descricao'])
-        self.__carreiras.append(nova_carreira)
-        self.__tela_carreira.mostra_mensagem('Carreira cadastrada com sucesso!')
+        carreira = self.pega_carreira_por_id(dados_carreira['id'])
+        if carreira is None:
+            nova_carreira = Carreira(dados_carreira['id'], dados_carreira['nome'], dados_carreira['descricao'])
+            self.__carreiras.append(nova_carreira)
+            self.__tela_carreira.mostra_mensagem('Carreira cadastrada com sucesso!')
+            print('\n')
+        else:
+            self.__tela_carreira.mostra_mensagem("ATENCAO: Carreira já existente")    
     
     def alterar_carreira(self):
-        self.__carreiras
+        self.lista_carreira()
+        id_carreira = self.__tela_carreira.seleciona_carreira()
+        carreira = self.pega_carreira_por_id(id_carreira)
+        
+        if carreira is not None:
+            novos_dados_carreira = self.__tela_carreira.pega_dados_carreira()
+            carreira.id = novos_dados_carreira['id']
+            carreira.nome = novos_dados_carreira['nome']
+            carreira.descricao = novos_dados_carreira['descricao']
+            self.lista_carreira()
+        else:
+            self.__tela_carreira.mostra_mensagem('ATENCAO: Carreira não existente')
         
     def lista_carreira(self):
         for carreira in self.__carreiras:
             self.__tela_carreira.mostra_carreira({'id': carreira.id, 'nome': carreira.nome, 'descricao': carreira.descricao})
-        if self.__carreiras == []:
-            self.__tela_carreira.mostra_mensagem('Nenhuma carreira cadastrada!')
         
     def excluir_carreira(self):
         self.lista_carreira()
@@ -44,7 +58,7 @@ class ControladorCarreira():
         self.__controlador_sistema.abre_tela()
         
     def abre_tela(self):
-        lista_opcoes = {1: self.incluir_carreira, 2: self.alterar_carreira, 3: self.lista_carreira, 4: self.excluir_carreira, 5: self.retornar}
+        lista_opcoes = {1: self.incluir_carreira, 2: self.alterar_carreira, 3: self.excluir_carreira, 4: self.lista_carreira, 5: self.retornar}
         
         continua = True
         while continua:
