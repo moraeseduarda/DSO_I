@@ -1,27 +1,32 @@
 from model.skill import Skill
 
-class Carreira():
+class Carreira:
     """Representa uma carreira profissional."""
     def __init__(self, nome: str, id: int, descricao: str):
-        if isinstance(nome, str):
-            return self.__nome
-        
-        if isinstance(id, int):
-            return self.__id
-
-        if isinstance(descricao, str):
-            self.__descricao = descricao
+        self.__nome = nome
+        self.__id = id
+        self.__descricao = descricao
         
         self.__skills_requeridas = []
 
     @property
     def descricao(self):
         return self.__descricao
-    
+
     @descricao.setter
     def descricao(self, descricao: str):
         if isinstance(descricao, str):
             self.__descricao = descricao
+        else:
+            raise ValueError("A descrição deve ser uma string.")
+
+    @property
+    def id(self):
+        return self.__id
+
+    @property
+    def nome(self):
+        return self.__nome
 
     def adicionar_skill(self, skill):
         """Adiciona uma Skill à lista de skills requeridas."""
@@ -54,4 +59,3 @@ class Carreira():
             f"Descrição: {self.__descricao}\n"
             f"Skills Requeridas: {skills}"
         )
-    
