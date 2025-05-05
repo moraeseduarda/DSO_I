@@ -2,7 +2,8 @@ from model.carreira import Carreira
 from view.tela_carreira import TelaCarreira
 
 class ControladorCarreira():
-    def __init__(self):
+    
+    def __init__(self, controlador_sistema):
         self.__controlador_sistema = controlador_sistema
         self.__tela_carreira = TelaCarreira()
         self.__carreiras = []
@@ -29,7 +30,7 @@ class ControladorCarreira():
             self.__tela_carreira.mostra_mensagem('Nenhuma carreira cadastrada!')
         
     def excluir_carreira(self):
-        self.__lista_carreira()
+        self.lista_carreira()
         id_carreira = self.__tela_carreira.seleciona_carreira()
         carreira = self.pega_carreira_por_id(id_carreira)
         
@@ -47,5 +48,5 @@ class ControladorCarreira():
         
         continua = True
         while continua:
-            lista_opcoes[self.__tela_livro.tela_opcoes()]()
+            lista_opcoes[self.__tela_carreira.tela_opcoes()]()
             
