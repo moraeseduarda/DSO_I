@@ -3,7 +3,11 @@ from model.skill import Skill
 class Carreira():
     """Representa uma carreira profissional."""
     def __init__(self, nome: str, id: int, descricao: str):
-        super().__init__(nome, id)
+        if isinstance(nome, str):
+            return self.__nome
+        
+        if isinstance(id, int):
+            return self.__id
 
         if isinstance(descricao, str):
             self.__descricao = descricao

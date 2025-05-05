@@ -6,7 +6,7 @@ class TelaCarreira:
         print('2 - Alterar carreira')
         print('3 - Excluir carreira')
         print('4 - Listar carreira')
-        print('Retornar')
+        print('5 - Retornar')
         opcao = int(input('Digite a opção desejada: '))
         return opcao
     
