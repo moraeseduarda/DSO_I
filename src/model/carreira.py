@@ -23,10 +23,20 @@ class Carreira:
     @property
     def id(self):
         return self.__id
+    
+    @id.setter
+    def id(self, id: int):
+        if isinstance(id, int):
+            self.__id = id
 
     @property
     def nome(self):
         return self.__nome
+    
+    @nome.setter
+    def nome(self, nome: str):
+        if isinstance(nome, str):
+            self.__nome = nome
 
     def adicionar_skill(self, skill):
         """Adiciona uma Skill à lista de skills requeridas."""

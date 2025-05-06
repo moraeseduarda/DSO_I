@@ -32,7 +32,6 @@ class ControladorCarreira():
         
         if (carreira is not None):
             novos_dados_carreira = self.__tela_carreira.pega_dados_carreira()
-            carreira.id = novos_dados_carreira['id']
             carreira.nome = novos_dados_carreira['nome']
             carreira.descricao = novos_dados_carreira['descricao']
             self.lista_carreira()
