@@ -2,9 +2,9 @@ from model.skill import Skill
 
 class Carreira:
     """Representa uma carreira profissional."""
-    def __init__(self, nome: str, id: int, descricao: str):
-        self.__nome = nome
+    def __init__(self, id: int, nome: str, descricao: str):
         self.__id = id
+        self.__nome = nome
         self.__descricao = descricao
         
         self.__skills_requeridas = []

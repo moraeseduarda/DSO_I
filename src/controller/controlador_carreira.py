@@ -30,7 +30,7 @@ class ControladorCarreira():
         id_carreira = self.__tela_carreira.seleciona_carreira()
         carreira = self.pega_carreira_por_id(id_carreira)
         
-        if carreira is not None:
+        if (carreira is not None):
             novos_dados_carreira = self.__tela_carreira.pega_dados_carreira()
             carreira.id = novos_dados_carreira['id']
             carreira.nome = novos_dados_carreira['nome']
@@ -52,7 +52,7 @@ class ControladorCarreira():
             self.__carreiras.remove(carreira)
             self.lista_carreira()
         else:
-            self.__tela_carreira.mostra_mensagem('Carreira não exite.')
+            self.__tela_carreira.mostra_mensagem('Carreira não existe.')
             
     def retornar(self):
         self.__controlador_sistema.abre_tela()
