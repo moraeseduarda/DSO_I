@@ -1,7 +1,6 @@
 from model.carreira import Carreira
 from view.tela_carreira import TelaCarreira
 
-
 class ControladorCarreira():
     
     def __init__(self, controlador_sistema):
