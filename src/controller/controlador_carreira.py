@@ -1,6 +1,7 @@
 from model.carreira import Carreira
 from view.tela_carreira import TelaCarreira
 
+
 class ControladorCarreira():
     
     def __init__(self, controlador_sistema):
@@ -47,20 +48,19 @@ class ControladorCarreira():
         self.lista_carreira()
         id_carreira = self.__tela_carreira.seleciona_carreira()
         carreira = self.pega_carreira_por_id(id_carreira)
-        
+
         if carreira is not None:
             self.__carreiras.remove(carreira)
             self.lista_carreira()
         else:
             self.__tela_carreira.mostra_mensagem('Carreira não existe.')
-            
+    
     def retornar(self):
         self.__controlador_sistema.abre_tela()
-        
+ 
     def abre_tela(self):
         lista_opcoes = {1: self.incluir_carreira, 2: self.alterar_carreira, 3: self.excluir_carreira, 4: self.lista_carreira, 5: self.retornar}
-        
+
         continua = True
         while continua:
             lista_opcoes[self.__tela_carreira.tela_opcoes()]()
-            

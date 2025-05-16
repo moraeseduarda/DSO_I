@@ -6,11 +6,31 @@ from model.status import Status, STATUS_CONCLUIDO
 class Usuario():
     def __init__(self, id: int, nome: str, carreira_escolhida: Carreira, projeto: ProjetoPessoal):
         super().__init__(nome, id)
+        self.__id = id
+        self.__nome = nome
         self.__carreira_escolhida = carreira_escolhida
         self.__skills_para_aprender = []
         self.__skills_aprendidas = []
         self.__projetos = [projeto]
         self.__mapa_aprendizado = {}
+        
+    @property
+    def id(self):
+        return self.__id
+    
+    @id.setter
+    def id(self, id: str):
+        if isinstance(id, str):
+            self.__id = id
+            
+    @property
+    def nome(self):
+        return self.__nome
+    
+    @nome.setter
+    def nome(self, nome: str):
+        if isinstance(nome, str):
+            self.__nome = nome
 
     @property
     def carreira_escolhida(self):

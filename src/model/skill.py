@@ -1,9 +1,10 @@
 from model.material_estudo import MaterialEstudo
 from model.nivel_proficiencia import NivelProficiencia
 
-class Skill():
+class Skill:
     def __init__(self, nome: str, id: int, descricao: str, material_estudo, nivel_proficiencia):
-        super().__init__(nome, id) 
+        self.__id = id
+        self.__nome = nome
 
         if isinstance(descricao, str):
             self.__descricao = descricao
@@ -13,6 +14,24 @@ class Skill():
 
         if isinstance(nivel_proficiencia, NivelProficiencia):
             self.__nivel_proficiencia = nivel_proficiencia
+            
+    @property
+    def id(self):
+        return self.__id
+    
+    @id.setter
+    def id(self, id: str):
+        if isinstance(id, str):
+            self.__id = id
+            
+    @property
+    def nome(self):
+        return self.__nome
+    
+    @nome.setter
+    def nome(self, nome: str):
+        if isinstance(nome, str):
+            self.__nome = nome
 
     @property
     def descricao(self):
