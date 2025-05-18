@@ -19,7 +19,13 @@ class ControladorSkill():
         skill = self.pega_skill_por_id(dados_skill['id'])
         
         if skill is None:
-            nova_skill = Skill(dados_skill['id'], dados_skill['nome'], dados_skill['descricao'])
+            nova_skill = Skill(
+                dados_skill['nome'],
+                dados_skill['id'],
+                dados_skill['descricao'],
+                [],    # material_estudo vazio
+                None   # nivel_proficiencia vazio
+            )
             self.__skills.append(nova_skill)
             self.__tela_skill.mostra_mensagem('Skill cadastrada com sucesso')
             print('\n')
@@ -42,7 +48,13 @@ class ControladorSkill():
 
     def lista_skill(self):
             for skill in self.__skills:
-                self.__tela_skill.mostra_skill({'id': skill.id, 'nome': skill.nome, 'descricao': skill.descricao})
+                self.__tela_skill.mostra_skill({
+                    'id': skill.id,
+                    'nome': skill.nome,
+                    'descricao': skill.descricao,
+                    'material_estudo': skill.material_estudo,
+                    'nivel_proficiencia': skill.nivel_proficiencia
+                })
             
     def excluir_skill(self):
         self.lista_skill()

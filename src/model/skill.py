@@ -5,23 +5,17 @@ class Skill:
     def __init__(self, nome: str, id: int, descricao: str, material_estudo, nivel_proficiencia):
         self.__id = id
         self.__nome = nome
-
-        if isinstance(descricao, str):
-            self.__descricao = descricao
-  
-        if isinstance(material_estudo, list) and all(isinstance(m, MaterialEstudo) for m in material_estudo):
-            self.__material_estudo = material_estudo
-
-        if isinstance(nivel_proficiencia, NivelProficiencia):
-            self.__nivel_proficiencia = nivel_proficiencia
+        self.__descricao = descricao
+        self.__material_estudo = material_estudo
+        self.__nivel_proficiencia = nivel_proficiencia
             
     @property
     def id(self):
         return self.__id
     
     @id.setter
-    def id(self, id: str):
-        if isinstance(id, str):
+    def id(self, id: int):
+        if isinstance(id, int):
             self.__id = id
             
     @property
@@ -77,4 +71,3 @@ class Skill:
             f"Skill: {self.nome} (ID: {self.id}, Nível: {self.__nivel_proficiencia})\n"
             f"Materiais de Estudo:\n{materiais}"
         )
-    
