@@ -5,14 +5,12 @@ from model.status import Status, STATUS_CONCLUIDO
 
 class Usuario():
     def __init__(self, id: int, nome: str, carreira_escolhida: Carreira, projeto: ProjetoPessoal):
-        super().__init__(nome, id)
         self.__id = id
         self.__nome = nome
         self.__carreira_escolhida = carreira_escolhida
         self.__skills_para_aprender = []
         self.__skills_aprendidas = []
-        self.__projetos = [projeto]
-        self.__mapa_aprendizado = {}
+        self.__projetos = []
         
     @property
     def id(self):
