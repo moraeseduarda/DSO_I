@@ -3,6 +3,7 @@ from controller.controlador_carreira import ControladorCarreira
 from controller.controlador_usuario import ControladorUsuario
 from controller.controlador_skills import ControladorSkill
 
+
 class ControladorSistema:
     def __init__(self):
         self.__tela_sistema = TelaSistema()
@@ -22,29 +23,38 @@ class ControladorSistema:
     def controlador_skills(self):
         return self.__controlador_skills
     
-    @property
-    def controlador_skills(self):
-        return self.__controlador_skills
-    
-    def cadastra_carreira(self):
-        self.__controlador_carreira.abre_tela()
-    
-    def cadastra_usuario(self):
-        self.__controlador_usuario.abre_tela()
-    
-    def cadastra_skill(self):
-        self.controlador_skills.abre_tela()
-    
-    def cadastra_skill(self):
-        self.controlador_skills.abre_tela()
+    def menu_administrador(self):
+        opcoes = {
+            1: self.__controlador_carreira.abre_tela,
+            2: self.__controlador_skills.abre_tela,
+            3: self.__controlador_usuario.abre_tela,
+        }
+        
+        while True:
+                opcao = self.__tela_sistema.tela_opcoes_admin()
+                if opcao == 0:
+                    break
+                funcao = opcoes.get(opcao)
+                if funcao:
+                    funcao()
+                else:
+                    print("Opção inválida.")
     
     def encerra_sistema(self):
         exit(0)
     
     def abre_tela(self):
-        opcoes = {3: self.cadastra_usuario, 1: self.cadastra_carreira, 0: self.encerra_sistema, 2:self.cadastra_skill}
-        
         while True:
-            opcao_escolhida = self.__tela_sistema.tela_opcoes()
-            funcao_escolhida = opcoes[opcao_escolhida]  
-            funcao_escolhida()
+            opcoes = {
+                0: self.encerra_sistema,
+                1: self.menu_administrador,
+                2: self.controlador_usuario.menu_usuario,
+            }
+
+            escolha = self.__tela_sistema.tela_opcoes_iniciais()
+            funcao = opcoes.get(escolha)
+
+            if funcao:
+                funcao()
+            else:
+                print("Opção inválida.")
