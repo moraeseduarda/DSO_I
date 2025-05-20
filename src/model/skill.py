@@ -3,11 +3,30 @@ from model.nivel_proficiencia import NivelProficiencia
 
 class Skill:
     def __init__(self, nome: str, id: int, descricao: str, material_estudo, nivel_proficiencia):
-        self.__id = id
-        self.__nome = nome
-        self.__descricao = descricao
-        self.__material_estudo = material_estudo
-        self.__nivel_proficiencia = nivel_proficiencia
+        if isinstance(id, int):
+            self.__id = id
+        else:
+            raise TypeError("id deve ser um inteiro")
+
+        if isinstance(nome, str):
+            self.__nome = nome
+        else:
+            raise TypeError("nome deve ser uma string")
+
+        if isinstance(descricao, str):
+            self.__descricao = descricao
+        else:
+            raise TypeError("descricao deve ser uma string")
+
+        if isinstance(material_estudo, list) and all(isinstance(m, MaterialEstudo) for m in material_estudo):
+            self.__material_estudo = material_estudo
+        else:
+            raise TypeError("material_estudo deve ser uma lista de objetos MaterialEstudo")
+
+        if isinstance(nivel_proficiencia, NivelProficiencia):
+            self.__nivel_proficiencia = nivel_proficiencia
+        else:
+            raise TypeError("nivel_proficiencia deve ser um objeto NivelProficiencia")
             
     @property
     def id(self):
@@ -17,6 +36,8 @@ class Skill:
     def id(self, id: int):
         if isinstance(id, int):
             self.__id = id
+        else:
+            raise TypeError("id deve ser um inteiro")
             
     @property
     def nome(self):
@@ -26,6 +47,8 @@ class Skill:
     def nome(self, nome: str):
         if isinstance(nome, str):
             self.__nome = nome
+        else:
+            raise TypeError("nome deve ser uma string")
 
     @property
     def descricao(self):
@@ -35,6 +58,8 @@ class Skill:
     def descricao(self, descricao: str):
         if isinstance(descricao, str):
             self.__descricao = descricao
+        else:
+            raise TypeError("descricao deve ser uma string")
 
     @property
     def material_estudo(self):
@@ -44,6 +69,8 @@ class Skill:
     def material_estudo(self, material_estudo):
         if isinstance(material_estudo, list) and all(isinstance(m, MaterialEstudo) for m in material_estudo):
             self.__material_estudo = material_estudo  
+        else:
+            raise TypeError("material_estudo deve ser uma lista de objetos MaterialEstudo")
 
     @property
     def nivel_proficiencia(self):
@@ -53,21 +80,5 @@ class Skill:
     def nivel_proficiencia(self, nivel_proficiencia):
         if isinstance(nivel_proficiencia, NivelProficiencia):
             self.__nivel_proficiencia = nivel_proficiencia
-
-    def adicionar_material(self, material):
-        if isinstance(material, MaterialEstudo):
-            self.__material_estudo.append(material) 
-
-    def __str__(self):
-        materiais = (
-            "\n".join(
-                f"Título: {material.titulo}, Descrição: {material.descricao}, Tipo: {material.tipo}"
-                for material in self.__material_estudo
-            )
-            if self.__material_estudo
-            else "Nenhum"
-        )
-        return (
-            f"Skill: {self.nome} (ID: {self.id}, Nível: {self.__nivel_proficiencia})\n"
-            f"Materiais de Estudo:\n{materiais}"
-        )
+        else:
+            raise TypeError("nivel_proficiencia deve ser um objeto NivelProficiencia")

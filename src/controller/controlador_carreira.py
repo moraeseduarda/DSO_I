@@ -1,6 +1,7 @@
 from model.carreira import Carreira
 from view.tela_carreira import TelaCarreira
 
+
 class ControladorCarreira():
     
     def __init__(self, controlador_sistema):
@@ -21,10 +22,9 @@ class ControladorCarreira():
             nova_carreira = Carreira(dados_carreira['id'], dados_carreira['nome'], dados_carreira['descricao'])
             self.__carreiras.append(nova_carreira)
             self.__tela_carreira.mostra_mensagem('Carreira cadastrada com sucesso!')
-            print('\n')
         else:
             self.__tela_carreira.mostra_mensagem("ATENCAO: Carreira já existente")    
-    
+            
     def alterar_carreira(self):
         self.lista_carreira()
         id_carreira = self.__tela_carreira.seleciona_carreira()
@@ -40,6 +40,8 @@ class ControladorCarreira():
             self.__tela_carreira.mostra_mensagem('ATENCAO: Carreira não existente')
         
     def lista_carreira(self):
+        if not self.__carreiras:
+            print('Nenhuma carreira cadastrada.\n')
         for carreira in self.__carreiras:
             self.__tela_carreira.mostra_carreira({'id': carreira.id, 'nome': carreira.nome, 'descricao': carreira.descricao})
         
