@@ -1,3 +1,5 @@
+from view.utils import limpar_console
+
 class TelaAdminUsuario():
     def tela_opcoes(self):
         print('SISTEMA DE MONITORAMENTO DE HARD SKILLS')
@@ -6,10 +8,10 @@ class TelaAdminUsuario():
         print('1 - Listar usuarios')
         print('0 - Retornar')
         opcao = int(input('Digite a opção desejada: '))
-        print('\n')
+        limpar_console()
         return opcao
     
     def mostra_usuario(self, dados_usuario):
         print('ID DO USUARIO: ', dados_usuario['id'])
         print('NOME DO USUARIO: ', dados_usuario['nome'])
-        print('\n')
+        limpar_console()

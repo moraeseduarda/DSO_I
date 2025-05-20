@@ -1,3 +1,5 @@
+from view.utils import limpar_console
+
 class TelaSkill:
     def tela_opcoes(self):
         print('ESCOLHA UMA OPÇÃO')
@@ -7,7 +9,7 @@ class TelaSkill:
         print('4 - Listar habilidade')
         print('5 - Retornar')
         opcao = int(input('Digite a opção desejada: '))
-        print('\n')
+        limpar_console()
         return opcao
     
     def pega_dados_skill(self):

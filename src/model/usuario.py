@@ -2,9 +2,24 @@ from model.carreira import Carreira
 
 class Usuario():
     def __init__(self, id: int, nome: str, carreira_escolhida: Carreira):
-        self.__id = id
-        self.__nome = nome
-        self.__carreira_escolhida = carreira_escolhida
+        if isinstance(id, int):
+            self.__id = id
+        else:
+            raise TypeError("id deve ser um inteiro")
+
+        if isinstance(nome, str):
+            self.__nome = nome
+        else:
+            raise TypeError("nome deve ser uma string")
+
+        if isinstance(carreira_escolhida, Carreira):
+            self.__carreira_escolhida = carreira_escolhida
+        else:
+            raise TypeError("carreira_escolhida deve ser um objeto Carreira")
+
+        self.__skills_para_aprender = []
+        self.__skills_aprendidas = []
+        self.__projetos_pessoais = {}
         
     @property
     def id(self):
@@ -14,6 +29,8 @@ class Usuario():
     def id(self, id: int):
         if isinstance(id, int):
             self.__id = id
+        else:
+            raise TypeError("id deve ser um inteiro")
             
     @property
     def nome(self):
@@ -23,6 +40,8 @@ class Usuario():
     def nome(self, nome: str):
         if isinstance(nome, str):
             self.__nome = nome
+        else:
+            raise TypeError("nome deve ser uma string")
 
     @property
     def carreira_escolhida(self):
@@ -32,3 +51,5 @@ class Usuario():
     def carreira_escolhida(self, carreira: Carreira):
         if isinstance(carreira, Carreira):
             self.__carreira_escolhida = carreira
+        else:
+            raise TypeError("carreira_escolhida deve ser um objeto Carreira")

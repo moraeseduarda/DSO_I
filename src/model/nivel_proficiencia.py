@@ -2,6 +2,8 @@ class NivelProficiencia:
     def __init__(self, descricao: str):
         if isinstance(descricao, str):
             self.__descricao = descricao
+        else:
+            raise TypeError("descricao deve ser uma string")
 
     @property
     def descricao(self):
@@ -11,8 +13,8 @@ class NivelProficiencia:
     def descricao(self, descricao: str):
         if isinstance(descricao, str):
             self.__descricao = descricao
+        else:
+            raise TypeError("descricao deve ser uma string")
 
-    def __str__(self):
-        return self.descricao
 
 

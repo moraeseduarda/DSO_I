@@ -1,3 +1,5 @@
+from view.utils import limpar_console
+
 class TelaSistema:
     def tela_opcoes_iniciais(self):
         print("===== BEM-VINDO AO SISTEMA DE MONITORAMENTO DE HARD SKILLS =====")
@@ -5,16 +7,17 @@ class TelaSistema:
         print("2 - Entrar como Usuário")
         print("0 - Sair")
         opcao = int(input("Digite a opção desejada: "))
-        print()
+        limpar_console()
         return opcao
     
     def tela_opcoes_admin(self):
+        print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
         print('--- MENU ADMINISTRADOR ---')
         print('Escolha uma opção:')
-        print('1 - CARREIRA')
-        print('2 - SKILL')
-        print('3 - USUÁRIO')
+        print('1 - CARREIRAS')
+        print('2 - SKILLS')
+        print('3 - USUÁRIOS')
         print('0 - VOLTAR')
         opcao = int(input('Digite a opção desejada: '))
-        print('\n')
+        limpar_console()
         return opcao

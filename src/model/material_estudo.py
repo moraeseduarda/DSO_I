@@ -2,12 +2,18 @@ class MaterialEstudo:
     def __init__(self, titulo: str, descricao: str, tipo: str):
         if isinstance(titulo, str):
             self.__titulo = titulo
+        else:
+            raise TypeError("titulo deve ser uma string")
 
         if isinstance(descricao, str):
             self.__descricao = descricao
+        else:
+            raise TypeError("descricao deve ser uma string")
         
         if isinstance(tipo, str):
             self.__tipo = tipo
+        else:
+            raise TypeError("tipo deve ser uma string")
 
     @property
     def titulo(self):
@@ -17,6 +23,8 @@ class MaterialEstudo:
     def titulo(self, titulo: str):
         if isinstance(titulo, str): 
             self.__titulo = titulo
+        else:
+            raise TypeError("titulo deve ser uma string")
 
     @property
     def descricao(self):
@@ -26,6 +34,8 @@ class MaterialEstudo:
     def descricao(self, descricao: str):
         if isinstance(descricao, str):
             self.__descricao = descricao
+        else:
+            raise TypeError("descricao deve ser uma string")
 
     @property
     def tipo(self):
@@ -35,6 +45,5 @@ class MaterialEstudo:
     def tipo(self, tipo: str):
         if isinstance(tipo, str):
             self.__tipo = tipo
-
-    def __str__(self):
-        return f"{self.__titulo} ({self.__tipo})"
+        else:
+            raise TypeError("tipo deve ser uma string")

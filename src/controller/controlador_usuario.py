@@ -1,6 +1,7 @@
 from view.tela_admin_usuarios import TelaAdminUsuario
 from view.tela_menu_usuario import TelaMenuUsuario
 
+
 class ControladorUsuario():
     def __init__(self, controlador_sistema):
         self.__controlador_sistema = controlador_sistema
