@@ -11,4 +11,3 @@ class Status:
     def status(self, status: str):
         if isinstance(status, str):
           self.__status = status
-

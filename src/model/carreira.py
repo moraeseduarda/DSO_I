@@ -6,7 +6,6 @@ class Carreira:
         self.__id = id
         self.__nome = nome
         self.__descricao = descricao
-        
         self.__skills_requeridas = []
 
     @property
