@@ -3,7 +3,6 @@ from view.tela_skill import TelaSkill
 
 
 class ControladorSkill():
-    
     def __init__(self, controlador_sistema):
         self.__controlador_sistema = controlador_sistema
         self.__tela_skill = TelaSkill()

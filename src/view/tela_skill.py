@@ -2,6 +2,8 @@ from view.utils import limpar_console
 
 class TelaSkill:
     def tela_opcoes(self):
+        print('SISTEMA DE MONITORAMENTO DE HARD SKILLS')
+        print('--- SKILLS ---')
         print('ESCOLHA UMA OPÇÃO')
         print('1 - Incluir habilidade')
         print('2 - Alterar habilidade')
@@ -13,7 +15,7 @@ class TelaSkill:
         return opcao
     
     def pega_dados_skill(self):
-        print('-----HABILIDADE-----')
+        print('--- SKILLS ---')
         id = int(input('Digite o ID da habilidade: '))
         nome = input('Digite o nome da habilidade: ')
         descricao = input('Digite a descrição da habilidade: ')

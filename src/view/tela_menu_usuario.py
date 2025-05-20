@@ -1,5 +1,6 @@
 class TelaMenuUsuario:
     def tela_opcoes(self):
+        print('SISTEMA DE MONITORAMENTO DE HARD SKILLS')
         print('--- MENU USUÁRIO ---')
         print('1 - Cadastrar novo usuário')
         print('2 - Acessar usuário existente')
@@ -7,6 +8,7 @@ class TelaMenuUsuario:
         return int(input('Escolha uma opção: '))
 
     def pega_dados_usuario(self):
+        print('SISTEMA DE MONITORAMENTO DE HARD SKILLS')
         print('--- CADASTRO DE USUÁRIO ---')
         id_usuario = int(input('Digite o ID do usuário: '))
         nome = input('Digite o nome do usuário: ')
