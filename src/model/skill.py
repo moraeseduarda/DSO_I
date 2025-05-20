@@ -21,7 +21,7 @@ class Skill:
 
         self.__material_estudo = material_estudo
         self.__nivel_proficiencia = nivel_proficiencia
-            
+    
     @property
     def id(self):
         return self.__id
