@@ -15,7 +15,4 @@ class NivelProficiencia:
     def __str__(self):
         return self.descricao
 
-# Criando instâncias de NivelProficiencia
-NIVEL_BASICO = NivelProficiencia(descricao="Básico")
-NIVEL_INTERMEDIARIO = NivelProficiencia(descricao="Intermediário")
-NIVEL_AVANCADO = NivelProficiencia(descricao="Avançado")
+
