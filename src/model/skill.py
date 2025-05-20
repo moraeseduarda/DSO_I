@@ -18,15 +18,8 @@ class Skill:
         else:
             raise TypeError("descricao deve ser uma string")
 
-        if isinstance(material_estudo, list) and all(isinstance(m, MaterialEstudo) for m in material_estudo):
-            self.__material_estudo = material_estudo
-        else:
-            raise TypeError("material_estudo deve ser uma lista de objetos MaterialEstudo")
-
-        if isinstance(nivel_proficiencia, NivelProficiencia):
-            self.__nivel_proficiencia = nivel_proficiencia
-        else:
-            raise TypeError("nivel_proficiencia deve ser um objeto NivelProficiencia")
+        self.__material_estudo = material_estudo
+        self.__nivel_proficiencia = nivel_proficiencia
             
     @property
     def id(self):

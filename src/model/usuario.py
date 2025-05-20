@@ -11,12 +11,8 @@ class Usuario():
             self.__nome = nome
         else:
             raise TypeError("nome deve ser uma string")
-
-        if isinstance(carreira_escolhida, Carreira):
-            self.__carreira_escolhida = carreira_escolhida
-        else:
-            raise TypeError("carreira_escolhida deve ser um objeto Carreira")
-
+        
+        self.__carreira_escolhida = carreira_escolhida
         self.__skills_para_aprender = []
         self.__skills_aprendidas = []
         self.__projetos_pessoais = {}
