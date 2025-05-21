@@ -27,7 +27,7 @@ class ControladorSistema:
         opcoes = {
             1: self.__controlador_carreira.abre_tela,
             2: self.__controlador_skills.abre_tela,
-            3: self.__controlador_usuario.abre_tela,
+            3: self.__controlador_usuario.abre_tela_admin,
         }
         
         while True:
@@ -48,7 +48,7 @@ class ControladorSistema:
             opcoes = {
                 0: self.encerra_sistema,
                 1: self.menu_administrador,
-                2: self.controlador_usuario.menu_usuario,
+                2: self.controlador_usuario.abre_tela_usuario,
             }
 
             escolha = self.__tela_sistema.tela_opcoes_iniciais()
