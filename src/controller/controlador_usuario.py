@@ -171,3 +171,4 @@ class ControladorUsuario():
             
             percentual = (concluidas / total) * 100 if total > 0 else 0
             print(f"\nPercentual concluído na carreira {carreira.nome}: {percentual:.2f}%\n")
+
