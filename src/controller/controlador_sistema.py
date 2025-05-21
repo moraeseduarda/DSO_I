@@ -23,6 +23,12 @@ class ControladorSistema:
     def controlador_skills(self):
         return self.__controlador_skills
     
+    def get_controlador_carreira(self):
+        return self.__controlador_carreira
+
+    def get_controlador_usuario(self):
+        return self.__controlador_usuario
+    
     def menu_administrador(self):
         opcoes = {
             1: self.__controlador_carreira.abre_tela,

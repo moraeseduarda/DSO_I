@@ -15,8 +15,8 @@ class TelaSkill:
     def pega_dados_skill(self):
         print('-----HABILIDADE-----')
         id = int(input('Digite o ID da habilidade: '))
-        nome = input('Digite o nome da habilidade: ')
-        descricao = input('Digite a descrição da habilidade: ')
+        nome = input('Digite o nome da habilidade: ').upper()
+        descricao = input('Digite a descrição da habilidade: ').upper()
         return {'id': id, 'nome': nome, 'descricao': descricao}
     
     def mostra_skill(self, dados_skill):

@@ -1,7 +1,7 @@
 from model.carreira import Carreira
 
 class Usuario():
-    def __init__(self, id: int, nome: str, carreira_escolhida: Carreira):
+    def __init__(self, id: int, nome: str, carreiras):
         if isinstance(id, int):
             self.__id = id
         else:
@@ -12,7 +12,7 @@ class Usuario():
         else:
             raise TypeError("nome deve ser uma string")
         
-        self.__carreira_escolhida = carreira_escolhida
+        self.carreiras = carreiras
         self.__skills_para_aprender = []
         self.__skills_aprendidas = []
         self.__projetos_pessoais = {}
