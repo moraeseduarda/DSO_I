@@ -42,13 +42,29 @@ class ControladorUsuario():
 
         # Não há nenhum usuário com esse id cadastrado anteriormente, logo pode-se avançar no processo de cadastro
         if usuario is None:
-            # Carreira como None pq não temos esse cadastro ainda
-            novo_usuario = Usuario(dados_usuario['id'], dados_usuario['nome'], None)
+            controlador_carreira = self.__controlador_sistema.get_controlador_carreira()
+            carreiras_disponiveis = self.__controlador_sistema.get_controlador_carreira().get_carreiras()
+
+            if not carreiras_disponiveis:
+                self.__tela_menu_usuario.mostra_mensagem("Nenhuma carreira cadastrada. Não é possível cadastrar o usuário sem ao menos uma carreira.")
+                return
+            controlador_carreira.lista_carreira()
+            ids_carreiras = self.__tela_menu_usuario.seleciona_carreiras(carreiras_disponiveis)
+
+             # Buscar objetos Carreira válidos (sem duplicatas)
+            carreiras_escolhidas = []
+            for id_carreira in ids_carreiras:
+                carreira = controlador_carreira.pega_carreira_por_id(id_carreira)
+                if carreira and carreira not in carreiras_escolhidas:
+                    carreiras_escolhidas.append(carreira)
+
+            novo_usuario = Usuario(dados_usuario['id'], dados_usuario['nome'], carreiras_escolhidas)
             self.__usuarios.append(novo_usuario)
             self.__tela_menu_usuario.mostra_mensagem('Usuário cadastrada com sucesso!')
         else:
             self.__tela_menu_usuario.mostra_mensagem("ATENCAO: Usuário com esse ID já existe. Cadastre novamente, com outro ID.")    
-        
+    
+    
     def login_usuario(self):
         pass
     
@@ -66,3 +82,92 @@ class ControladorUsuario():
     def usuario_retornar(self):
         print('Saindo do menu principal...\n')
         self.__controlador_sistema.abre_tela() 
+        
+    def login_usuario(self):
+        print("===== LOGIN DE USUÁRIO =====")
+        while True:
+            try:
+                id_usuario = int(input("Digite seu ID de usuário para entrar: ").strip())
+            except ValueError:
+                print("ID inválido. Digite um número inteiro.\n")
+                continue
+
+            usuario = self.pega_usuario_por_id(id_usuario)
+            if usuario is None:
+                print("Usuário não encontrado. Tente novamente.\n")
+            else:
+                break
+        
+        print(f"\n--- Bem-vindo(a), {usuario.nome}! ---")
+
+        while True:
+            print("1 - Ver informações da carreira")
+            print("2 - Ver mapa de aprendizado")
+            print("3 - Ver percentual concluído")
+            print("4 - Aprender skill")
+            print("0 - Sair")
+
+            opcao = input("Digite a opção desejada: ").strip()
+
+            if opcao == '1':
+                self.mostra_info_carreira(usuario)
+            elif opcao == '2':
+                self.mostra_mapa_aprendizado(usuario)
+            elif opcao == '3':
+                self.mostra_percentual_concluido(usuario)
+            elif opcao == '0':
+                print("Retornando ao menu principal...\n")
+                break
+            else:
+                print("Opção inválida. Tente novamente.\n")
+
+    def mostra_info_carreira(self, usuario):
+        if not usuario.carreiras:
+            print("Usuário não está associado a nenhuma carreira.\n")
+            return
+        
+        # Para simplificar, mostra todas as carreiras do usuário
+        for carreira in usuario.carreiras:
+            print(f"\nCarreira Escolhida: {carreira.nome}")
+            print(f"Descrição: {carreira.descricao}")
+            skills_nomes = [skill.nome for skill in getattr(carreira, 'skills', [])]
+            print(f"Skills da Carreira: {skills_nomes if skills_nomes else 'Nenhuma skill cadastrada.'}\n")
+
+    def mostra_mapa_aprendizado(self, usuario):
+        if not usuario.carreiras:
+            print("Usuário não está associado a nenhuma carreira.\n")
+            return
+        
+        # Para simplificar, mostra skills e status de todas as carreiras
+        for carreira in usuario.carreiras:
+            print(f"\nMapa de aprendizado para a carreira: {carreira.nome}")
+            if not hasattr(carreira, 'skills') or not carreira.skills:
+                print("Nenhuma skill cadastrada para esta carreira.\n")
+                continue
+
+            for skill in carreira.skills:
+                # Presumindo que Usuario tem métodos status_skill e nivel_skill, ou pode-se adaptar
+                status = getattr(usuario, 'status_skill', lambda s: "Status desconhecido")(skill)
+                nivel = getattr(usuario, 'nivel_skill', lambda s: "Nível desconhecido")(skill)
+                print(f"Skill: {skill.nome}, Status: {status}, Nível: {nivel}")
+            print()
+
+    def mostra_percentual_concluido(self, usuario):
+        if not usuario.carreiras:
+            print("Usuário não está associado a nenhuma carreira.\n")
+            return
+        
+        for carreira in usuario.carreiras:
+            if not hasattr(carreira, 'skills') or not carreira.skills:
+                print(f"A carreira {carreira.nome} não possui skills cadastradas.\n")
+                continue
+            
+            total = len(carreira.skills)
+            concluidas = 0
+            for skill in carreira.skills:
+                status = getattr(usuario, 'status_skill', lambda s: "Status desconhecido")(skill)
+                if status == "Concluído":
+                    concluidas += 1
+            
+            percentual = (concluidas / total) * 100 if total > 0 else 0
+            print(f"\nPercentual concluído na carreira {carreira.nome}: {percentual:.2f}%\n")

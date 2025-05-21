@@ -5,7 +5,7 @@ class TelaCarreira:
         print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
         print('--- CARREIRAS ---')
         print('Escolha uma opção:')
-        print('1 - Incluir carreira')
+        print('1 - Cadastrar carreira')
         print('2 - Alterar carreira')
         print('3 - Excluir carreira')
         print('4 - Listar carreiras')
@@ -14,17 +14,18 @@ class TelaCarreira:
         limpar_console()
         return opcao
     
-    def pega_dados_carreira(self):
-        limpar_console()
-        print('---------- CARREIRA ----------')
+    def pega_dados_carreira(self, cadastro):
+        if cadastro:
+            print('---------- CADASTRO CARREIRA ----------')
+        else:
+            print('---------- CARREIRA ----------')
         id = int(input('Digite o ID da carreira: '))
-        nome = input('Digite o nome da carreira: ')
-        descricao = input('Digite a descrição da carreira: ')
-        
+        nome = input('Digite o nome da carreira: ').upper()
+        descricao = input('Digite a descrição da carreira: ').upper()
         return {'id': id, 'nome': nome, 'descricao': descricao}
     
     def mostra_carreira(self, dados_carreira):
-        limpar_console()
+        print()
         print('ID DA CARREIRA: ', dados_carreira['id'])
         print('NOME DA CARREIRA: ', dados_carreira['nome'])
         print('DESCRICAO DA CARREIRA: ', dados_carreira['descricao'])
