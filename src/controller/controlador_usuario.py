@@ -21,7 +21,7 @@ class ControladorUsuario():
             print('Nenhum usuário cadastrado.\n')
         else:
             for usuario in self.__usuarios:
-                self.__tela_admin_usuario.mostra_usuario({'id': usuario.id, 'nome': usuario.nome})
+                self.__tela_admin_usuario.mostra_usuario({'id': usuario.id, 'nome': usuario.nome, 'carreira': [carreira.nome for carreira in usuario.carreiras]})
 
 
     def abre_tela_admin(self):

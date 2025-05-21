@@ -14,6 +14,7 @@ class TelaAdminUsuario():
     def mostra_usuario(self, dados_usuario):
         print('ID DO USUARIO: ', dados_usuario['id'])
         print('NOME DO USUARIO: ', dados_usuario['nome'])
+        print('CARREIRA ESCOLHIDA: ', dados_usuario['carreira'])
 
     def mostra_mensagem(self, mensagem):
         print(mensagem)
