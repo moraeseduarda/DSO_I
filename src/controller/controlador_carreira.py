@@ -9,14 +9,15 @@ class ControladorCarreira():
         self.__tela_carreira = TelaCarreira()
         self.__carreiras = []
 
+    @property
+    def carreiras(self):
+        return self.__carreiras 
+
     def pega_carreira_por_id(self, id: int):
         for carreira in self.__carreiras:
             if carreira.id == id:
                 return carreira
         return None
-    
-    def get_carreiras(self):
-        return self.__carreiras
 
     def cadastro_carreira(self):
         cadastro = True

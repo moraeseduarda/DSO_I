@@ -17,7 +17,7 @@ class TelaSistema:
         print('1 - CARREIRAS')
         print('2 - SKILLS')
         print('3 - USUÁRIOS')
-        print('0 - VOLTAR')
+        print('0 - VOLTAR AO MENU PRINCIPAL')
         opcao = int(input('Digite a opção desejada: '))
         limpar_console()
         return opcao

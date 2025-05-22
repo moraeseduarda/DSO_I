@@ -12,17 +12,9 @@ class TelaMenuUsuario:
 
     def pega_dados_cadastro_usuario(self):
         print('--- CADASTRO DE USUÁRIO ---')
-        id_usuario = int(input('Digite o ID do usuário: '))
+        username_usuario = input('Digite o USERNAME do usuário: @').strip().lower()
         nome = input('Digite o nome do usuário: ').upper()
-        return {'id': id_usuario, 'nome': nome}
-
-    def seleciona_carreira(self, lista_carreiras):
-        # Verifica se há carreiras cadastradas
-        print('Escolha sua carreira:')
-        for carreira in lista_carreiras:
-            print(f'{carreira.id} - {carreira.nome}')
-        id_escolhido = int(input('Digite o ID da carreira desejada: '))
-        return id_escolhido
+        return {'username': username_usuario, 'nome': nome}
 
     def mostra_mensagem(self, mensagem):
         print(mensagem)
@@ -40,18 +32,18 @@ class TelaMenuUsuario:
                 ids_digitados = [int(id.strip()) for id in entrada.split(',')]
 
                 if not ids_digitados:
-                    print('⚠️ Nenhum ID informado. Tente novamente.\n')
+                    print('Nenhum ID informado. Tente novamente.\n')
                     continue
 
                 if any(id_invalido not in ids_validos for id_invalido in ids_digitados):
-                    print('⚠️ Um ou mais IDs inválidos. Tente novamente.\n')
+                    print('Um ou mais IDs inválidos. Tente novamente.\n')
                     continue
 
                 if len(ids_digitados) != len(set(ids_digitados)):
-                    print('⚠️ IDs duplicados informados. Por favor, informe apenas IDs únicos.\n')
+                    print('IDs duplicados informados. Por favor, informe apenas IDs únicos.\n')
                     continue
 
                 return ids_digitados
 
             except ValueError:
-                print('⚠️ Entrada inválida. Digite apenas números separados por vírgula.\n')
+                print('Entrada inválida. Digite apenas números separados por vírgula.\n')
