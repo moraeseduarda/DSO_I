@@ -80,7 +80,7 @@ class ControladorSkill():
             self.__tela_skill.mostra_mensagem("Carreira não encontrada!")
 
     def retornar(self):
-        self.__controlador_sistema.abre_tela()
+        self.__controlador_sistema.menu_administrador()
     
     def abre_tela(self):
         lista_opcoes = {

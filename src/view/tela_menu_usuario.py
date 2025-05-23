@@ -5,6 +5,7 @@ class TelaMenuUsuario:
         print('--- MENU USUÁRIO ---')
         print('1 - Criar Conta')
         print('2 - Fazer Login')
+        print('3 - VER RANKINGS')
         print('0 - Retornar')
         opcao = int(input('Digite a opção desejada: '))
         limpar_console()

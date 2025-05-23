@@ -70,7 +70,7 @@ class ControladorCarreira():
             self.__tela_carreira.mostra_mensagem('Carreira não existe.')
     
     def retornar(self):
-        self.__controlador_sistema.abre_tela()
+        self.__controlador_sistema.menu_administrador()
  
     def abre_tela(self):
         lista_opcoes = {1: self.cadastro_carreira, 2: self.alterar_carreira, 3: self.excluir_carreira, 4: self.lista_carreira, 5: self.retornar}

@@ -33,7 +33,7 @@ class ControladorSistema:
         while True:
                 opcao = self.__tela_sistema.tela_opcoes_admin()
                 if opcao == 0:
-                    break
+                    self.abre_tela()
                 funcao = opcoes.get(opcao)
                 if funcao:
                     funcao()

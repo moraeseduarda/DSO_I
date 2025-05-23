@@ -1,6 +1,8 @@
 from view.tela_admin_usuarios import TelaAdminUsuario
 from view.tela_menu_usuario import TelaMenuUsuario
 from model.usuario import Usuario
+from model.projeto_pessoal import ProjetoPessoal
+from model.status import Status
 
 class ControladorUsuario():
     def __init__(self, controlador_sistema):
@@ -33,7 +35,7 @@ class ControladorUsuario():
      
     def admin_retornar(self):
         print('Saindo do menu de administração de usuários...\n')
-        self.__controlador_sistema.abre_tela() 
+        self.__controlador_sistema.menu_administrador() 
 
     # Métodos usados em Tela do Usuário       
     def cadastrar_usuario(self):
@@ -73,7 +75,7 @@ class ControladorUsuario():
             
     def usuario_retornar(self):
         print('Saindo do menu usuário...\n')
-        self.__controlador_sistema.menu_administrador() 
+        self.__controlador_sistema.abre_tela() 
         
     def login_usuario(self):
         print("===== LOGIN DE USUÁRIO =====")
@@ -97,6 +99,7 @@ class ControladorUsuario():
             print("2 - Ver mapa de aprendizado")
             print("3 - Ver percentual concluído")
             print("4 - Aprender skill")
+            print("5 - Adicionar projeto pessoal")
             print("0 - Sair")
 
             opcao = input("Digite a opção desejada: ").strip()
@@ -109,9 +112,11 @@ class ControladorUsuario():
                 self.mostra_percentual_concluido(usuario)
             elif opcao == '4':
                 pass
+            elif opcao == '5':
+                self.adicionar_projeto_pessoal(usuario)
             elif opcao == '0':
                 print("Retornando ao menu principal...\n")
-                break
+                self.__controlador_sistema.abre_tela()
             else:
                 print("Opção inválida. Tente novamente.\n")
 
@@ -166,3 +171,30 @@ class ControladorUsuario():
             percentual = (concluidas / total) * 100 if total > 0 else 0
             print(f"\nPercentual concluído na carreira {carreira.nome}: {percentual:.2f}%\n")
 
+    def adicionar_projeto_pessoal(self, usuario):
+        print("\n--- Adicionar Projeto Pessoal ---")
+        try:
+            nome = input("Nome do projeto: ").strip()
+            descricao = input("Descrição do projeto: ").strip()
+            status_dict = {'1': "Não iniciado", '2': "Em andamento", '3': "Concluído"}
+            status_str = None
+            
+            while not status_str:
+                print("Status do projeto:")
+                print("1 - Não iniciado")
+                print("2 - Em andamento")
+                print("3 - Concluído")
+                status_opcao = input("Escolha o status (1/2/3): ").strip()
+                status_str = status_dict.get(status_opcao)
+                if not status_str:
+                    print("Status inválido. Tente novamente.\n")
+            status = Status(status_str)
+            projeto = ProjetoPessoal(nome, descricao, status)
+            usuario._Usuario__projetos_pessoais[nome] = projeto
+            print("Projeto pessoal adicionado com sucesso!\n")
+            
+        except (TypeError, ValueError) as e:
+            print(f"Erro ao criar projeto pessoal: {e}\n")
+            
+        def ranking():
+            pass

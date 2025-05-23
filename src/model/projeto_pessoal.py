@@ -2,7 +2,7 @@ from model.status import Status
 from model.skill import Skill
 
 class ProjetoPessoal:
-    def __init__(self, nome: str, descricao: str, skill_relacionada_obj, status):
+    def __init__(self, nome: str, descricao: str, status):
         if isinstance(nome, str):
             self.__nome = nome
         else:
@@ -12,11 +12,6 @@ class ProjetoPessoal:
             self.__descricao = descricao
         else:
             raise TypeError("descricao deve ser uma string")
-
-        if isinstance(skill_relacionada_obj, Skill):
-            self.__skill_relacionada = skill_relacionada_obj
-        else:
-            raise TypeError("skill_relacionada_obj deve ser um objeto Skill")
 
         if isinstance(status, Status):
             self.__status = status
@@ -44,17 +39,6 @@ class ProjetoPessoal:
             self.__descricao = descricao
         else:
             raise TypeError("descricao deve ser uma string")
-
-    @property
-    def skill_relacionada(self):
-        return self.__skill_relacionada
-
-    @skill_relacionada.setter
-    def skill_relacionada(self, skill_relacionada_obj):
-        if isinstance(skill_relacionada_obj, Skill):
-            self.__skill_relacionada = skill_relacionada_obj
-        else:
-            raise TypeError("skill_relacionada_obj deve ser um objeto Skill")
 
     @property
     def status(self):
