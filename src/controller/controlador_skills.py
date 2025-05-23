@@ -66,7 +66,7 @@ class ControladorSkill():
         if not skill:
             self.__tela_skill.mostra_mensagem("Skill não encontrada!")
             return
-        carreiras = self.__controlador_sistema.controlador_carreira.get_carreiras()
+        carreiras = self.__controlador_sistema.controlador_carreira.carreiras
         self.__tela_skill.mostra_carreiras_disponiveis(carreiras)
         if not carreiras:
             return
