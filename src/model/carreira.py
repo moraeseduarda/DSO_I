@@ -49,3 +49,17 @@ class Carreira:
             self.__descricao = descricao
         else:
             raise TypeError("descricao deve ser uma string")
+
+    @property
+    def skills_requeridas(self):
+        return self.__skills_requeridas
+
+    def adicionar_skill(self, skill):
+        """Adiciona uma skill à lista de skills requeridas da carreira."""
+        if skill not in self.__skills_requeridas:
+            self.__skills_requeridas.append(skill)
+
+    def remover_skill(self, skill):
+        """Remove uma skill da lista de skills requeridas da carreira."""
+        if skill in self.__skills_requeridas:
+            self.__skills_requeridas.remove(skill)
