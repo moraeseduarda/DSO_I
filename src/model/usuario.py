@@ -1,16 +1,16 @@
 from model.carreira import Carreira
 
-class Usuario():
-    def __init__(self, id: int, nome: str, carreiras):
-        if isinstance(id, int):
-            self.__id = id
+class Usuario:
+    def __init__(self, username: str, nome: str, carreiras):
+        if isinstance(username, str):
+            self.__username = username
         else:
-            raise TypeError("id deve ser um inteiro")
+            raise TypeError("username deve ser do tipo string")
 
         if isinstance(nome, str):
             self.__nome = nome
         else:
-            raise TypeError("nome deve ser uma string")
+            raise TypeError("nome deve ser do tipo string")
         
         self.carreiras = carreiras
         self.__skills_para_aprender = []
@@ -18,15 +18,15 @@ class Usuario():
         self.__projetos_pessoais = {}
         
     @property
-    def id(self):
-        return self.__id
+    def username(self):
+        return self.__username
     
-    @id.setter
-    def id(self, id: int):
-        if isinstance(id, int):
-            self.__id = id
+    @username.setter
+    def username(self, username: str):
+        if isinstance(username, str):
+            self.__username = username
         else:
-            raise TypeError("id deve ser um inteiro")
+            raise TypeError("username deve ser do tipo string")
             
     @property
     def nome(self):
@@ -37,7 +37,7 @@ class Usuario():
         if isinstance(nome, str):
             self.__nome = nome
         else:
-            raise TypeError("nome deve ser uma string")
+            raise TypeError("nome deve ser do tipo string")
 
     @property
     def carreira_escolhida(self):

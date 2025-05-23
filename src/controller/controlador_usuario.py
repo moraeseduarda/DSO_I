@@ -8,10 +8,11 @@ class ControladorUsuario():
         self.__tela_admin_usuario = TelaAdminUsuario()
         self.__tela_menu_usuario = TelaMenuUsuario()
         self.__usuarios = []
-        
-    def pega_usuario_por_id(self, id: int):
+    
+    # Métodos gerais  
+    def pega_usuario_por_username(self, username: str):
         for usuario in self.__usuarios:
-            if usuario.id == id:
+            if usuario.username == username:
                 return usuario
         return None
     
@@ -21,8 +22,7 @@ class ControladorUsuario():
             print('Nenhum usuário cadastrado.\n')
         else:
             for usuario in self.__usuarios:
-                self.__tela_admin_usuario.mostra_usuario({'id': usuario.id, 'nome': usuario.nome, 'carreira': [carreira.nome for carreira in usuario.carreiras]})
-
+                self.__tela_admin_usuario.mostra_usuario({'username': usuario.username, 'nome': usuario.nome, 'carreira': [carreira.nome for carreira in usuario.carreiras]})
 
     def abre_tela_admin(self):
         lista_opcoes = {1: self.lista_usuarios, 0: self.admin_retornar}
@@ -38,12 +38,12 @@ class ControladorUsuario():
     # Métodos usados em Tela do Usuário       
     def cadastrar_usuario(self):
         dados_usuario = self.__tela_menu_usuario.pega_dados_cadastro_usuario()
-        usuario = self.pega_usuario_por_id(dados_usuario['id'])
+        usuario = self.pega_usuario_por_username(dados_usuario['username'])
 
-        # Não há nenhum usuário com esse id cadastrado anteriormente, logo pode-se avançar no processo de cadastro
+        # Não há nenhum usuário com esse username cadastrado anteriormente, logo pode avançar no processo de cadastro.
         if usuario is None:
-            controlador_carreira = self.__controlador_sistema.get_controlador_carreira()
-            carreiras_disponiveis = self.__controlador_sistema.get_controlador_carreira().get_carreiras()
+            controlador_carreira = self.__controlador_sistema.controlador_carreira
+            carreiras_disponiveis = controlador_carreira.carreiras
 
             if not carreiras_disponiveis:
                 self.__tela_menu_usuario.mostra_mensagem("Nenhuma carreira cadastrada. Não é possível cadastrar o usuário sem ao menos uma carreira.")
@@ -58,20 +58,12 @@ class ControladorUsuario():
                 if carreira and carreira not in carreiras_escolhidas:
                     carreiras_escolhidas.append(carreira)
 
-            novo_usuario = Usuario(dados_usuario['id'], dados_usuario['nome'], carreiras_escolhidas)
+            novo_usuario = Usuario(dados_usuario['username'], dados_usuario['nome'], carreiras_escolhidas)
             self.__usuarios.append(novo_usuario)
             self.__tela_menu_usuario.mostra_mensagem('Usuário cadastrada com sucesso!')
         else:
-            self.__tela_menu_usuario.mostra_mensagem("ATENCAO: Usuário com esse ID já existe. Cadastre novamente, com outro ID.")    
+            self.__tela_menu_usuario.mostra_mensagem("ATENCAO: Usuário com esse USERNAME já existe. Cadastre novamente, com outro USERNAME.")    
     
-    
-    def login_usuario(self):
-        pass
-    
-    def seleciona_carreira(self):
-        pass
-    
-    # Display de telas do menu do usuário
     def abre_tela_usuario(self):
         lista_opcoes = {1: self.cadastrar_usuario, 2: self.login_usuario, 0: self.usuario_retornar}
         
@@ -80,19 +72,19 @@ class ControladorUsuario():
             lista_opcoes[self.__tela_menu_usuario.tela_opcoes()]()
             
     def usuario_retornar(self):
-        print('Saindo do menu principal...\n')
-        self.__controlador_sistema.abre_tela() 
+        print('Saindo do menu usuário...\n')
+        self.__controlador_sistema.menu_administrador() 
         
     def login_usuario(self):
         print("===== LOGIN DE USUÁRIO =====")
         while True:
             try:
-                id_usuario = int(input("Digite seu ID de usuário para entrar: ").strip())
+                username_usuario = input("Digite seu USERNAME para entrar: @").strip().lower()
             except ValueError:
-                print("ID inválido. Digite um número inteiro.\n")
+                print("Valor inválido.\n")
                 continue
 
-            usuario = self.pega_usuario_por_id(id_usuario)
+            usuario = self.pega_usuario_por_username(username_usuario)
             if usuario is None:
                 print("Usuário não encontrado. Tente novamente.\n")
             else:
@@ -115,6 +107,8 @@ class ControladorUsuario():
                 self.mostra_mapa_aprendizado(usuario)
             elif opcao == '3':
                 self.mostra_percentual_concluido(usuario)
+            elif opcao == '4':
+                pass
             elif opcao == '0':
                 print("Retornando ao menu principal...\n")
                 break

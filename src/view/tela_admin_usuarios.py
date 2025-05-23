@@ -12,7 +12,7 @@ class TelaAdminUsuario():
         return opcao
     
     def mostra_usuario(self, dados_usuario):
-        print('ID DO USUARIO: ', dados_usuario['id'])
+        print('USERNAME DO USUARIO: @', dados_usuario['username'])
         print('NOME DO USUARIO: ', dados_usuario['nome'])
         print('CARREIRA ESCOLHIDA: ', dados_usuario['carreira'])
 
