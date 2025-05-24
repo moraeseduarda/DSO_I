@@ -60,3 +60,25 @@ class Usuario:
             self.__carreiras = carreiras
         else:
             raise TypeError("carreiras deve ser uma lista")
+    
+    @property
+    def skills_para_aprender(self):
+        return self.__skills_para_aprender
+    
+    @skills_para_aprender.setter
+    def skills_para_aprender(self, skills):
+        if isinstance(skills, list):
+            self.__skills_para_aprender = skills
+        else:
+            raise TypeError("skills_para_aprender deve ser uma lista")
+
+    @property
+    def skills_aprendidas(self):
+        return self.__skills_aprendidas
+    
+    @skills_aprendidas.setter
+    def skills_aprendidas(self, skills):
+        if isinstance(skills, list):
+            self.__skills_aprendidas = skills
+        else:
+            raise TypeError("skills_aprendidas deve ser uma lista")

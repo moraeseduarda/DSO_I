@@ -111,7 +111,7 @@ class ControladorUsuario():
             elif opcao == '3':
                 self.mostra_percentual_concluido(usuario)
             elif opcao == '4':
-                pass
+                self.aprender_skill(usuario)
             elif opcao == '5':
                 self.adicionar_projeto_pessoal(usuario)
             elif opcao == '0':
@@ -192,5 +192,38 @@ class ControladorUsuario():
         except (TypeError, ValueError) as e:
             print(f"Erro ao criar projeto pessoal: {e}\n")
             
-        def ranking():
-            pass
+    def aprender_skill(self, usuario):
+        if not usuario.carreiras:
+            print("Usuário não está associado a nenhuma carreira.\n")
+            return
+
+        # Mostrar todas as skills disponíveis nas carreiras do usuário
+        skills_disponiveis = []
+        for carreira in usuario.carreiras:
+            for skill in carreira.skills_requeridas:
+                if skill not in usuario.skills_aprendidas and skill not in skills_disponiveis:
+                    skills_disponiveis.append(skill)
+                    print(f"ID: {skill.id} - Nome: {skill.nome}")
+
+        if not skills_disponiveis:
+            print("Não há skills disponíveis para aprender.\n")
+            return
+
+        # Selecionar skill para aprender
+        while True:
+            try:
+                id_skill = int(input("\nDigite o ID da skill que deseja aprender: "))
+                skill_selecionada = next((skill for skill in skills_disponiveis if skill.id == id_skill), None)
+                if skill_selecionada:
+                    break
+                print("ID inválido. Tente novamente.")
+            except ValueError:
+                print("Entrada inválida. Digite um número.")
+
+        # Adicionar à lista de skills aprendidas
+        usuario.skills_aprendidas.append(skill_selecionada)
+        # Remover da lista de skills para aprender se estiver lá
+        if skill_selecionada in usuario.skills_para_aprender:
+            usuario.skills_para_aprender.remove(skill_selecionada)
+        
+        print(f"\nParabéns! Você aprendeu a skill: {skill_selecionada.nome}")
