@@ -31,6 +31,7 @@ class ControladorSistema:
         }
         
         while True:
+            try:
                 opcao = self.__tela_sistema.tela_opcoes_admin()
                 if opcao == 0:
                     self.abre_tela()
@@ -38,23 +39,28 @@ class ControladorSistema:
                 if funcao:
                     funcao()
                 else:
-                    print("Opção inválida.")
-    
+                    print("Opção inválida. Digite um número entre 0 e 3.")
+            except ValueError:
+                print("Entrada inválida. Digite apenas números.")
+
     def encerra_sistema(self):
         exit(0)
     
     def abre_tela(self):
         while True:
-            opcoes = {
-                0: self.encerra_sistema,
-                1: self.menu_administrador,
-                2: self.controlador_usuario.abre_tela_usuario,
-            }
+            try:
+                opcoes = {
+                    0: self.encerra_sistema,
+                    1: self.menu_administrador,
+                    2: self.controlador_usuario.abre_tela_usuario,
+                }
 
-            escolha = self.__tela_sistema.tela_opcoes_iniciais()
-            funcao = opcoes.get(escolha)
+                escolha = self.__tela_sistema.tela_opcoes_iniciais()
+                funcao = opcoes.get(escolha)
 
-            if funcao:
-                funcao()
-            else:
-                print("Opção inválida.")
+                if funcao:
+                    funcao()
+                else:
+                    print("Opção inválida. Digite um número entre 0 e 2.")
+            except ValueError:
+                print("Entrada inválida. Digite apenas números.")
