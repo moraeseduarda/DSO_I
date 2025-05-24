@@ -1,7 +1,7 @@
 from model.carreira import Carreira
 
 class Usuario:
-    def __init__(self, username: str, nome: str, carreiras):
+    def __init__(self, username: str, nome: str, carreiras, skills_para_aprender):
         if isinstance(username, str):
             self.__username = username
         else:

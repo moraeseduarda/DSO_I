@@ -31,7 +31,7 @@ class ControladorSkill():
             self.__tela_skill.mostra_mensagem('Skill cadastrada com sucesso')
             print('\n')
         else:
-            self.__tela_skill.mostra_mensagem('SKILL JÁ CADASTRADA')
+            self.__tela_skill.mostra_mensagem('SKILL COM ESSE ID JÁ CADASTRADA')
 
     def lista_skill(self):
         if not self.__skills:
@@ -44,7 +44,6 @@ class ControladorSkill():
                 'nome': skill.nome,
                 'descricao': skill.descricao,
                 'material_estudo': skill.material_estudo,
-                'nivel_proficiencia': skill.nivel_proficiencia,
                 'carreiras': skill.carreiras  
             })
         input('\nPressione ENTER para continuar...')

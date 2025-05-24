@@ -60,7 +60,7 @@ class ControladorUsuario():
                 if carreira and carreira not in carreiras_escolhidas:
                     carreiras_escolhidas.append(carreira)
                     
-            novo_usuario = Usuario(dados_usuario['username'], dados_usuario['nome'], carreiras_escolhidas)
+            novo_usuario = Usuario(dados_usuario['username'], dados_usuario['nome'], carreiras_escolhidas , [])
             self.__usuarios.append(novo_usuario)
             self.__tela_menu_usuario.mostra_mensagem('Usuário cadastrada com sucesso!')
         else:
@@ -95,12 +95,11 @@ class ControladorUsuario():
         print(f"\n--- Bem-vindo(a), {usuario.nome}! ---")
 
         while True:
-            print("1 - Ver informações da carreira")
-            print("2 - Roadmap")
-            print("3 - Ver percentual concluído")
-            print("4 - Aprender skill")
-            print("5 - Adicionar projeto pessoal")
-            print("6 - Ver projetos pessoais")
+            print("1 - Ver informações do usuário e carreiras escolhidas")
+            print("2 - Ver percentual concluído")
+            print("3 - Aprender skill")
+            print("4 - Adicionar projeto pessoal")
+            print("5 - Ver projetos pessoais")
             print("0 - Sair")
 
             opcao = input("Digite a opção desejada: ").strip()
@@ -108,14 +107,12 @@ class ControladorUsuario():
             if opcao == '1':
                 self.mostra_info_carreira(usuario)
             elif opcao == '2':
-                self.mostra_mapa_aprendizado(usuario)
-            elif opcao == '3':
                 self.mostra_percentual_concluido(usuario)
-            elif opcao == '4':
+            elif opcao == '3':
                 self.aprender_skill(usuario)
-            elif opcao == '5':
+            elif opcao == '4':
                 self.adicionar_projeto_pessoal(usuario)
-            elif opcao == '6':
+            elif opcao == '5':
                 self.listar_projetos_pessoais(usuario)
             elif opcao == '0':
                 print("Retornando ao menu principal...\n")
@@ -124,31 +121,20 @@ class ControladorUsuario():
                 print("Opção inválida. Tente novamente.\n")
 
     def mostra_info_carreira(self, usuario):
+        print("---- Informações do Usuário ----")
+        print(f"Nome: {usuario.nome}")
+        print(f"Username: @{usuario.username}")
+        
         if not usuario.carreiras:
             print("Usuário não está associado a nenhuma carreira.\n")
             return
         
+        print("--- INFORMAÇÕES DAS CARREIRAS ESCOLHIDAS PELO USUÁRIO")
         for carreira in usuario.carreiras:
             print(f"\nCarreira Escolhida: {carreira.nome}")
             print(f"Descrição: {carreira.descricao}")
             skills_nomes = [skill.nome for skill in carreira.skills_requeridas]
             print(f"Skills da Carreira: {', '.join(skills_nomes) if skills_nomes else 'Nenhuma skill cadastrada.'}\n")
-
-    def mostra_mapa_aprendizado(self, usuario):
-        if not usuario.carreiras:
-            print("Usuário não está associado a nenhuma carreira.\n")
-            return
-        
-        for carreira in usuario.carreiras:
-            print(f"\nMapa de aprendizado para a carreira: {carreira.nome}")
-            if not carreira.skills_requeridas:  
-                print("Nenhuma skill cadastrada para esta carreira.\n")
-            else:
-                print("Skills que você precisa aprender:")
-                for skill in usuario.skills_para_aprender:
-                    print(f"- {skill.nome}")
-
-            print()
 
     def mostra_percentual_concluido(self, usuario):
         if not usuario.carreiras:
@@ -156,16 +142,14 @@ class ControladorUsuario():
             return
         
         for carreira in usuario.carreiras:
-            if not hasattr(carreira, 'skills') or not carreira.skills:
+            if not carreira.skills_requeridas:
                 print(f"A carreira {carreira.nome} não possui skills cadastradas.\n")
                 continue
             
-            total = len(carreira.skills)
+            total = len(carreira.skills_requeridas)
             concluidas = 0
-            for skill in carreira.skills:
-                status = getattr(usuario, 'status_skill', lambda s: "Status desconhecido")(skill)
-                if status == "Concluído":
-                    concluidas += 1
+            for skill in usuario.skills_aprendidas:
+                concluidas += 1
             
             percentual = (concluidas / total) * 100 if total > 0 else 0
             print(f"\nPercentual concluído na carreira {carreira.nome}: {percentual:.2f}%\n")
@@ -212,7 +196,7 @@ class ControladorUsuario():
             return
 
         # Mostrar todas as skills disponíveis nas carreiras do usuário
-        skills_disponiveis = []
+        skills_disponiveis = usuario.skills_para_aprender
         for carreira in usuario.carreiras:
             for skill in carreira.skills_requeridas:
                 if skill not in usuario.skills_aprendidas and skill not in skills_disponiveis:
