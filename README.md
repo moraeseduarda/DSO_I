@@ -11,7 +11,6 @@ Desenvolver um sistema orientado a objetos em Python para o monitoramento e gere
 O desenvolvimento profissional e a aquisição de hard skills envolvem:
 - Mapeamento de carreiras desejadas
 - As skills necessárias para cada carreia
-- Os níveis de proficiência em cada skill
 - Os materiais de estudo de cada skill
 - Projetos práticos relacionados as skills
 - Mapeamento do progresso do usuário
