@@ -12,7 +12,7 @@ class Usuario:
         else:
             raise TypeError("nome deve ser do tipo string")
         
-        self.carreiras = carreiras
+        self.__carreiras = carreiras if isinstance(carreiras, list) else []
         self.__skills_para_aprender = []
         self.__skills_aprendidas = []
         self.__projetos_pessoais = {}
@@ -49,3 +49,14 @@ class Usuario:
             self.__carreira_escolhida = carreira
         else:
             raise TypeError("carreira_escolhida deve ser um objeto Carreira")
+
+    @property
+    def carreiras(self):
+        return self.__carreiras
+    
+    @carreiras.setter 
+    def carreiras(self, carreiras):
+        if isinstance(carreiras, list):
+            self.__carreiras = carreiras
+        else:
+            raise TypeError("carreiras deve ser uma lista")

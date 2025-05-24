@@ -18,7 +18,7 @@ class ControladorUsuario():
                 return usuario
         return None
     
-    # Métodos usado em Tela Admin Usuários            
+               
     def lista_usuarios(self):
         if not self.__usuarios:
             print('Nenhum usuário cadastrado.\n')
@@ -125,27 +125,24 @@ class ControladorUsuario():
             print("Usuário não está associado a nenhuma carreira.\n")
             return
         
-        # Para simplificar, mostra todas as carreiras do usuário
         for carreira in usuario.carreiras:
             print(f"\nCarreira Escolhida: {carreira.nome}")
             print(f"Descrição: {carreira.descricao}")
-            skills_nomes = [skill.nome for skill in getattr(carreira, 'skills', [])]
-            print(f"Skills da Carreira: {skills_nomes if skills_nomes else 'Nenhuma skill cadastrada.'}\n")
+            skills_nomes = [skill.nome for skill in carreira.skills_requeridas]
+            print(f"Skills da Carreira: {', '.join(skills_nomes) if skills_nomes else 'Nenhuma skill cadastrada.'}\n")
 
     def mostra_mapa_aprendizado(self, usuario):
         if not usuario.carreiras:
             print("Usuário não está associado a nenhuma carreira.\n")
             return
         
-        # Para simplificar, mostra skills e status de todas as carreiras
         for carreira in usuario.carreiras:
             print(f"\nMapa de aprendizado para a carreira: {carreira.nome}")
-            if not hasattr(carreira, 'skills') or not carreira.skills:
+            if not carreira.skills_requeridas:  
                 print("Nenhuma skill cadastrada para esta carreira.\n")
                 continue
 
-            for skill in carreira.skills:
-                # Presumindo que Usuario tem métodos status_skill e nivel_skill, ou pode-se adaptar
+            for skill in carreira.skills_requeridas:  
                 status = getattr(usuario, 'status_skill', lambda s: "Status desconhecido")(skill)
                 nivel = getattr(usuario, 'nivel_skill', lambda s: "Nível desconhecido")(skill)
                 print(f"Skill: {skill.nome}, Status: {status}, Nível: {nivel}")

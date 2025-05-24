@@ -65,6 +65,12 @@ class TelaSkill:
                 print(f"- {material.titulo} ({material.tipo})")
         else:
             print("Nenhum material cadastrado")
+        print('CARREIRAS ASSOCIADAS:')  
+        if dados_skill.get('carreiras'):
+            for carreira in dados_skill['carreiras']:
+                print(f"- {carreira.nome}")
+        else:
+            print("Nenhuma carreira associada")
         print('------------------------\n')
     
     def seleciona_skill(self):

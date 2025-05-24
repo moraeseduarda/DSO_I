@@ -35,16 +35,21 @@ class ControladorSkill():
             self.__tela_skill.mostra_mensagem('SKILL JÁ CADASTRADA')
 
     def lista_skill(self):
+        if not self.__skills:
+            self.__tela_skill.mostra_mensagem("Nenhuma skill cadastrada!")
+            return
+            
         for skill in self.__skills:
             self.__tela_skill.mostra_skill({
                 'id': skill.id,
                 'nome': skill.nome,
                 'descricao': skill.descricao,
                 'material_estudo': skill.material_estudo,
-                'nivel_proficiencia': skill.nivel_proficiencia
+                'nivel_proficiencia': skill.nivel_proficiencia,
+                'carreiras': skill.carreiras  
             })
-            input('Pressione Enter para continuar...')
-            
+        input('\nPressione ENTER para continuar...')
+        
     def excluir_skill(self):
         self.lista_skill()
         id_skill = self.__tela_skill.seleciona_skill()
