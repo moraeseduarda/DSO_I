@@ -1,8 +1,7 @@
 from model.material_estudo import MaterialEstudo
-from model.nivel_proficiencia import NivelProficiencia
 
 class Skill:
-    def __init__(self, nome: str, id: int, descricao: str, material_estudo=None, nivel_proficiencia=None):
+    def __init__(self, nome: str, id: int, descricao: str, material_estudo=None):
         if isinstance(id, int):
             self.__id = id
         else:
@@ -19,7 +18,6 @@ class Skill:
             raise TypeError("descricao deve ser uma string")
 
         self.__material_estudo = material_estudo if material_estudo is not None else []
-        self.__nivel_proficiencia = nivel_proficiencia
         self.__carreiras = []
 
     @property
@@ -75,17 +73,6 @@ class Skill:
     def remover_material_estudo(self, material):
         if material in self.__material_estudo:
             self.__material_estudo.remove(material)
-
-    @property
-    def nivel_proficiencia(self):
-        return self.__nivel_proficiencia
-
-    @nivel_proficiencia.setter
-    def nivel_proficiencia(self, nivel_proficiencia):
-        if isinstance(nivel_proficiencia, NivelProficiencia) or nivel_proficiencia is None:
-            self.__nivel_proficiencia = nivel_proficiencia
-        else:
-            raise TypeError("nivel_proficiencia deve ser um objeto NivelProficiencia")
 
     @property
     def carreiras(self):

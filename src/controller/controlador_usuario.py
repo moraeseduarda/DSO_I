@@ -59,7 +59,7 @@ class ControladorUsuario():
                 carreira = controlador_carreira.pega_carreira_por_id(id_carreira)
                 if carreira and carreira not in carreiras_escolhidas:
                     carreiras_escolhidas.append(carreira)
-
+                    
             novo_usuario = Usuario(dados_usuario['username'], dados_usuario['nome'], carreiras_escolhidas)
             self.__usuarios.append(novo_usuario)
             self.__tela_menu_usuario.mostra_mensagem('Usuário cadastrada com sucesso!')
@@ -140,12 +140,11 @@ class ControladorUsuario():
             print(f"\nMapa de aprendizado para a carreira: {carreira.nome}")
             if not carreira.skills_requeridas:  
                 print("Nenhuma skill cadastrada para esta carreira.\n")
-                continue
+            else:
+                print("Skills que você precisa aprender:")
+                for skill in usuario.skills_para_aprender:
+                    print(f"- {skill.nome}")
 
-            for skill in carreira.skills_requeridas:  
-                status = getattr(usuario, 'status_skill', lambda s: "Status desconhecido")(skill)
-                nivel = getattr(usuario, 'nivel_skill', lambda s: "Nível desconhecido")(skill)
-                print(f"Skill: {skill.nome}, Status: {status}, Nível: {nivel}")
             print()
 
     def mostra_percentual_concluido(self, usuario):

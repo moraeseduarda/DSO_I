@@ -25,8 +25,7 @@ class ControladorSkill():
                 dados_skill['nome'],
                 dados_skill['id'],
                 dados_skill['descricao'],
-                [],   
-                None   
+                [],  
             )
             self.__skills.append(nova_skill)
             self.__tela_skill.mostra_mensagem('Skill cadastrada com sucesso')
