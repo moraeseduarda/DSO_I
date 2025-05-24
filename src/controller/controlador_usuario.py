@@ -96,10 +96,11 @@ class ControladorUsuario():
 
         while True:
             print("1 - Ver informações da carreira")
-            print("2 - Ver mapa de aprendizado")
+            print("2 - Roadmap")
             print("3 - Ver percentual concluído")
             print("4 - Aprender skill")
             print("5 - Adicionar projeto pessoal")
+            print("6 - Ver projetos pessoais")
             print("0 - Sair")
 
             opcao = input("Digite a opção desejada: ").strip()
@@ -114,6 +115,8 @@ class ControladorUsuario():
                 self.aprender_skill(usuario)
             elif opcao == '5':
                 self.adicionar_projeto_pessoal(usuario)
+            elif opcao == '6':
+                self.listar_projetos_pessoais(usuario)
             elif opcao == '0':
                 print("Retornando ao menu principal...\n")
                 self.__controlador_sistema.abre_tela()
@@ -166,6 +169,17 @@ class ControladorUsuario():
             
             percentual = (concluidas / total) * 100 if total > 0 else 0
             print(f"\nPercentual concluído na carreira {carreira.nome}: {percentual:.2f}%\n")
+
+    def listar_projetos_pessoais(self, usuario):
+        print("\n--- Projetos Pessoais do Usuário ---")
+        if not usuario._Usuario__projetos_pessoais:
+            print("Nenhum projeto pessoal cadastrado.\n")
+            return
+        for nome, projeto in usuario._Usuario__projetos_pessoais.items():
+            print(f"Nome: {projeto.nome}")
+            print(f"Descrição: {projeto.descricao}")
+            print(f"Status: {projeto.status.status}")
+            print("-" * 30)
 
     def adicionar_projeto_pessoal(self, usuario):
         print("\n--- Adicionar Projeto Pessoal ---")
