@@ -12,8 +12,8 @@ O desenvolvimento profissional e a aquisição de hard skills envolvem:
 - Mapeamento de carreiras desejadas
 - As skills necessárias para cada carreia
 - Os materiais de estudo de cada skill
-- Projetos práticos relacionados as skills
-- Mapeamento do progresso do usuário
+- Projetos práticos criados pelo usuário
+- Mapeamento do progresso do usuário, percentual concluído e skills aprendidas
 - ...
 
 **REQUISITOS:**
