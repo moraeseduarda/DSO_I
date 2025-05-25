@@ -67,11 +67,32 @@ class ControladorUsuario():
             self.__tela_menu_usuario.mostra_mensagem("ATENCAO: Usuário com esse USERNAME já existe. Cadastre novamente, com outro USERNAME.")    
     
     def abre_tela_usuario(self):
-        lista_opcoes = {1: self.cadastrar_usuario, 2: self.login_usuario, 0: self.usuario_retornar}
+        lista_opcoes = {1: self.cadastrar_usuario, 2: self.login_usuario, 3:self.ranking, 0: self.usuario_retornar}
         
         continua = True
         while continua:
             lista_opcoes[self.__tela_menu_usuario.tela_opcoes()]()
+            
+    def ranking(self):
+        print("\n--- RANKING DE APRENDIZADO ---")
+        print("---------------------------------")
+        print(f"{'Posição':<10}{'Usuário':<20}{'Número de Skills aprendidas'}")
+        print("---------------------------------")
+
+        # Cria uma lista de tuplas (username, quantidade de skills aprendidas)
+        ranking_usuarios = [
+            (usuario.username, len(usuario.skills_aprendidas))
+            for usuario in self.__usuarios
+        ]
+
+        # Ordena do maior para o menor número de skills aprendidas
+        ranking_usuarios.sort(key=lambda x: x[1], reverse=True)
+
+        # Exibe o ranking
+        for posicao, (username, qtd_skills) in enumerate(ranking_usuarios, start=1):
+            print(f"{posicao:<10}{username:<20}{qtd_skills}")
+
+        print("---------------------------------")
             
     def usuario_retornar(self):
         print('Saindo do menu usuário...\n')
