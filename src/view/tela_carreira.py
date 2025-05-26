@@ -1,15 +1,16 @@
-from view.utils import limpar_console
+from view.console_utils import limpar_console
+
 
 class TelaCarreira:    
     def tela_opcoes(self):
         print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
         print('--- CARREIRAS ---')
         print('Escolha uma opção:')
-        print('1 - Cadastrar carreira')
-        print('2 - Alterar carreira')
-        print('3 - Excluir carreira')
-        print('4 - Listar carreiras')
-        print('5 - Retornar')
+        print('1 - Cadastrar nova carreira')
+        print('2 - Alterar carreira existente')
+        print('3 - Excluir uma carreira')
+        print('4 - Listar todas as carreiras cadastradas')
+        print('0 - Retornar')
         opcao = int(input('Digite a opção desejada: '))
         limpar_console()
         return opcao
@@ -25,14 +26,14 @@ class TelaCarreira:
         return {'id': id, 'nome': nome, 'descricao': descricao}
     
     def mostra_carreira(self, dados_carreira):
-        print()
-        print('ID DA CARREIRA: ', dados_carreira['id'])
-        print('NOME DA CARREIRA: ', dados_carreira['nome'])
-        print('DESCRICAO DA CARREIRA: ', dados_carreira['descricao'])
-        
+        print('\n--- Detalhes da Carreira ---')
+        print('ID: ', dados_carreira['id'])
+        print('Nome: ', dados_carreira['nome'])
+        print('Descrição: ', dados_carreira['descricao'])
+    
     def seleciona_carreira(self):
         id = int(input('Digite o ID da carreira: '))
         return id
     
     def mostra_mensagem(self, mensagem):
-        print(mensagem)
+        print(f"\n{mensagem}\n")

@@ -2,8 +2,8 @@ from model.carreira import Carreira
 from view.tela_carreira import TelaCarreira
 
 
-class ControladorCarreira():
-    
+class ControladorCarreira:
+
     def __init__(self, controlador_sistema):
         self.__controlador_sistema = controlador_sistema
         self.__tela_carreira = TelaCarreira()
@@ -26,11 +26,9 @@ class ControladorCarreira():
         if carreira is None:
             nova_carreira = Carreira(dados_carreira['id'], dados_carreira['nome'], dados_carreira['descricao'])
             self.__carreiras.append(nova_carreira)
-            self.__tela_carreira.mostra_mensagem('Carreira cadastrada com sucesso!')
-            print()
+            self.__tela_carreira.mostra_mensagem('Carreira cadastrada com sucesso!\n')
         else:
-            self.__tela_carreira.mostra_mensagem("ATENCAO: Carreira já existente. Insira outro ID.")
-            print()    
+            self.__tela_carreira.mostra_mensagem("ATENCAO: Carreira já existente. Insira outro ID.\n")
             
     def alterar_carreira(self):
         self.lista_carreira()
@@ -73,7 +71,7 @@ class ControladorCarreira():
         self.__controlador_sistema.menu_administrador()
  
     def abre_tela(self):
-        lista_opcoes = {1: self.cadastro_carreira, 2: self.alterar_carreira, 3: self.excluir_carreira, 4: self.lista_carreira, 5: self.retornar}
+        lista_opcoes = {1: self.cadastro_carreira, 2: self.alterar_carreira, 3: self.excluir_carreira, 4: self.lista_carreira, 0: self.retornar}
 
         continua = True
         while continua:

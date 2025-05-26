@@ -1,6 +1,7 @@
 from model.status import Status
 from model.skill import Skill
 
+
 class ProjetoPessoal:
     def __init__(self, nome: str, descricao: str, status):
         if isinstance(nome, str):
@@ -50,4 +51,3 @@ class ProjetoPessoal:
             self.__status = status
         else:
             raise TypeError("status deve ser um objeto Status")
-

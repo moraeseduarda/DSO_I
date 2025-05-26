@@ -1,4 +1,3 @@
-# utils.py
 import os
 
 def limpar_console():

@@ -15,3 +15,4 @@ class Status:
           self.__status = status
         else:
             raise TypeError("status deve ser uma string")
+

@@ -3,8 +3,8 @@ from view.tela_skill import TelaSkill
 from model.material_estudo import MaterialEstudo
 
 
-class ControladorSkill():
-    
+class ControladorSkill:
+
     def __init__(self, controlador_sistema):
         self.__controlador_sistema = controlador_sistema
         self.__tela_skill = TelaSkill()

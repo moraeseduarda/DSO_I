@@ -1,10 +1,12 @@
 from view.tela_sistema import TelaSistema
+from view.console_utils import limpar_console
 from controller.controlador_carreira import ControladorCarreira
 from controller.controlador_usuario import ControladorUsuario
 from controller.controlador_skills import ControladorSkill
 
 
-class ControladorSistema:
+class ControladorSistema():
+
     def __init__(self):
         self.__tela_sistema = TelaSistema()
         self.__controlador_carreira = ControladorCarreira(self)
@@ -55,7 +57,7 @@ class ControladorSistema:
                     2: self.controlador_usuario.abre_tela_usuario,
                 }
 
-                escolha = self.__tela_sistema.tela_opcoes_iniciais()
+                escolha = self.__tela_sistema.tela_opcoes_menu_inicial()
                 funcao = opcoes.get(escolha)
 
                 if funcao:
@@ -63,4 +65,5 @@ class ControladorSistema:
                 else:
                     print("Opção inválida. Digite um número entre 0 e 2.")
             except ValueError:
+                limpar_console()
                 print("Entrada inválida. Digite apenas números.")

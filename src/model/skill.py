@@ -1,5 +1,6 @@
 from model.material_estudo import MaterialEstudo
 
+
 class Skill:
     def __init__(self, nome: str, id: int, descricao: str, material_estudo=None):
         if isinstance(id, int):
