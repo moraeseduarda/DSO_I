@@ -66,12 +66,29 @@ class ControladorUsuario:
         else:
             self.__tela_menu_usuario.mostra_mensagem("ATENCAO: Usuário com esse USERNAME já existe. Cadastre novamente, com outro USERNAME.")    
     
-    def abre_tela_usuario(self):
-        lista_opcoes = {1: self.cadastrar_usuario, 2: self.login_usuario, 3:self.ranking, 0: self.usuario_retornar}
+    def usuario_retornar(self):
+        print('Saindo do menu usuário...\n')
         
-        continua = True
-        while continua:
-            lista_opcoes[self.__tela_menu_usuario.tela_opcoes()]()
+    def abre_tela_usuario(self):
+        lista_opcoes = {
+            1: self.cadastrar_usuario, 
+            2: self.login_usuario, 
+            3: self.ranking
+        }
+        
+        while True: 
+            opcao = self.__tela_menu_usuario.tela_opcoes()
+            if opcao == 0:
+                self.usuario_retornar() 
+                break 
+            
+            funcao_escolhida = lista_opcoes.get(opcao)
+            if funcao_escolhida:
+                funcao_escolhida() 
+                                   
+                                   
+            else:
+                self.__tela_menu_usuario.mostra_mensagem("Opção inválida. Tente novamente.")
             
     def ranking(self):
         print("\n--- RANKING DE APRENDIZADO ---")
@@ -79,33 +96,30 @@ class ControladorUsuario:
         print(f"{'Posição':<10}{'Usuário':<20}{'Número de Skills aprendidas'}")
         print("---------------------------------")
 
-        # Cria uma lista de tuplas (username, quantidade de skills aprendidas)
         ranking_usuarios = [
             (usuario.username, len(usuario.skills_aprendidas))
             for usuario in self.__usuarios
         ]
 
-        # Ordena do maior para o menor número de skills aprendidas
         ranking_usuarios.sort(key=lambda x: x[1], reverse=True)
 
-        # Exibe o ranking
         for posicao, (username, qtd_skills) in enumerate(ranking_usuarios, start=1):
             print(f"{posicao:<10}{username:<20}{qtd_skills}")
 
         print("---------------------------------\n")
     
         
-    def usuario_retornar(self):
-        print('Saindo do menu usuário...\n')
-        self.__controlador_sistema.abre_tela() 
-        
     def login_usuario(self):
         print("===== LOGIN DE USUÁRIO =====")
         tentativas = 0
+        usuario = None # Inicializa usuario
         while True:
             try:
                 username_usuario = input("Digite seu USERNAME para entrar: @").strip().lower()
-            except ValueError:
+                if not username_usuario: # Verifica se a entrada é vazia
+                    print("Username não pode ser vazio. Tente novamente.\n")
+                    continue
+            except ValueError: # Embora input() retorne string, é boa prática manter
                 print("Valor inválido.\n")
                 continue
 
@@ -115,17 +129,18 @@ class ControladorUsuario:
                 tentativas += 1
                 if tentativas >= 3:
                     print("Muitas tentativas inválidas. Retornando...\n")
-                    return  # Volta para o menu do usuário
+                    return  # Volta para o menu de abre_tela_usuario
             else:
-                break
+                break # Usuário encontrado, sai do loop de tentativa de login
 
+        # Loop do menu do usuário logado
         while True:
             print(f"\n--- Bem-vindo(a), {usuario.nome}! ---")
             print("1 - Ver informações do usuário e carreiras escolhidas")
             print("2 - Ver percentual concluído")
             print("3 - Aprender skill")
             print("4 - Gerenciar projetos pessoais")
-            print("0 - Sair")
+            print("0 - Sair (Deslogar)") 
 
             opcao = input("Digite a opção desejada: ").strip()
             limpar_console()
@@ -139,8 +154,8 @@ class ControladorUsuario:
             elif opcao == '4':
                 self.menu_projetos_pessoais(usuario)
             elif opcao == '0':
-                print("Retornando ao menu principal...\n")
-                self.__controlador_sistema.abre_tela()
+                print(f"Deslogando usuário {usuario.nome}...\n")
+                return # Termina o método login_usuario, voltando para o loop de abre_tela_usuario
             else:
                 limpar_console()
                 print("Opção inválida. Tente novamente.\n")

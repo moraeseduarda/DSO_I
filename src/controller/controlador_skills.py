@@ -83,7 +83,7 @@ class ControladorSkill:
             self.__tela_skill.mostra_mensagem("Carreira não encontrada!")
 
     def retornar(self):
-        self.__controlador_sistema.menu_administrador()
+        print("Retornando ao menu administrador...")
     
     def abre_tela(self):
         lista_opcoes = {
@@ -91,15 +91,20 @@ class ControladorSkill:
             2: self.excluir_skill, 
             3: self.lista_skill,
             4: self.adicionar_material_estudo,  
-            5: self.associar_skill_carreira,
-            6: self.retornar
+            5: self.associar_skill_carreira
         }
 
-        continua = True
-        while continua:
-            opcao = self.__tela_skill.tela_opcoes()
-            if opcao in lista_opcoes:
-                lista_opcoes[opcao]()
+        while True:
+            opcao = self.__tela_skill.tela_opcoes() 
+            if opcao == 6: 
+                self.retornar()
+                break 
+            
+            funcao_escolhida = lista_opcoes.get(opcao)
+            if funcao_escolhida:
+                funcao_escolhida()
+            else:
+                self.__tela_skill.mostra_mensagem("Opção inválida. Tente novamente.")
 
     def adicionar_material_estudo(self):
         self.lista_skill()

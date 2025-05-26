@@ -3,7 +3,7 @@ from view.console_utils import limpar_console
 from controller.controlador_carreira import ControladorCarreira
 from controller.controlador_usuario import ControladorUsuario
 from controller.controlador_skills import ControladorSkill
-from controller.controlador_admin import ControladorAdmin # Adicione este import
+from controller.controlador_admin import ControladorAdmin 
 
 
 class ControladorSistema():
@@ -13,7 +13,7 @@ class ControladorSistema():
         self.__controlador_carreira = ControladorCarreira(self)
         self.__controlador_usuario = ControladorUsuario(self)
         self.__controlador_skills = ControladorSkill(self)
-        self.__controlador_admin = ControladorAdmin(self) # Instancie o ControladorAdmin
+        self.__controlador_admin = ControladorAdmin(self) 
     
     @property
     def controlador_carreira(self):
@@ -27,15 +27,14 @@ class ControladorSistema():
     def controlador_skills(self):
         return self.__controlador_skills
 
-    @property # Adicione getter se necessário em outros lugares
+    @property 
     def controlador_admin(self):
         return self.__controlador_admin
 
     def menu_administrador(self):
         # Este método agora simplesmente delega ao ControladorAdmin para abrir seu menu principal
         self.__controlador_admin.abre_tela_principal_admin()
-        # Quando abre_tela_principal_admin retornar (Admin escolheu sair),
-        # o controle volta para o loop em self.abre_tela() que chamou menu_administrador.
+
 
     def encerra_sistema(self):
         exit(0)
@@ -45,7 +44,7 @@ class ControladorSistema():
             try:
                 opcoes = {
                     0: self.encerra_sistema,
-                    1: self.menu_administrador, # Chama o menu_administrador que agora delega ao ControladorAdmin
+                    1: self.menu_administrador, 
                     2: self.controlador_usuario.abre_tela_usuario,
                 }
 
