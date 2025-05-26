@@ -57,7 +57,7 @@ class ControladorSistema():
                     2: self.controlador_usuario.abre_tela_usuario,
                 }
 
-                escolha = self.__tela_sistema.tela_opcoes_menu_inicial()
+                escolha = self.__tela_sistema.tela_opcoes_iniciais()
                 funcao = opcoes.get(escolha)
 
                 if funcao:

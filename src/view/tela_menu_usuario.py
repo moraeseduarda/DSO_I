@@ -1,4 +1,5 @@
-from view.utils import limpar_console
+from view.console_utils import limpar_console
+
 
 class TelaMenuUsuario:
     def tela_opcoes(self):

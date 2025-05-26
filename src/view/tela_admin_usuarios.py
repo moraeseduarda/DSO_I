@@ -1,7 +1,7 @@
 from view.console_utils import limpar_console
 
 
-class TelaAdminUsuario():
+class TelaAdminUsuario:
     def tela_opcoes_admin_usuarios(self):
         print('SISTEMA DE MONITORAMENTO DE HARD SKILLS')
         print('--- MENU ADMIN. USUARIOS ---')

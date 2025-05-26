@@ -1,4 +1,5 @@
-from view.utils import limpar_console
+from view.console_utils import limpar_console
+
 
 class TelaSistema:
     def tela_opcoes_iniciais(self):
