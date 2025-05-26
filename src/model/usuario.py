@@ -1,18 +1,10 @@
+from model.abstract_pessoa_sistema import PessoaSistema
 from model.carreira import Carreira
 
 
-class Usuario:
+class Usuario(PessoaSistema):
     def __init__(self, username: str, nome: str, carreiras, skills_para_aprender):
-        if isinstance(username, str):
-            self.__username = username
-        else:
-            raise TypeError("username deve ser do tipo string")
-
-        if isinstance(nome, str):
-            self.__nome = nome
-        else:
-            raise TypeError("nome deve ser do tipo string")
-        
+        super().__init__(username, nome)
         self.__carreiras = carreiras if isinstance(carreiras, list) else []
         self.__skills_para_aprender = []
         self.__skills_aprendidas = []
