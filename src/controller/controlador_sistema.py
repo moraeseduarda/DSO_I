@@ -3,6 +3,7 @@ from view.console_utils import limpar_console
 from controller.controlador_carreira import ControladorCarreira
 from controller.controlador_usuario import ControladorUsuario
 from controller.controlador_skills import ControladorSkill
+from controller.controlador_admin import ControladorAdmin # Adicione este import
 
 
 class ControladorSistema():
@@ -12,6 +13,7 @@ class ControladorSistema():
         self.__controlador_carreira = ControladorCarreira(self)
         self.__controlador_usuario = ControladorUsuario(self)
         self.__controlador_skills = ControladorSkill(self)
+        self.__controlador_admin = ControladorAdmin(self) # Instancie o ControladorAdmin
     
     @property
     def controlador_carreira(self):
@@ -25,25 +27,15 @@ class ControladorSistema():
     def controlador_skills(self):
         return self.__controlador_skills
 
+    @property # Adicione getter se necessário em outros lugares
+    def controlador_admin(self):
+        return self.__controlador_admin
+
     def menu_administrador(self):
-        opcoes = {
-            1: self.__controlador_carreira.abre_tela,
-            2: self.__controlador_skills.abre_tela,
-            3: self.__controlador_usuario.abre_tela_admin,
-        }
-        
-        while True:
-            try:
-                opcao = self.__tela_sistema.tela_opcoes_admin()
-                if opcao == 0:
-                    self.abre_tela()
-                funcao = opcoes.get(opcao)
-                if funcao:
-                    funcao()
-                else:
-                    print("Opção inválida. Digite um número entre 0 e 3.")
-            except ValueError:
-                print("Entrada inválida. Digite apenas números.")
+        # Este método agora simplesmente delega ao ControladorAdmin para abrir seu menu principal
+        self.__controlador_admin.abre_tela_principal_admin()
+        # Quando abre_tela_principal_admin retornar (Admin escolheu sair),
+        # o controle volta para o loop em self.abre_tela() que chamou menu_administrador.
 
     def encerra_sistema(self):
         exit(0)
@@ -53,7 +45,7 @@ class ControladorSistema():
             try:
                 opcoes = {
                     0: self.encerra_sistema,
-                    1: self.menu_administrador,
+                    1: self.menu_administrador, # Chama o menu_administrador que agora delega ao ControladorAdmin
                     2: self.controlador_usuario.abre_tela_usuario,
                 }
 

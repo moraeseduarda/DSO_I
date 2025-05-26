@@ -8,10 +8,13 @@ from view.console_utils import limpar_console
 class ControladorUsuario:
     def __init__(self, controlador_sistema):
         self.__controlador_sistema = controlador_sistema
-        self.__tela_admin_usuario = TelaAdminUsuario()
         self.__tela_menu_usuario = TelaMenuUsuario()
         self.__usuarios = []
     
+    @property
+    def usuarios(self):
+        return self.__usuarios
+
     # Métodos gerais  
     def pega_usuario_por_username(self, username: str):
         for usuario in self.__usuarios:
@@ -19,30 +22,27 @@ class ControladorUsuario:
                 return usuario
         return None
            
-    def lista_usuarios(self):
+    # O método lista_usuarios pode ser chamado pelo ControladorAdmin.
+    # Se a exibição for feita pela TelaAdminUsuario, o ControladorAdmin pode chamar este método
+    def lista_usuarios_dados(self):
         if not self.__usuarios:
-            print('Nenhum usuário cadastrado.\n')
-        else:
-            for usuario in self.__usuarios:
-                self.__tela_admin_usuario.mostra_usuario({'username': usuario.username, 'nome': usuario.nome, 'carreira': [carreira.nome for carreira in usuario.carreiras]})
-
-    def abre_tela_admin(self):
-        lista_opcoes = {1: self.lista_usuarios, 0: self.admin_retornar}
+            return [] # Retorna lista vazia para o ControladorAdmin tratar
         
-        continua = True
-        while continua:
-            lista_opcoes[self.__tela_admin_usuario.tela_opcoes_admin_usuarios()]()
-     
-    def admin_retornar(self):
-        print('Saindo do menu de administração de usuários...\n')
-        self.__controlador_sistema.menu_administrador() 
+        dados_usuarios = []
+        for usuario in self.__usuarios:
+            dados_usuarios.append({
+                'username': usuario.username, 
+                'nome': usuario.nome, 
+                'carreiras': [carreira.nome for carreira in usuario.carreiras], # Ajuste conforme necessário
+                'skills_aprendidas': [skill.nome for skill in usuario.skills_aprendidas] # Ajuste
+            })
+        return dados_usuarios
 
-    # Métodos usados em Tela do Usuário       
+   
     def cadastrar_usuario(self):
         dados_usuario = self.__tela_menu_usuario.pega_dados_cadastro_usuario()
         usuario = self.pega_usuario_por_username(dados_usuario['username'])
 
-        # Não há nenhum usuário com esse username cadastrado anteriormente, logo pode avançar no processo de cadastro.
         if usuario is None:
             controlador_carreira = self.__controlador_sistema.controlador_carreira
             carreiras_disponiveis = controlador_carreira.carreiras
@@ -225,154 +225,118 @@ class ControladorUsuario:
                 print("Nenhuma skill disponível para aprender.\n")
             print("-------\n")
 
-    def listar_projetos_pessoais(self, usuario):
+    def listar_projetos_pessoais(self, usuario: Usuario):
         print("\n--- Projetos Pessoais do Usuário ---")
-        if not usuario._Usuario__projetos_pessoais:
+        # O getter usuario.projetos_pessoais retorna uma lista de objetos ProjetoPessoal
+        projetos_do_usuario = usuario.projetos_pessoais
+        if not projetos_do_usuario:
             print("Nenhum projeto pessoal cadastrado.\n")
             return
-        for nome, projeto in usuario._Usuario__projetos_pessoais.items():
+        for projeto in projetos_do_usuario:
             print(f"Nome: {projeto.nome}")
             print(f"Descrição: {projeto.descricao}")
-            print(f"Status: {projeto.status.status}")
+            print(f"Status: {projeto.status.status if hasattr(projeto.status, 'status') else projeto.status}") # Lida com Status obj ou string
             print("-" * 30)
 
-    def adicionar_projeto_pessoal(self, usuario):
-        print("\n--- Adicionar Projeto Pessoal ---")
+    def adicionar_projeto_pessoal(self, usuario: Usuario):
+        print("\n--- Adicionar Novo Projeto Pessoal ---")
+        nome = input("Nome do projeto: ").strip()
+        if not nome:
+            print("Nome do projeto não pode ser vazio.")
+            return
+        
+        descricao = input("Descrição do projeto: ").strip()
+        status_str = input("Status inicial do projeto (ex: A_FAZER, EM_ANDAMENTO, CONCLUIDO): ").strip().upper()
+
+        # Validação do nome do projeto (para evitar duplicatas)
+        lista_projetos_atual = usuario.projetos_pessoais # GETTER
+        if any(p.nome == nome for p in lista_projetos_atual):
+            print(f"Erro: Um projeto com o nome '{nome}' já existe.")
+            return
+
         try:
-            nome = input("Nome do projeto: ").strip()
-            descricao = input("Descrição do projeto: ").strip()
-            status_dict = {'1': "Não iniciado", '2': "Em andamento", '3': "Concluído"}
-            status_str = None
-            
-            while not status_str:
-                print("Status do projeto:")
-                print("1 - Não iniciado")
-                print("2 - Em andamento")
-                print("3 - Concluído")
-                status_opcao = input("Escolha o status (1/2/3): ").strip()
-                status_str = status_dict.get(status_opcao)
-                if not status_str:
-                    print("Status inválido. Tente novamente.\n")
-            status = Status(status_str)
-            projeto = ProjetoPessoal(nome, descricao, status)
-            usuario._Usuario__projetos_pessoais[nome] = projeto
-            print("Projeto pessoal adicionado com sucesso!\n")
-            
-        except (TypeError, ValueError) as e:
-            print(f"Erro ao criar projeto pessoal: {e}\n")
-            
-    def aprender_skill(self, usuario):
-        if not usuario.carreiras:
-            print("Usuário não está associado a nenhuma carreira.\n")
+            status_obj = Status(status_str) # Assume que Status pode ser instanciado com a string
+        except ValueError as e: # Se Status() levantar erro para valor inválido
+            print(f"Erro no status: {e}")
             return
 
-        # Mostrar todas as skills disponíveis nas carreiras do usuário
-        skills_disponiveis = usuario.skills_para_aprender
-        for carreira in usuario.carreiras:
-            for skill in carreira.skills_requeridas:
-                if skill not in usuario.skills_aprendidas and skill not in skills_disponiveis:
-                    skills_disponiveis.append(skill)
-                    print(f"ID: {skill.id} - Nome: {skill.nome}")
+        novo_projeto = ProjetoPessoal(nome, descricao, status_obj)
+        lista_projetos_atual.append(novo_projeto)
+        usuario.projetos_pessoais = lista_projetos_atual # SETTER
+        print("Projeto pessoal adicionado com sucesso!\n")
 
-        if not skills_disponiveis:
-            print("Não há skills disponíveis para aprender.\n")
-            return
-
-        # Selecionar skill para aprender
-        while True:
-            try:
-                skills_disponiveis = usuario.skills_para_aprender
-                for carreira in usuario.carreiras:
-                    for skill in carreira.skills_requeridas:
-                        if skill not in usuario.skills_aprendidas and skill not in skills_disponiveis:
-                            skills_disponiveis.append(skill)
-                            print(f"ID: {skill.id} - Nome: {skill.nome}")
-                id_skill = int(input("\nDigite o ID da skill que deseja aprender: "))
-                skill_selecionada = next((skill for skill in skills_disponiveis if skill.id == id_skill), None)
-                if skill_selecionada:
-                    break
-                print("ID inválido. Tente novamente.")
-            except ValueError:
-                print("Entrada inválida. Digite um número.")
-
-    # Adicionar à lista de skills aprendidas
-        usuario.skills_aprendidas.append(skill_selecionada)
-        # Remover da lista de skills para aprender se estiver lá
-        if skill_selecionada in usuario.skills_para_aprender:
-            usuario.skills_para_aprender.remove(skill_selecionada)
-        
-        print(f"\nParabéns! Você aprendeu a skill: {skill_selecionada.nome}")
-
-    def alterar_projeto_pessoal(self, usuario):
-        self.listar_projetos_pessoais(usuario)
-        
+    def alterar_projeto_pessoal(self, usuario: Usuario):
         print("\n--- Alterar Projeto Pessoal ---")
-        if not usuario._Usuario__projetos_pessoais:
-            print("Nenhum projeto pessoal cadastrado.\n")
+        nome_antigo = input("Nome do projeto a ser alterado: ").strip()
+
+        lista_projetos_atual = usuario.projetos_pessoais # GETTER
+        projeto_para_alterar = usuario._encontrar_projeto_na_lista(lista_projetos_atual, nome_antigo) # Helper opcional
+
+        if not projeto_para_alterar:
+            print(f"Projeto '{nome_antigo}' não encontrado.")
             return
 
-        nome_antigo = input("Digite o nome do projeto que deseja alterar: ").strip()
+        print(f"Alterando projeto: {projeto_para_alterar.nome}")
+        novo_nome = input(f"Novo nome (deixe em branco para manter '{projeto_para_alterar.nome}'): ").strip()
+        nova_descricao = input(f"Nova descrição (deixe em branco para manter): ").strip()
+        novo_status_str = input(f"Novo status (deixe em branco para manter '{projeto_para_alterar.status.status if hasattr(projeto_para_alterar.status, 'status') else projeto_para_alterar.status}'): ").strip().upper()
 
-        if nome_antigo not in usuario._Usuario__projetos_pessoais:
-            print("Projeto não encontrado.\n")
-            return
+        nome_final = novo_nome if novo_nome else projeto_para_alterar.nome
 
-        projeto = usuario._Usuario__projetos_pessoais[nome_antigo]
-        print(f"Alterando projeto: {projeto.nome}")
+        
+        if novo_nome and novo_nome != nome_antigo:
+            if any(p.nome == novo_nome for p in lista_projetos_atual if p.nome != nome_antigo):
+                print(f"Erro: Já existe um projeto com o nome '{novo_nome}'. Alteração de nome cancelada.")
+                novo_nome = "" 
+                nome_final = nome_antigo
 
-        novo_nome = input("Novo nome do projeto (deixe vazio para manter o atual): ").strip()
-        nova_descricao = input("Nova descrição do projeto (deixe vazio para manter a atual): ").strip()
-
-        status_dict = {'1': "Não iniciado", '2': "Em andamento", '3': "Concluído"}
-        status_str = None
-
-        print("Novo status do projeto (deixe vazio para manter o atual):")
-        print("1 - Não iniciado\n2 - Em andamento\n3 - Concluído")
-        status_opcao = input("Escolha o status (1/2/3): ").strip()
-
-        if status_opcao in status_dict:
-            status_str = status_dict[status_opcao]
-            projeto.status = Status(status_str)
-
-        if novo_nome:
-            usuario._Usuario__projetos_pessoais.pop(nome_antigo)
-            projeto.nome = novo_nome
-            usuario._Usuario__projetos_pessoais[novo_nome] = projeto
-
+        
+        if novo_nome and novo_nome != nome_antigo: 
+            projeto_para_alterar.nome = novo_nome
         if nova_descricao:
-            projeto.descricao = nova_descricao
-        limpar_console()
-        print("Projeto alterado com sucesso!\n")
+            projeto_para_alterar.descricao = nova_descricao
+        if novo_status_str:
+            try:
+                projeto_para_alterar.status = Status(novo_status_str)
+            except ValueError as e:
+                print(f"Erro no novo status: {e}. Status não alterado.")
+        
+    
+        usuario.projetos_pessoais = lista_projetos_atual 
+        print(f"Projeto '{nome_final}' atualizado com sucesso!\n")
 
-    def excluir_projeto_pessoal(self, usuario):
+
+    def excluir_projeto_pessoal(self, usuario: Usuario):
         print("\n--- Excluir Projeto Pessoal ---")
-        if not usuario._Usuario__projetos_pessoais:
-            print("Nenhum projeto pessoal cadastrado.\n")
+        nome_projeto = input("Nome do projeto a ser excluído: ").strip()
+
+        lista_projetos_atual = usuario.projetos_pessoais 
+        projeto_para_excluir = usuario._encontrar_projeto_na_lista(lista_projetos_atual, nome_projeto)
+
+        if not projeto_para_excluir:
+            print(f"Projeto '{nome_projeto}' não encontrado.")
             return
 
-        nome = input("Digite o nome do projeto a ser excluído: ").strip()
+        lista_projetos_atual.remove(projeto_para_excluir)
+        usuario.projetos_pessoais = lista_projetos_atual 
+        print(f"Projeto '{nome_projeto}' excluído com sucesso!\n")
 
-        if nome in usuario._Usuario__projetos_pessoais:
-            confirmacao = input(f"Tem certeza que deseja excluir o projeto '{nome}'? (s/n): ").strip().lower()
-            if confirmacao == 's':
-                del usuario._Usuario__projetos_pessoais[nome]
-                print("Projeto excluído com sucesso!\n")
-            else:
-                print("Operação cancelada.\n")
-        else:
-            print("Projeto não encontrado.\n")
+    def concluir_projeto_pessoal(self, usuario: Usuario):
+        print("\n--- Concluir Projeto Pessoal ---")
+        nome_projeto = input("Nome do projeto a ser concluído: ").strip()
 
-    def concluir_projeto_pessoal(self, usuario):
-        self.listar_projetos_pessoais(usuario)
-        if not usuario._Usuario__projetos_pessoais:
-            print("Nenhum projeto pessoal cadastrado.\n")
+        lista_projetos_atual = usuario.projetos_pessoais 
+        projeto_para_concluir = usuario._encontrar_projeto_na_lista(lista_projetos_atual, nome_projeto)
+
+        if not projeto_para_concluir:
+            print(f"Projeto '{nome_projeto}' não encontrado.")
             return
+        
+        try:
+            projeto_para_concluir.status = Status("CONCLUIDO")
+        except ValueError as e:
+             print(f"Erro ao definir status como CONCLUIDO: {e}")
+             return
 
-        nome = input("Digite o nome do projeto que deseja marcar como concluído: ").strip()
-        if nome not in usuario._Usuario__projetos_pessoais:
-            print("Projeto não encontrado.\n")
-            return
-
-        projeto = usuario._Usuario__projetos_pessoais[nome]
-        projeto.status = Status("Concluído")
-        print(f"Projeto '{projeto.nome}' marcado como concluído!\n")
+        usuario.projetos_pessoais = lista_projetos_atual 
+        print(f"Projeto '{nome_projeto}' marcado como CONCLUÍDO!\n")

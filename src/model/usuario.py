@@ -1,14 +1,16 @@
 from model.abstract_pessoa_sistema import PessoaSistema
 from model.carreira import Carreira
+from model.projeto_pessoal import ProjetoPessoal  
+from model.status import Status  
 
 
 class Usuario(PessoaSistema):
     def __init__(self, username: str, nome: str, carreiras, skills_para_aprender):
         super().__init__(username, nome)
         self.__carreiras = carreiras if isinstance(carreiras, list) else []
-        self.__skills_para_aprender = []
-        self.__skills_aprendidas = []
-        self.__projetos_pessoais = {}
+        self.__skills_para_aprender = [] 
+        self.__skills_aprendidas = []   
+        self.__projetos_pessoais = {}   
         
     @property
     def username(self):
@@ -75,3 +77,30 @@ class Usuario(PessoaSistema):
             self.__skills_aprendidas = skills
         else:
             raise TypeError("skills_aprendidas deve ser uma lista")
+
+    @property
+    def projetos_pessoais(self):
+        """Retorna uma LISTA dos objetos ProjetoPessoal."""
+        return list(self.__projetos_pessoais.values())
+
+    @projetos_pessoais.setter
+    def projetos_pessoais(self, lista_de_projetos):
+        """Define a lista de projetos pessoais.
+        Espera uma lista de objetos ProjetoPessoal.
+        """
+        self.__projetos_pessoais = {} 
+        if isinstance(lista_de_projetos, list):
+            for projeto in lista_de_projetos:
+                if isinstance(projeto, ProjetoPessoal):
+                    self.__projetos_pessoais[projeto.nome] = projeto
+                else:
+                    print(f"Aviso: Item '{projeto}' na lista não é um objeto ProjetoPessoal e foi ignorado.")
+        else:
+            raise TypeError("projetos_pessoais deve ser uma lista de objetos ProjetoPessoal.")
+
+    
+    def _encontrar_projeto_na_lista(self, lista_projetos, nome_projeto):
+        for proj in lista_projetos:
+            if proj.nome == nome_projeto:
+                return proj
+        return None

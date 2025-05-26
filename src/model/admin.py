@@ -1,4 +1,4 @@
-from model.pessoa_sistema import PessoaSistema
+from model.abstract_pessoa_sistema import PessoaSistema 
 
 class Admin(PessoaSistema):
     def __init__(self, username: str, nome: str):
