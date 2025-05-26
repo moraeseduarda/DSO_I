@@ -1,5 +1,6 @@
 from model.carreira import Carreira
 from view.tela_carreira import TelaCarreira
+from view.console_utils import limpar_console
 
 
 class ControladorCarreira:
@@ -34,9 +35,12 @@ class ControladorCarreira:
         self.lista_carreira()
         print("-- Alterando uma carreira, informe o ID... --")
         id_carreira = self.__tela_carreira.seleciona_carreira()
-        print()
         carreira = self.pega_carreira_por_id(id_carreira)
         
+        if carreira is None:
+            self.__tela_carreira.mostra_mensagem('ATENCAO: Carreira não existente\n')
+            return  # Sai do método se não encontrar o ID
+
         if (carreira is not None):
             print("-- Agora, altere os campos para os valores que você deseja: --")
             novos_dados_carreira = self.__tela_carreira.pega_dados_carreira(None)
@@ -45,11 +49,11 @@ class ControladorCarreira:
             carreira.descricao = novos_dados_carreira['descricao']
             self.lista_carreira()
             print()
-        else:
-            self.__tela_carreira.mostra_mensagem('ATENCAO: Carreira não existente')
-            print()
         
     def lista_carreira(self):
+        if not self.__carreiras:
+            self.__tela_carreira.mostra_mensagem("Nenhuma carreira cadastrada.\n")
+            return
         print("Listando as carreiras existentes...")
         for carreira in self.__carreiras:
             self.__tela_carreira.mostra_carreira({'id': carreira.id, 'nome': carreira.nome, 'descricao': carreira.descricao})
@@ -79,13 +83,18 @@ class ControladorCarreira:
         }
 
         while True:
-            opcao = self.__tela_carreira.tela_opcoes()
-            if opcao == 0:
-                self.retornar() 
-                break 
-            
-            funcao_escolhida = lista_opcoes.get(opcao)
-            if funcao_escolhida:
-                funcao_escolhida()
-            else:
-                self.__tela_carreira.mostra_mensagem("Opção inválida. Tente novamente.")
+            try:
+                opcao = self.__tela_carreira.tela_opcoes()
+                if opcao == 0:
+                    self.retornar() 
+                    break 
+                
+                funcao_escolhida = lista_opcoes.get(opcao)
+                if funcao_escolhida:
+                    funcao_escolhida()
+                else:
+                    limpar_console()
+                    self.__tela_carreira.mostra_mensagem("Opção inválida. Tente novamente.")
+            except ValueError:
+                limpar_console()
+                print("Entrada inválida. Digite apenas números.")

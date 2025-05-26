@@ -3,14 +3,22 @@ from view.console_utils import limpar_console
 
 class TelaAdminUsuario:
     def tela_opcoes_admin_usuarios(self):
-        print('SISTEMA DE MONITORAMENTO DE HARD SKILLS')
-        print('--- MENU ADMIN. USUARIOS ---')
-        print('Escolha uma opção:')
-        print('1 - Listar usuarios')
-        print('0 - Retornar')
-        opcao = int(input('Digite a opção desejada: '))
-        limpar_console()
-        return opcao
+        while True:
+            print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
+            print('--- MENU ADMIN. USUARIOS ---')
+            print('Escolha uma opção:')
+            print('1 - Listar usuarios')
+            print('0 - Retornar')
+            try:
+                opcao = int(input('Digite a opção desejada: '))
+                if opcao < 0 or opcao > 1:
+                    limpar_console()
+                    print("Opção inválida. Por favor, escolha uma opção entre 0 e 1.")
+                    continue
+                return opcao
+            except ValueError:
+                limpar_console()
+                print("Entrada inválida. Digite apenas números.")
     
     def mostra_usuario(self, dados_usuario):
         print('-----------------------------------')
@@ -28,17 +36,20 @@ class TelaAdminUsuario:
     
 
     def tela_opcoes_admin(self):
-        print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
-        print('--- MENU ADMINISTRADOR ---')
-        print('Escolha uma opção:')
-        print('1 - CARREIRAS')
-        print('2 - SKILLS')
-        print('3 - USUÁRIOS')
-        print('0 - VOLTAR AO MENU PRINCIPAL')
         while True:
+            print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
+            print('--- MENU ADMINISTRADOR ---')
+            print('Escolha uma opção:')
+            print('1 - CARREIRAS')
+            print('2 - SKILLS')
+            print('3 - USUÁRIOS')
+            print('0 - VOLTAR AO MENU PRINCIPAL')
             try:
                 opcao = int(input('Digite a opção desejada: '))
                 limpar_console()
+                if opcao < 0 or opcao > 3:
+                    print("Opção inválida. Por favor, escolha uma opção entre 0 e 3.")
+                    continue
                 return opcao
             except ValueError:
                 limpar_console()

@@ -3,6 +3,7 @@ from view.console_utils import limpar_console
 
 class TelaMenuUsuario:
     def tela_opcoes(self):
+        print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
         print('--- MENU USUÁRIO ---')
         print('1 - Criar Conta')
         print('2 - Fazer Login')

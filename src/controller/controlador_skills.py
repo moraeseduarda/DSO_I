@@ -1,6 +1,7 @@
 from model.skill import Skill
 from view.tela_skill import TelaSkill
 from model.material_estudo import MaterialEstudo
+from view.console_utils import limpar_console
 
 
 class ControladorSkill:
@@ -28,8 +29,7 @@ class ControladorSkill:
                 [],  
             )
             self.__skills.append(nova_skill)
-            self.__tela_skill.mostra_mensagem('Skill cadastrada com sucesso')
-            print('\n')
+            self.__tela_skill.mostra_mensagem('Skill cadastrada com sucesso\n')
         else:
             self.__tela_skill.mostra_mensagem('SKILL COM ESSE ID JÁ CADASTRADA')
 
@@ -86,25 +86,30 @@ class ControladorSkill:
         print("Retornando ao menu administrador...")
     
     def abre_tela(self):
-        lista_opcoes = {
-            1: self.incluir_skill, 
-            2: self.excluir_skill, 
-            3: self.lista_skill,
-            4: self.adicionar_material_estudo,  
-            5: self.associar_skill_carreira
-        }
-
         while True:
-            opcao = self.__tela_skill.tela_opcoes() 
-            if opcao == 6: 
-                self.retornar()
-                break 
-            
-            funcao_escolhida = lista_opcoes.get(opcao)
-            if funcao_escolhida:
-                funcao_escolhida()
-            else:
-                self.__tela_skill.mostra_mensagem("Opção inválida. Tente novamente.")
+            try:
+                lista_opcoes = {
+                    1: self.incluir_skill, 
+                    2: self.excluir_skill, 
+                    3: self.lista_skill,
+                    4: self.adicionar_material_estudo,  
+                    5: self.associar_skill_carreira
+                }
+                opcao = self.__tela_skill.tela_opcoes() 
+                if opcao == 0: 
+                    self.retornar()
+                    break 
+                
+                funcao_escolhida = lista_opcoes.get(opcao)
+                if funcao_escolhida:
+                    funcao_escolhida()
+                else:
+
+                    limpar_console()
+                    self.__tela_skill.mostra_mensagem("Opção inválida. Tente novamente.")
+            except ValueError:
+                limpar_console()
+                print("Entrada inválida. Digite apenas números.")
 
     def adicionar_material_estudo(self):
         self.lista_skill()

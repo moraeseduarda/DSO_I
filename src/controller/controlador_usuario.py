@@ -16,9 +16,9 @@ class ControladorUsuario:
         return self.__usuarios
 
     # Métodos gerais  
-    def pega_usuario_por_username(self, username: str):
+    def pega_usuario_por_username(self, palavra_chave: str):
         for usuario in self.__usuarios:
-            if usuario.username == username:
+            if usuario.palavra_chave == palavra_chave:
                 return usuario
         return None
            
@@ -31,7 +31,7 @@ class ControladorUsuario:
         dados_usuarios = []
         for usuario in self.__usuarios:
             dados_usuarios.append({
-                'username': usuario.username, 
+                'username': usuario.palavra_chave, 
                 'nome': usuario.nome, 
                 'carreiras': [carreira.nome for carreira in usuario.carreiras], # Ajuste conforme necessário
                 'skills_aprendidas': [skill.nome for skill in usuario.skills_aprendidas] # Ajuste
@@ -76,19 +76,23 @@ class ControladorUsuario:
             3: self.ranking
         }
         
-        while True: 
-            opcao = self.__tela_menu_usuario.tela_opcoes()
-            if opcao == 0:
-                self.usuario_retornar() 
-                break 
+        while True:
+            try:
+                opcao = self.__tela_menu_usuario.tela_opcoes()
+                if opcao == 0:
+                    self.usuario_retornar()
+                    break
+
+                funcao_escolhida = lista_opcoes.get(opcao)
+                if funcao_escolhida:
+                    funcao_escolhida()
+                else:
+                    self.__tela_menu_usuario.mostra_mensagem("Opção inválida. Digite um número entre 0 e 3.")
+            except ValueError:
+                limpar_console()
+                print("Entrada inválida. Digite apenas números.")
+
             
-            funcao_escolhida = lista_opcoes.get(opcao)
-            if funcao_escolhida:
-                funcao_escolhida() 
-                                   
-                                   
-            else:
-                self.__tela_menu_usuario.mostra_mensagem("Opção inválida. Tente novamente.")
             
     def ranking(self):
         print("\n--- RANKING DE APRENDIZADO ---")
@@ -97,7 +101,7 @@ class ControladorUsuario:
         print("---------------------------------")
 
         ranking_usuarios = [
-            (usuario.username, len(usuario.skills_aprendidas))
+            (usuario.palavra_chave, len(usuario.skills_aprendidas))
             for usuario in self.__usuarios
         ]
 
@@ -125,8 +129,8 @@ class ControladorUsuario:
 
             usuario = self.pega_usuario_por_username(username_usuario)
             if usuario is None:
-                print("Usuário não encontrado. Tente novamente.\n")
                 tentativas += 1
+                print(f"Usuário não encontrado. Tente novamente. ({tentativas}/3 tentativas)\n")
                 if tentativas >= 3:
                     print("Muitas tentativas inválidas. Retornando...\n")
                     return  # Volta para o menu de abre_tela_usuario
@@ -135,6 +139,7 @@ class ControladorUsuario:
 
         # Loop do menu do usuário logado
         while True:
+            print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
             print(f"\n--- Bem-vindo(a), {usuario.nome}! ---")
             print("1 - Ver informações do usuário e carreiras escolhidas")
             print("2 - Ver percentual concluído")
@@ -192,7 +197,7 @@ class ControladorUsuario:
     def mostra_info_carreira(self, usuario):
         print("---- Informações do Usuário ----")
         print(f"Nome: {usuario.nome}")
-        print(f"Username: @{usuario.username}")
+        print(f"Username: @{usuario.palavra_chave}")
         
         if not usuario.carreiras:
             print("Usuário não está associado a nenhuma carreira.\n")
@@ -338,20 +343,68 @@ class ControladorUsuario:
 
     def concluir_projeto_pessoal(self, usuario: Usuario):
         print("\n--- Concluir Projeto Pessoal ---")
-        nome_projeto = input("Nome do projeto a ser concluído: ").strip()
+        # Filtra apenas projetos que NÃO estão concluídos
+        projetos_nao_concluidos = [p for p in usuario.projetos_pessoais if p.status.status != "CONCLUIDO"]
 
-        lista_projetos_atual = usuario.projetos_pessoais 
-        projeto_para_concluir = usuario._encontrar_projeto_na_lista(lista_projetos_atual, nome_projeto)
+        if not projetos_nao_concluidos:
+            print("Nenhum projeto pessoal pendente para concluir.\n")
+            return
+
+        print("Projetos pessoais pendentes:")
+        for projeto in projetos_nao_concluidos:
+            print(f"Nome: {projeto.nome}")
+            print(f"Descrição: {projeto.descricao}")
+            print(f"Status: {projeto.status.status}")
+            print("-" * 30)
+
+        nome_projeto = input("Nome do projeto a ser concluído: ").strip()
+        projeto_para_concluir = next((p for p in projetos_nao_concluidos if p.nome == nome_projeto), None)
 
         if not projeto_para_concluir:
-            print(f"Projeto '{nome_projeto}' não encontrado.")
+            print(f"Projeto '{nome_projeto}' não encontrado ou já está concluído.")
             return
-        
+
         try:
             projeto_para_concluir.status = Status("CONCLUIDO")
         except ValueError as e:
-             print(f"Erro ao definir status como CONCLUIDO: {e}")
-             return
+            print(f"Erro ao definir status como CONCLUIDO: {e}")
+            return
 
-        usuario.projetos_pessoais = lista_projetos_atual 
+        usuario.projetos_pessoais = usuario.projetos_pessoais  # Atualiza a lista, se necessário
         print(f"Projeto '{nome_projeto}' marcado como CONCLUÍDO!\n")
+
+    def aprender_skill(self, usuario):
+        if not usuario.carreiras:
+            print("Usuário não está associado a nenhuma carreira.\n")
+            return
+
+        # Mostrar todas as skills disponíveis nas carreiras do usuário
+        skills_disponiveis = []
+        for carreira in usuario.carreiras:
+            for skill in carreira.skills_requeridas:
+                if skill not in usuario.skills_aprendidas and skill not in skills_disponiveis:
+                    skills_disponiveis.append(skill)
+                    print(f"ID: {skill.id} - Nome: {skill.nome}")
+
+        if not skills_disponiveis:
+            print("Não há skills disponíveis para aprender.\n")
+            return
+
+        # Selecionar skill para aprender
+        while True:
+            try:
+                id_skill = int(input("\nDigite o ID da skill que deseja aprender: "))
+                skill_selecionada = next((skill for skill in skills_disponiveis if skill.id == id_skill), None)
+                if skill_selecionada:
+                    break
+                print("ID inválido. Tente novamente.")
+            except ValueError:
+                print("Entrada inválida. Digite um número.")
+
+        # Adicionar à lista de skills aprendidas
+        usuario.skills_aprendidas.append(skill_selecionada)
+        # Remover da lista de skills para aprender se estiver lá
+        if skill_selecionada in usuario.skills_para_aprender:
+            usuario.skills_para_aprender.remove(skill_selecionada)
+        
+        print(f"\nParabéns! Você aprendeu a skill: {skill_selecionada.nome}")

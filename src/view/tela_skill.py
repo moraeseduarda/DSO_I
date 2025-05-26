@@ -3,21 +3,26 @@ from view.console_utils import limpar_console
 
 class TelaSkill:
     def tela_opcoes(self):
-        print('===== MENU SKILLS =====')
-        print('1 - Incluir habilidade')
-        print('2 - Excluir habilidade')
-        print('3 - Listar habilidades')
-        print('4 - Adicionar material de estudo')
-        print('5 - Associar skill a carreira')
-        print('6 - Retornar')
         while True:
+            print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
+            print('===== MENU SKILLS =====')
+            print('1 - Incluir habilidade')
+            print('2 - Excluir habilidade')
+            print('3 - Listar habilidades')
+            print('4 - Adicionar material de estudo')
+            print('5 - Associar skill a carreira')
+            print('0 - Retornar')
             try:
                 opcao = int(input('Digite a opção desejada: '))
-                if 1 <= opcao <= 6:
+                if 0 <= opcao <= 5:
                     limpar_console()
                     return opcao
-                print("Opção inválida. Digite um número entre 1 e 6.")
+                else:
+                    limpar_console()
+                    print("Opção inválida. Digite um número entre 1 e 6.")
+                    continue
             except ValueError:
+                limpar_console()
                 print("Entrada inválida. Digite um número.")
     
     def pega_dados_skill(self):

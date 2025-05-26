@@ -1,35 +1,20 @@
 from abc import ABC, abstractmethod
 
+
 class PessoaSistema(ABC):
-    def __init__(self, username: str, nome: str):
-        if isinstance(username, str):
-            self.__username = username
+    def __init__(self, palavra_chave: str):
+        if isinstance(palavra_chave, str):
+            self.__palavra_chave = palavra_chave
         else:
-            raise TypeError("username deve ser do tipo string")
-
-        if isinstance(nome, str):
-            self.__nome = nome
-        else:
-            raise TypeError("nome deve ser do tipo string")
+            raise TypeError("palavra_chave deve ser do tipo string")
 
     @property
-    def username(self):
-        return self.__username
+    def palavra_chave(self):
+        return self.__palavra_chave
     
-    @username.setter
-    def username(self, username: str):
-        if isinstance(username, str):
-            self.__username = username
+    @palavra_chave.setter
+    def palavra_chave(self, palavra_chave: str):
+        if isinstance(palavra_chave, str):
+            self.__palavra_chave = palavra_chave
         else:
-            raise TypeError("username deve ser do tipo string")
-            
-    @property
-    def nome(self):
-        return self.__nome
-    
-    @nome.setter
-    def nome(self, nome: str):
-        if isinstance(nome, str):
-            self.__nome = nome
-        else:
-            raise TypeError("nome deve ser do tipo string")
+            raise TypeError("palavra_chave deve ser do tipo string")

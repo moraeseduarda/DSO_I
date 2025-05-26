@@ -1,5 +1,5 @@
 from model.abstract_pessoa_sistema import PessoaSistema 
 
 class Admin(PessoaSistema):
-    def __init__(self, username: str, nome: str):
-        super().__init__(username, nome)
+    def __init__(self):
+        super().__init__("admin")

@@ -5,23 +5,24 @@ from model.status import Status
 
 
 class Usuario(PessoaSistema):
-    def __init__(self, username: str, nome: str, carreiras, skills_para_aprender):
-        super().__init__(username, nome)
+    def __init__(self, palavra_chave: str, nome: str, carreiras, skills_para_aprender):
+        super().__init__(palavra_chave)
+        self.__nome = nome
         self.__carreiras = carreiras if isinstance(carreiras, list) else []
         self.__skills_para_aprender = [] 
         self.__skills_aprendidas = []   
         self.__projetos_pessoais = {}   
         
     @property
-    def username(self):
-        return self.__username
+    def palavra_chave(self):
+        return self._PessoaSistema__palavra_chave
     
-    @username.setter
-    def username(self, username: str):
-        if isinstance(username, str):
-            self.__username = username
+    @palavra_chave.setter
+    def palavra_chave(self, palavra_chave: str):
+        if isinstance(palavra_chave, str):
+            self._PessoaSistema__palavra_chave = palavra_chave
         else:
-            raise TypeError("username deve ser do tipo string")
+            raise TypeError("palavra_chave deve ser do tipo string")
             
     @property
     def nome(self):
