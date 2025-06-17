@@ -99,6 +99,8 @@ class Usuario(PessoaSistema):
         else:
             raise TypeError("projetos_pessoais deve ser uma lista de objetos ProjetoPessoal.")
 
+    def exibir_informacoes(self):
+        return f"Usuário: {self.nome}"
     
     def _encontrar_projeto_na_lista(self, lista_projetos, nome_projeto):
         for proj in lista_projetos:

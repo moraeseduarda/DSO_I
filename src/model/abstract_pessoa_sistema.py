@@ -18,3 +18,8 @@ class PessoaSistema(ABC):
             self.__palavra_chave = palavra_chave
         else:
             raise TypeError("palavra_chave deve ser do tipo string")
+
+    @abstractmethod
+    def exibir_informacoes(self):
+        pass
+
