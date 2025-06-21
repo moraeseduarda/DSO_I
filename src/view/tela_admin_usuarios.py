@@ -54,3 +54,6 @@ class TelaAdminUsuario:
             except ValueError:
                 limpar_console()
                 print("Entrada inválida. Por favor, digite um número.")
+
+    def solicitar_palavra_chave_admin(self):
+        return input("Digite a palavra-chave do administrador: ").strip()

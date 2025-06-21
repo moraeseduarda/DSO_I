@@ -59,7 +59,7 @@ class TelaSkill:
                 print("Opção inválida. Digite um número entre 1 e 4.")
             except ValueError:
                 print("Entrada inválida. Digite um número.")
-    
+        
     def mostra_skill(self, dados_skill):
         print('\n=== DETALHES DA SKILL ===')
         print('ID:', dados_skill['id'])
@@ -68,13 +68,13 @@ class TelaSkill:
         print('MATERIAIS DE ESTUDO:')
         if dados_skill['material_estudo']:
             for material in dados_skill['material_estudo']:
-                print(f"- {material.titulo} ({material.tipo})")
+                print(f"- {material['titulo']} ({material['tipo']})")
         else:
             print("Nenhum material cadastrado")
-        print('CARREIRAS ASSOCIADAS:')  
+        print('CARREIRAS ASSOCIADAS:')
         if dados_skill.get('carreiras'):
-            for carreira in dados_skill['carreiras']:
-                print(f"- {carreira.nome}")
+            for carreira_nome in dados_skill['carreiras']:
+                print(f"- {carreira_nome}")
         else:
             print("Nenhuma carreira associada")
         print('------------------------\n')
@@ -123,3 +123,8 @@ class TelaSkill:
             print("Nenhuma skill cadastrada!")
         print('-------------------------')
 
+    def enter(self):
+        input('\nPressione ENTER para continuar...')
+        
+    def retornar(self):
+        print("Retornando ao menu administrador...")

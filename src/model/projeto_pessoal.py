@@ -1,5 +1,4 @@
 from model.status import Status
-from model.skill import Skill
 
 
 class ProjetoPessoal:

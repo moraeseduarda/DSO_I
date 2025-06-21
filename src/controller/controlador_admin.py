@@ -9,7 +9,7 @@ class ControladorAdmin:
 
     def autenticar_admin(self):
         """Solicita a palavra-chave do admin antes de liberar o menu."""
-        tentativa = input("Digite a palavra-chave do administrador: ").strip()
+        tentativa = self.__tela_admin_view.solicitar_palavra_chave_admin()
         if tentativa == "admin":
             return True
         else:
@@ -40,7 +40,7 @@ class ControladorAdmin:
                 else:
                     self.__tela_admin_view.mostra_mensagem("Opção inválida. Tente novamente.")
             except ValueError:
-                print("Entrada inválida. Digite apenas números.")
+                self.__tela_admin_view.mostra_mensagem("Entrada inválida. Digite apenas números.")
 
     def abre_tela_gerenciamento_usuarios(self): # Antigo abre_tela, agora focado em usuários
         """Abre o submenu para gerenciamento de usuários (Listar, etc.)."""
@@ -69,11 +69,4 @@ class ControladorAdmin:
         self.__tela_admin_view.mostra_mensagem("\n--- LISTA DE USUÁRIOS ---")
         for dados_usuario in dados_usuarios:
             self.__tela_admin_view.mostra_usuario(dados_usuario) # mostra_usuario da TelaAdminUsuario
-        input("\nPressione ENTER para continuar...")
 
-
-    def retornar_ao_menu_admin_principal(self):
-        pass
-
-    def retornar_ao_menu_sistema(self):
-        pass

@@ -33,7 +33,7 @@ class ControladorCarreira:
             
     def alterar_carreira(self):
         self.lista_carreira()
-        print("-- Alterando uma carreira, informe o ID... --")
+        self.__tela_carreira.mensagem_inicio_alteracao()
         id_carreira = self.__tela_carreira.seleciona_carreira()
         carreira = self.pega_carreira_por_id(id_carreira)
         
@@ -42,26 +42,24 @@ class ControladorCarreira:
             return  # Sai do método se não encontrar o ID
 
         if (carreira is not None):
-            print("-- Agora, altere os campos para os valores que você deseja: --")
+            self.__tela_carreira.mensagem_altere_campos()
             novos_dados_carreira = self.__tela_carreira.pega_dados_carreira(None)
             carreira.id = novos_dados_carreira['id']
             carreira.nome = novos_dados_carreira['nome']
             carreira.descricao = novos_dados_carreira['descricao']
             self.lista_carreira()
-            print()
         
     def lista_carreira(self):
         if not self.__carreiras:
             self.__tela_carreira.mostra_mensagem("Nenhuma carreira cadastrada.\n")
             return
-        print("Listando as carreiras existentes...")
+        self.__tela_carreira.mostra_mensagem("Listando as carreiras existentes...")
         for carreira in self.__carreiras:
             self.__tela_carreira.mostra_carreira({'id': carreira.id, 'nome': carreira.nome, 'descricao': carreira.descricao})
-        print()
         
     def excluir_carreira(self):
         self.lista_carreira()
-        print("-- Excluindo uma carreira, informe o ID... --")
+        self.__tela_carreira.mostra_carreira("-- Excluindo uma carreira, informe o ID... --")
         id_carreira = self.__tela_carreira.seleciona_carreira()
         carreira = self.pega_carreira_por_id(id_carreira)
 
@@ -71,9 +69,7 @@ class ControladorCarreira:
         else:
             self.__tela_carreira.mostra_mensagem('Carreira não existe.')
     
-    def retornar(self):
-        print("Retornando ao menu administrador...")
- 
+
     def abre_tela(self):
         lista_opcoes = {
             1: self.cadastro_carreira, 
@@ -86,7 +82,7 @@ class ControladorCarreira:
             try:
                 opcao = self.__tela_carreira.tela_opcoes()
                 if opcao == 0:
-                    self.retornar() 
+                    self.__tela_carreira.retornar() 
                     break 
                 
                 funcao_escolhida = lista_opcoes.get(opcao)
@@ -97,4 +93,4 @@ class ControladorCarreira:
                     self.__tela_carreira.mostra_mensagem("Opção inválida. Tente novamente.")
             except ValueError:
                 limpar_console()
-                print("Entrada inválida. Digite apenas números.")
+                self.__tela_carreira.mostra_mensagem("\nEntrada inválida. Digite apenas números.")

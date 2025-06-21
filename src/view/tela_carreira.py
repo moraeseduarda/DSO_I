@@ -37,3 +37,12 @@ class TelaCarreira:
     
     def mostra_mensagem(self, mensagem):
         print(f"\n{mensagem}\n")
+
+    def mensagem_inicio_alteracao(self):
+        print("-- Alterando uma carreira, informe o ID... --")
+
+    def mensagem_altere_campos(self):
+        print("-- Agora, altere os campos para os valores que você deseja: --")
+        
+    def retornar(self):
+        print("Retornando ao menu administrador...")

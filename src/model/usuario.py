@@ -1,14 +1,13 @@
 from model.abstract_pessoa_sistema import PessoaSistema
 from model.carreira import Carreira
 from model.projeto_pessoal import ProjetoPessoal  
-from model.status import Status  
 
 
 class Usuario(PessoaSistema):
-    def __init__(self, palavra_chave: str, nome: str, carreiras, skills_para_aprender):
+    def __init__(self, palavra_chave: str, nome: str):
         super().__init__(palavra_chave)
         self.__nome = nome
-        self.__carreiras = carreiras if isinstance(carreiras, list) else []
+        self.__carreiras = []
         self.__skills_para_aprender = [] 
         self.__skills_aprendidas = []   
         self.__projetos_pessoais = {}   

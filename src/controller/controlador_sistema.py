@@ -54,7 +54,7 @@ class ControladorSistema():
                 if funcao:
                     funcao()
                 else:
-                    print("Opção inválida. Digite um número entre 0 e 2.")
+                    self.__tela_sistema.mostra_mensagem("Opção inválida. Digite um número entre 0 e 2.")
             except ValueError:
                 limpar_console()
-                print("Entrada inválida. Digite apenas números.")
+                self.__tela_sistema.mostra_mensagem("Entrada inválida. Digite apenas números.")
