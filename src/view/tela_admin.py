@@ -1,7 +1,7 @@
 from view.console_utils import limpar_console
 
 
-class TelaAdminUsuario:
+class TelaAdmin:
     def tela_opcoes_admin_usuarios(self):
         while True:
             print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')

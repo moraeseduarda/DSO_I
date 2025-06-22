@@ -61,7 +61,7 @@ class ControladorUsuario:
                 if carreira and carreira not in carreiras_escolhidas:
                     carreiras_escolhidas.append(carreira)
                     
-            novo_usuario = Usuario(dados_usuario['username'], dados_usuario['nome'], carreiras_escolhidas , [])
+            novo_usuario = Usuario(dados_usuario['username'], dados_usuario['nome'])
             self.__usuarios.append(novo_usuario)
             self.__tela_menu_usuario.mostra_mensagem('Usuário cadastrada com sucesso!')
         else:

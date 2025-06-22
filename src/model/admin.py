@@ -7,3 +7,7 @@ class Admin(PessoaSistema):
     
     def exibir_informacoes(self):
         return "Perfil: Administrador"
+    
+    def autenticar(self, tentativa: str) -> bool:
+        senha_correta = "admin"
+        return tentativa == senha_correta

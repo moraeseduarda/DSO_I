@@ -7,7 +7,6 @@ from controller.controlador_admin import ControladorAdmin
 
 
 class ControladorSistema:
-
     def __init__(self):
         self.__tela_sistema = TelaSistema()
         self.__controlador_carreira = ControladorCarreira(self)

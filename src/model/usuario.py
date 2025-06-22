@@ -5,7 +5,7 @@ from model.projeto_pessoal import ProjetoPessoal
 
 class Usuario(PessoaSistema):
     def __init__(self, username: str, nome: str):
-        super().__init__(username)
+        super().__init__(palavra_chave=username)
         self.__nome = nome
         self.__carreiras = []
         self.__skills_para_aprender = [] 
@@ -14,11 +14,11 @@ class Usuario(PessoaSistema):
         
     @property
     def username(self):
-        return super().username
+        return super().palavra_chave
     
     @username.setter
     def username(self, username: str):
-        super().username = username
+        self.palavra_chave = username
             
     @property
     def nome(self):
