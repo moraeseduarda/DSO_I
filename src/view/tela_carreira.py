@@ -25,12 +25,16 @@ class TelaCarreira:
         descricao = input('Digite a descrição da carreira: ').upper()
         return {'id': id, 'nome': nome, 'descricao': descricao}
     
-    def mostra_carreira(self, dados_carreira):
-        print('\n--- Detalhes da Carreira ---')
-        print('ID: ', dados_carreira['id'])
-        print('Nome: ', dados_carreira['nome'])
-        print('Descrição: ', dados_carreira['descricao'])
+    
+    def mostra_lista_carreiras(self, lista_carreiras):
+        print("\n--- Lista de Carreiras ---")
+        for carreira in lista_carreiras:
+            print(f"ID: {carreira['id']}")
+            print(f"Nome: {carreira['nome']}")
+            print(f"Descrição: {carreira['descricao']}")
+            print("------------------------------")
         print()
+
     
     def seleciona_carreira(self):
         id = int(input('Digite o ID da carreira: '))

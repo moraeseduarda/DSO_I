@@ -15,12 +15,14 @@ class ControladorCarreira:
         return self.__carreiras 
 
     def pega_carreira_por_id(self, id: int):
+        """Pega carreira pelo seu id"""
         for carreira in self.__carreiras:
             if carreira.id == id:
                 return carreira
         return None
 
     def cadastro_carreira(self):
+        """Cadastra uma carreira e coloca na lista do controlador (carreiras)"""
         cadastro = True
         dados_carreira = self.__tela_carreira.pega_dados_carreira(cadastro)
         carreira = self.pega_carreira_por_id(dados_carreira['id'])
@@ -32,6 +34,7 @@ class ControladorCarreira:
             self.__tela_carreira.mostra_mensagem("ATENCAO: Carreira já existente. Insira outro ID.\n")
             
     def alterar_carreira(self):
+        """Altera uma carreira, procura por id se a carreira existe"""
         self.lista_carreira()
         self.__tela_carreira.mensagem_inicio_alteracao()
         id_carreira = self.__tela_carreira.seleciona_carreira()
@@ -50,14 +53,24 @@ class ControladorCarreira:
             self.lista_carreira()
         
     def lista_carreira(self):
+        """Lista todas as carreiras cadastradas"""
         if not self.__carreiras:
             self.__tela_carreira.mostra_mensagem("Nenhuma carreira cadastrada.\n")
             return
         self.__tela_carreira.mostra_mensagem("Listando as carreiras existentes...")
+        carreiras_formatadas = []
         for carreira in self.__carreiras:
-            self.__tela_carreira.mostra_carreira({'id': carreira.id, 'nome': carreira.nome, 'descricao': carreira.descricao})
+            carreiras_formatadas.append({
+                'id': carreira.id,
+                'nome': carreira.nome,
+                'descricao': carreira.descricao
+            })
+    
+        # Envia a lista completa para a tela mostrar
+        self.__tela_carreira.mostra_lista_carreiras(carreiras_formatadas)
         
     def excluir_carreira(self):
+        """Exclui uma carreira, procura se a carreira existe primeiro"""
         self.lista_carreira()
         self.__tela_carreira.mostra_mensagem("-- Excluindo uma carreira, informe o ID... --")
         id_carreira = self.__tela_carreira.seleciona_carreira()
@@ -79,54 +92,25 @@ class ControladorCarreira:
         }
 
         while True:
-            try:
-                opcao = self.__tela_carreira.tela_opcoes()
-                if opcao == 0:
-                    self.__tela_carreira.retornar() 
-                    break 
-                
+            opcao = self.__tela_carreira.tela_opcoes()
+            if opcao == 0:
+                self.__tela_carreira.retornar() 
+                break
+            
+            try:    
                 funcao_escolhida = lista_opcoes.get(opcao)
-                if funcao_escolhida:
+                try:
                     funcao_escolhida()
-                else:
-                    limpar_console()
+                except KeyError:
                     self.__tela_carreira.mostra_mensagem("Opção inválida. Tente novamente.")
             except ValueError:
-                limpar_console()
-                self.__tela_carreira.mostra_mensagem("\nEntrada inválida. Digite apenas números.")
-    
-    def seleciona_carreiras_por_id(self, ids_usuario):
-        carreiras_encontradas = []
-        for id_carreira in ids_usuario:
-            carreira = next((c for c in self.__carreiras if c.id == id_carreira), None)
-            if carreira and carreira not in carreiras_encontradas:
-                carreiras_encontradas.append(carreira)
-        return carreiras_encontradas
+                self.__tela_carreira.mostra_mensagem("Entrada inválida. Digite apenas números.")
+
    
     def seleciona_ids_carreiras_existentes(self, ids_usuario):
         """
-        Recebe uma lista de IDs e retorna uma lista apenas com os IDs que existem em self.__carreiras.
+        Recebe uma lista de IDs e retorna apenas os IDs que existem nas carreiras cadastradas.
         """
-        ids_validos = [carreira.id for carreira in self.__carreiras]
-        return [id_carreira for id_carreira in ids_usuario if id_carreira in ids_validos]
-   
-    def listagem_carreiras(self):
-        return [{"id": carreira.id, "nome": carreira.nome} for carreira in self.__carreiras]
-    
-    def cadastro_usuario_carreiras(self):
-        self.lista_carreira()
-        self.__tela_carreira.escolha_carreiras()
-        ids_selecionados_usuario = self.__tela_carreira.seleciona_carreiras()
-        ids_carreiras = self.seleciona_ids_carreiras_existentes(ids_selecionados_usuario)
-
-        self.__tela_menu_usuario.mostra_mensagem("Carreiras que você selecionou: ")
-        carreiras_usuario = self.seleciona_carreiras_por_id(ids_selecionados_usuario)
-        self.printar(carreiras_usuario)
-            # Buscar objetos Carreira válidos (sem duplicatas)
-        carreiras_escolhidas = []
-        for id in ids_carreiras:
-            carreira = self.pega_carreira_por_id(id)
-            if carreira and carreira not in carreiras_escolhidas:
-                carreiras_escolhidas.append(carreira)
-        
-        return
+        ids_cadastrados = [carreira.id for carreira in self.__carreiras]
+        ids_validos = [id_ for id_ in ids_usuario if id_ in ids_cadastrados]
+        return ids_validos
