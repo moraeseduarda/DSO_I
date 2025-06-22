@@ -37,8 +37,12 @@ class TelaCarreira:
 
     
     def seleciona_carreira(self):
-        id = int(input('Digite o ID da carreira: '))
-        return id
+        try:
+            id = int(input('Digite o ID da carreira: '))
+            return id
+        except ValueError:
+            print("Entrada inválida. Digite um número inteiro.")
+            return None
     
     def mostra_mensagem(self, mensagem):
         print(f"\n{mensagem}\n")
@@ -51,3 +55,11 @@ class TelaCarreira:
         
     def retornar(self):
         print("Retornando ao menu administrador...")
+        
+    def mostra_ids_carreiras_validas(self, ids_validos):
+        print("\nIDs de carreiras válidas selecionadas:")
+        if not ids_validos:
+            print("Nenhum ID válido encontrado.")
+        else:
+            print(", ".join(str(id_) for id_ in ids_validos))
+        print()
