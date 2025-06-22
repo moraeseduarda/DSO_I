@@ -109,7 +109,7 @@ class TelaSkill:
         print('\n=== CARREIRAS DISPONÍVEIS ===')
         if carreiras:
             for carreira in carreiras:
-                print(f'ID: {carreira.id} - Nome: {carreira.nome}')
+                print(f'ID: {carreira["id"]} - Nome: {carreira["nome"]}')
         else:
             print("Nenhuma carreira cadastrada!")
         print('---------------------------')
@@ -118,10 +118,11 @@ class TelaSkill:
         print('\n=== SKILLS DISPONÍVEIS ===')
         if skills:
             for skill in skills:
-                print(f'ID: {skill.id} - Nome: {skill.nome}')
+                print(f'ID: {skill["id"]} - Nome: {skill["nome"]}')
         else:
             print("Nenhuma skill cadastrada!")
         print('-------------------------')
+
 
     def enter(self):
         input('\nPressione ENTER para continuar...')
