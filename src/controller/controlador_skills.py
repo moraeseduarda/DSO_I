@@ -77,7 +77,7 @@ class ControladorSkill:
     def associar_skill_carreira(self):
         self.__tela_skill.mostra_skills_disponiveis(self.__skills)
         if not self.__skills:
-            return  
+            return
         id_skill = self.__tela_skill.seleciona_skill()
         skill = self.pega_skill_por_id(id_skill)
         if not skill:
@@ -108,29 +108,26 @@ class ControladorSkill:
         "descricao": carreira.descricao,
         # ... outros campos necessários
         }
-        self.__tela_carreira.mostra_carreira(dados_carreira)
+        self.__controlador_sistema.controlador_carreira.tela_carreira.mostra_carreira(dados_carreira)
     
     def abre_tela(self):
         while True:
+            lista_opcoes = {
+                1: self.incluir_skill, 
+                2: self.excluir_skill, 
+                3: self.lista_skill,
+                4: self.adicionar_material_estudo,  
+                5: self.associar_skill_carreira
+            }
+            opcao = self.__tela_skill.tela_opcoes() 
+            if opcao == 0: 
+                self.__tela_skill.retornar()
+                break 
             try:
-                lista_opcoes = {
-                    1: self.incluir_skill, 
-                    2: self.excluir_skill, 
-                    3: self.lista_skill,
-                    4: self.adicionar_material_estudo,  
-                    5: self.associar_skill_carreira
-                }
-                opcao = self.__tela_skill.tela_opcoes() 
-                if opcao == 0: 
-                    self.__tela_skill.retornar()
-                    break 
-                
                 funcao_escolhida = lista_opcoes.get(opcao)
-                if funcao_escolhida:
+                try:
                     funcao_escolhida()
-                else:
-
-                    limpar_console()
+                except KeyError:
                     self.__tela_skill.mostra_mensagem("Opção inválida. Tente novamente.")
             except ValueError:
                 limpar_console()

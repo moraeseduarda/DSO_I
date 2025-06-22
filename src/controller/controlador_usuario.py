@@ -41,6 +41,7 @@ class ControladorUsuario:
 
    
     def cadastrar_usuario(self):
+        # falta parte de cadastrar carreira usuario
         dados_usuario = self.__tela_menu_usuario.pega_dados_cadastro_usuario()
         usuario = self.pega_usuario_por_username(dados_usuario['username'])
 
