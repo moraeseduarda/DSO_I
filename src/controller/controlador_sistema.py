@@ -6,7 +6,7 @@ from controller.controlador_skills import ControladorSkill
 from controller.controlador_admin import ControladorAdmin 
 
 
-class ControladorSistema():
+class ControladorSistema:
 
     def __init__(self):
         self.__tela_sistema = TelaSistema()
@@ -31,30 +31,23 @@ class ControladorSistema():
     def controlador_admin(self):
         return self.__controlador_admin
 
-    def menu_administrador(self):
-        # Este método agora simplesmente delega ao ControladorAdmin para abrir seu menu principal
-        self.__controlador_admin.abre_tela_principal_admin()
-
-
     def encerra_sistema(self):
         exit(0)
     
     def abre_tela(self):
         while True:
+            opcoes = {
+                1: self.controlador_admin.abre_tela_principal_admin, 
+                2: self.controlador_usuario.abre_tela_usuario,
+                0: self.encerra_sistema,
+            }
             try:
-                opcoes = {
-                    0: self.encerra_sistema,
-                    1: self.menu_administrador, 
-                    2: self.controlador_usuario.abre_tela_usuario,
-                }
-
                 escolha = self.__tela_sistema.tela_opcoes_iniciais()
-                funcao = opcoes.get(escolha)
-
-                if funcao:
+                try:
+                    funcao = opcoes[escolha]
                     funcao()
-                else:
-                    self.__tela_sistema.mostra_mensagem("Opção inválida. Digite um número entre 0 e 2.")
+                except KeyError:
+                    self.__tela_sistema.mostra_mensagem("Opção inválida. Escolha 0, 1 ou 2.")
             except ValueError:
                 limpar_console()
                 self.__tela_sistema.mostra_mensagem("Entrada inválida. Digite apenas números.")

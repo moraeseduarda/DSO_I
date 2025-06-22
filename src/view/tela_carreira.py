@@ -30,6 +30,7 @@ class TelaCarreira:
         print('ID: ', dados_carreira['id'])
         print('Nome: ', dados_carreira['nome'])
         print('Descrição: ', dados_carreira['descricao'])
+        print()
     
     def seleciona_carreira(self):
         id = int(input('Digite o ID da carreira: '))

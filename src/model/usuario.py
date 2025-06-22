@@ -4,8 +4,8 @@ from model.projeto_pessoal import ProjetoPessoal
 
 
 class Usuario(PessoaSistema):
-    def __init__(self, palavra_chave: str, nome: str):
-        super().__init__(palavra_chave)
+    def __init__(self, username: str, nome: str):
+        super().__init__(username)
         self.__nome = nome
         self.__carreiras = []
         self.__skills_para_aprender = [] 
@@ -13,15 +13,12 @@ class Usuario(PessoaSistema):
         self.__projetos_pessoais = {}   
         
     @property
-    def palavra_chave(self):
-        return self._PessoaSistema__palavra_chave
+    def username(self):
+        return super().username
     
-    @palavra_chave.setter
-    def palavra_chave(self, palavra_chave: str):
-        if isinstance(palavra_chave, str):
-            self._PessoaSistema__palavra_chave = palavra_chave
-        else:
-            raise TypeError("palavra_chave deve ser do tipo string")
+    @username.setter
+    def username(self, username: str):
+        super().username = username
             
     @property
     def nome(self):
@@ -33,17 +30,6 @@ class Usuario(PessoaSistema):
             self.__nome = nome
         else:
             raise TypeError("nome deve ser do tipo string")
-
-    @property
-    def carreira_escolhida(self):
-        return self.__carreira_escolhida
-
-    @carreira_escolhida.setter
-    def carreira_escolhida(self, carreira: Carreira):
-        if isinstance(carreira, Carreira):
-            self.__carreira_escolhida = carreira
-        else:
-            raise TypeError("carreira_escolhida deve ser um objeto Carreira")
 
     @property
     def carreiras(self):
@@ -88,20 +74,21 @@ class Usuario(PessoaSistema):
         """Define a lista de projetos pessoais.
         Espera uma lista de objetos ProjetoPessoal.
         """
-        self.__projetos_pessoais = {} 
-        if isinstance(lista_de_projetos, list):
-            for projeto in lista_de_projetos:
-                if isinstance(projeto, ProjetoPessoal):
-                    self.__projetos_pessoais[projeto.nome] = projeto
-                else:
-                    print(f"Aviso: Item '{projeto}' na lista não é um objeto ProjetoPessoal e foi ignorado.")
-        else:
+        if not isinstance(lista_de_projetos, list):
             raise TypeError("projetos_pessoais deve ser uma lista de objetos ProjetoPessoal.")
+
+        # Limpa o dicionário existente, mantendo a referência
+        self.__projetos_pessoais.clear()
+        for projeto in lista_de_projetos:
+            if isinstance(projeto, ProjetoPessoal):
+                self.__projetos_pessoais[projeto.nome] = projeto
+            else:
+                raise TypeError(f"Aviso: Item '{projeto}' na lista não é um objeto ProjetoPessoal e foi ignorado.")
 
     def exibir_informacoes(self):
         return f"Usuário: {self.nome}"
     
-    def _encontrar_projeto_na_lista(self, lista_projetos, nome_projeto):
+    def encontrar_projeto_na_lista(self, lista_projetos, nome_projeto):
         for proj in lista_projetos:
             if proj.nome == nome_projeto:
                 return proj

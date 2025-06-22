@@ -50,13 +50,16 @@ class ControladorSkill:
             self.__tela_skill.mostra_mensagem("Nenhuma skill cadastrada!")
             return
             
+
         for skill in self.__skills:
             self.__tela_skill.mostra_skill({
                 'id': skill.id,
                 'nome': skill.nome,
                 'descricao': skill.descricao,
-                'material_estudo': skill.material_estudo,
-                'carreiras': skill.carreiras  
+                'material_estudo': [
+                    {'titulo': m.titulo, 'tipo': m.tipo} for m in skill.material_estudo
+                ],
+                'carreiras': [c.nome for c in skill.carreiras]
             })
         self.__tela_skill.enter()
         

@@ -59,7 +59,7 @@ class ControladorCarreira:
         
     def excluir_carreira(self):
         self.lista_carreira()
-        self.__tela_carreira.mostra_carreira("-- Excluindo uma carreira, informe o ID... --")
+        self.__tela_carreira.mostra_mensagem("-- Excluindo uma carreira, informe o ID... --")
         id_carreira = self.__tela_carreira.seleciona_carreira()
         carreira = self.pega_carreira_por_id(id_carreira)
 
@@ -94,3 +94,39 @@ class ControladorCarreira:
             except ValueError:
                 limpar_console()
                 self.__tela_carreira.mostra_mensagem("\nEntrada inválida. Digite apenas números.")
+    
+    def seleciona_carreiras_por_id(self, ids_usuario):
+        carreiras_encontradas = []
+        for id_carreira in ids_usuario:
+            carreira = next((c for c in self.__carreiras if c.id == id_carreira), None)
+            if carreira and carreira not in carreiras_encontradas:
+                carreiras_encontradas.append(carreira)
+        return carreiras_encontradas
+   
+    def seleciona_ids_carreiras_existentes(self, ids_usuario):
+        """
+        Recebe uma lista de IDs e retorna uma lista apenas com os IDs que existem em self.__carreiras.
+        """
+        ids_validos = [carreira.id for carreira in self.__carreiras]
+        return [id_carreira for id_carreira in ids_usuario if id_carreira in ids_validos]
+   
+    def listagem_carreiras(self):
+        return [{"id": carreira.id, "nome": carreira.nome} for carreira in self.__carreiras]
+    
+    def cadastro_usuario_carreiras(self):
+        self.lista_carreira()
+        self.__tela_carreira.escolha_carreiras()
+        ids_selecionados_usuario = self.__tela_carreira.seleciona_carreiras()
+        ids_carreiras = self.seleciona_ids_carreiras_existentes(ids_selecionados_usuario)
+
+        self.__tela_menu_usuario.mostra_mensagem("Carreiras que você selecionou: ")
+        carreiras_usuario = self.seleciona_carreiras_por_id(ids_selecionados_usuario)
+        self.printar(carreiras_usuario)
+            # Buscar objetos Carreira válidos (sem duplicatas)
+        carreiras_escolhidas = []
+        for id in ids_carreiras:
+            carreira = self.pega_carreira_por_id(id)
+            if carreira and carreira not in carreiras_escolhidas:
+                carreiras_escolhidas.append(carreira)
+        
+        return

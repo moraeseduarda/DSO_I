@@ -25,7 +25,6 @@ class ControladorAdmin:
             1: self.__controlador_sistema.controlador_carreira.abre_tela,
             2: self.__controlador_sistema.controlador_skills.abre_tela,
             3: self.abre_tela_gerenciamento_usuarios, 
-            0: self.retornar_ao_menu_sistema 
         }
         while True:
             try:
@@ -46,7 +45,6 @@ class ControladorAdmin:
         """Abre o submenu para gerenciamento de usuários (Listar, etc.)."""
         lista_opcoes = {
             1: self.listar_e_mostrar_usuarios, 
-            0: self.retornar_ao_menu_admin_principal 
         }
         while True:
             opcao = self.__tela_admin_view.tela_opcoes_admin_usuarios()

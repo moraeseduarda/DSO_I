@@ -17,9 +17,9 @@ class ControladorUsuario:
         return self.__usuarios
 
     # Métodos gerais  
-    def pega_usuario_por_username(self, palavra_chave: str):
+    def pega_usuario_por_username(self, username: str):
         for usuario in self.__usuarios:
-            if usuario.palavra_chave == palavra_chave:
+            if usuario.username == username:
                 return usuario
         return None
            
@@ -32,7 +32,7 @@ class ControladorUsuario:
         dados_usuarios = []
         for usuario in self.__usuarios:
             dados_usuarios.append({
-                'username': usuario.palavra_chave, 
+                'username': usuario.username, 
                 'nome': usuario.nome, 
                 'carreiras': [carreira.nome for carreira in usuario.carreiras], # Ajuste conforme necessário
                 'skills_aprendidas': [skill.nome for skill in usuario.skills_aprendidas] # Ajuste
@@ -94,7 +94,7 @@ class ControladorUsuario:
             
     def ranking(self):
         ranking_usuarios = [
-            (usuario.palavra_chave, len(usuario.skills_aprendidas))
+            (usuario.username, len(usuario.skills_aprendidas))
             for usuario in self.__usuarios
         ]
         ranking_usuarios.sort(key=lambda x: x[1], reverse=True)
@@ -163,13 +163,13 @@ class ControladorUsuario:
         if not usuario.carreiras:
             info = {
                 "nome": usuario.nome,
-                "username": usuario.palavra_chave,
+                "username": usuario.username,
                 "carreiras": []
             }
         else:
             info = {
                 "nome": usuario.nome,
-                "username": usuario.palavra_chave,
+                "username": usuario.username,
                 "carreiras": [
                     {
                         "nome": carreira.nome,
