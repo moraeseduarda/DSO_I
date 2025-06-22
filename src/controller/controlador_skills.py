@@ -75,7 +75,8 @@ class ControladorSkill:
             self.__tela_skill.mostra_mensagem('skill não existe.')
         
     def associar_skill_carreira(self):
-        self.__tela_skill.mostra_skills_disponiveis(self.__skills)
+        skills_simples = [{'id': skill.id, 'nome': skill.nome} for skill in self.__skills]
+        self.__tela_skill.mostra_skills_disponiveis(skills_simples)
         if not self.__skills:
             return
         id_skill = self.__tela_skill.seleciona_skill()
@@ -84,7 +85,10 @@ class ControladorSkill:
             self.__tela_skill.mostra_mensagem("Skill não encontrada!")
             return
         carreiras = self.__controlador_sistema.controlador_carreira.carreiras
-        self.__tela_skill.mostra_carreiras_disponiveis(carreiras)
+        
+        carreiras_simples = [{'id': c.id, 'nome': c.nome} for c in carreiras]
+        self.__tela_skill.mostra_carreiras_disponiveis(carreiras_simples)
+        
         if not carreiras:
             return
         id_carreira = self.__tela_skill.seleciona_carreira()
