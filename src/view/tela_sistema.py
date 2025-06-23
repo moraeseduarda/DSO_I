@@ -11,3 +11,5 @@ class TelaSistema:
         limpar_console()
         return opcao
     
+    def mostra_mensagem(self, mensagem):
+        print(mensagem)

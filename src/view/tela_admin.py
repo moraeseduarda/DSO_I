@@ -1,7 +1,7 @@
 from view.console_utils import limpar_console
 
 
-class TelaAdminUsuario:
+class TelaAdmin:
     def tela_opcoes_admin_usuarios(self):
         while True:
             print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
@@ -54,3 +54,6 @@ class TelaAdminUsuario:
             except ValueError:
                 limpar_console()
                 print("Entrada inválida. Por favor, digite um número.")
+
+    def solicitar_palavra_chave_admin(self):
+        return input("Digite a palavra-chave do administrador: ").strip()

@@ -25,15 +25,41 @@ class TelaCarreira:
         descricao = input('Digite a descrição da carreira: ').upper()
         return {'id': id, 'nome': nome, 'descricao': descricao}
     
-    def mostra_carreira(self, dados_carreira):
-        print('\n--- Detalhes da Carreira ---')
-        print('ID: ', dados_carreira['id'])
-        print('Nome: ', dados_carreira['nome'])
-        print('Descrição: ', dados_carreira['descricao'])
+    
+    def mostra_lista_carreiras(self, lista_carreiras):
+        print("\n--- Lista de Carreiras ---")
+        for carreira in lista_carreiras:
+            print(f"ID: {carreira['id']}")
+            print(f"Nome: {carreira['nome']}")
+            print(f"Descrição: {carreira['descricao']}")
+            print("------------------------------")
+        print()
+
     
     def seleciona_carreira(self):
-        id = int(input('Digite o ID da carreira: '))
-        return id
+        try:
+            id = int(input('Digite o ID da carreira: '))
+            return id
+        except ValueError:
+            print("Entrada inválida. Digite um número inteiro.")
+            return None
     
     def mostra_mensagem(self, mensagem):
         print(f"\n{mensagem}\n")
+
+    def mensagem_inicio_alteracao(self):
+        print("-- Alterando uma carreira, informe o ID... --")
+
+    def mensagem_altere_campos(self):
+        print("-- Agora, altere os campos para os valores que você deseja: --")
+        
+    def retornar(self):
+        print("Retornando ao menu administrador...")
+        
+    def mostra_ids_carreiras_validas(self, ids_validos):
+        print("\nIDs de carreiras válidas selecionadas:")
+        if not ids_validos:
+            print("Nenhum ID válido encontrado.")
+        else:
+            print(", ".join(str(id_) for id_ in ids_validos))
+        print()

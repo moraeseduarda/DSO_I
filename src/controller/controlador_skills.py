@@ -17,6 +17,18 @@ class ControladorSkill:
                 return skill
         return None
     
+    def mostra_skill(self, skill):
+        dados_skill = {
+            'id': skill.id,
+            'nome': skill.nome,
+            'descricao': skill.descricao,
+            'material_estudo': [
+                {'titulo': m.titulo, 'tipo': m.tipo} for m in skill.material_estudo
+            ],
+            'carreiras': [c.nome for c in skill.carreiras]
+        }
+        self.__tela_skill.mostra_skill(dados_skill)
+    
     def incluir_skill(self):
         dados_skill = self.__tela_skill.pega_dados_skill()
         skill = self.pega_skill_por_id(dados_skill['id'])
@@ -38,15 +50,18 @@ class ControladorSkill:
             self.__tela_skill.mostra_mensagem("Nenhuma skill cadastrada!")
             return
             
+
         for skill in self.__skills:
             self.__tela_skill.mostra_skill({
                 'id': skill.id,
                 'nome': skill.nome,
                 'descricao': skill.descricao,
-                'material_estudo': skill.material_estudo,
-                'carreiras': skill.carreiras  
+                'material_estudo': [
+                    {'titulo': m.titulo, 'tipo': m.tipo} for m in skill.material_estudo
+                ],
+                'carreiras': [c.nome for c in skill.carreiras]
             })
-        input('\nPressione ENTER para continuar...')
+        self.__tela_skill.enter()
         
     def excluir_skill(self):
         self.lista_skill()
@@ -55,22 +70,25 @@ class ControladorSkill:
 
         if skill is not None:
             self.__skills.remove(skill)
-            self.__tela_skill.mostra_mensagem('Skill excluída com sucesso')
-            print('\n')
+            self.__tela_skill.mostra_mensagem('Skill excluída com sucesso\n')
         else:
             self.__tela_skill.mostra_mensagem('skill não existe.')
         
     def associar_skill_carreira(self):
-        self.__tela_skill.mostra_skills_disponiveis(self.__skills)
+        skills_simples = [{'id': skill.id, 'nome': skill.nome} for skill in self.__skills]
+        self.__tela_skill.mostra_skills_disponiveis(skills_simples)
         if not self.__skills:
-            return  
+            return
         id_skill = self.__tela_skill.seleciona_skill()
         skill = self.pega_skill_por_id(id_skill)
         if not skill:
             self.__tela_skill.mostra_mensagem("Skill não encontrada!")
             return
         carreiras = self.__controlador_sistema.controlador_carreira.carreiras
-        self.__tela_skill.mostra_carreiras_disponiveis(carreiras)
+        
+        carreiras_simples = [{'id': c.id, 'nome': c.nome} for c in carreiras]
+        self.__tela_skill.mostra_carreiras_disponiveis(carreiras_simples)
+        
         if not carreiras:
             return
         id_carreira = self.__tela_skill.seleciona_carreira()
@@ -82,34 +100,42 @@ class ControladorSkill:
         else:
             self.__tela_skill.mostra_mensagem("Carreira não encontrada!")
 
-    def retornar(self):
-        print("Retornando ao menu administrador...")
+    def mostra_carreira_disponiveis(self):
+        id_carreira = self.__tela_skill.seleciona_carreira()
+        carreira = self.__controlador_sistema.controlador_carreira.pega_carreira_por_id(id_carreira)
+        if carreira is None:
+            self.__tela_carreira.mostra_mensagem("Carreira não encontrada.")
+            return
+        dados_carreira = {
+        "id": carreira.id,
+        "nome": carreira.nome,
+        "descricao": carreira.descricao,
+        # ... outros campos necessários
+        }
+        self.__controlador_sistema.controlador_carreira.tela_carreira.mostra_carreira(dados_carreira)
     
     def abre_tela(self):
         while True:
+            lista_opcoes = {
+                1: self.incluir_skill, 
+                2: self.excluir_skill, 
+                3: self.lista_skill,
+                4: self.adicionar_material_estudo,  
+                5: self.associar_skill_carreira
+            }
+            opcao = self.__tela_skill.tela_opcoes() 
+            if opcao == 0: 
+                self.__tela_skill.retornar()
+                break 
             try:
-                lista_opcoes = {
-                    1: self.incluir_skill, 
-                    2: self.excluir_skill, 
-                    3: self.lista_skill,
-                    4: self.adicionar_material_estudo,  
-                    5: self.associar_skill_carreira
-                }
-                opcao = self.__tela_skill.tela_opcoes() 
-                if opcao == 0: 
-                    self.retornar()
-                    break 
-                
                 funcao_escolhida = lista_opcoes.get(opcao)
-                if funcao_escolhida:
+                try:
                     funcao_escolhida()
-                else:
-
-                    limpar_console()
+                except KeyError:
                     self.__tela_skill.mostra_mensagem("Opção inválida. Tente novamente.")
             except ValueError:
                 limpar_console()
-                print("Entrada inválida. Digite apenas números.")
+                self.__tela_skill.mostra_mensagem("Entrada inválida. Digite apenas números.")
 
     def adicionar_material_estudo(self):
         self.lista_skill()
