@@ -4,21 +4,20 @@ from model.usuario import Usuario
 from model.projeto_pessoal import ProjetoPessoal
 from model.status import Status
 from view.console_utils import limpar_console
+from DAOs.usuarios_dao import UsuarioDAO
 
 class ControladorUsuario:
     def __init__(self, controlador_sistema):
         self.__controlador_sistema = controlador_sistema
         self.__tela_menu_usuario = TelaMenuUsuario()
         self.__tela_usuario = TelaUsuario()
-        self.__usuarios = []
+        # self.__usuario_dao = []
+        self.__usuario_dao = UsuarioDAO()
     
-    @property
-    def usuarios(self):
-        return self.__usuarios
 
     # Métodos gerais  
     def pega_usuario_por_username(self, username: str):
-        for usuario in self.__usuarios:
+        for usuario in self.__usuario_dao.get_all():
             if usuario.username == username:
                 return usuario
         return None
@@ -26,11 +25,11 @@ class ControladorUsuario:
     # O método lista_usuarios pode ser chamado pelo ControladorAdmin.
     # Se a exibição for feita pela TelaAdminUsuario, o ControladorAdmin pode chamar este método
     def lista_usuarios_dados(self):
-        if not self.__usuarios:
+        if not self.__usuario_dao.get_all():
             return [] # Retorna lista vazia para o ControladorAdmin tratar
         
         dados_usuarios = []
-        for usuario in self.__usuarios:
+        for usuario in self.__usuario_dao.get_all():
             dados_usuarios.append({
                 'username': usuario.username, 
                 'nome': usuario.nome, 
@@ -47,7 +46,7 @@ class ControladorUsuario:
 
         if usuario is None:
             controlador_carreira = self.__controlador_sistema.controlador_carreira
-            carreiras_disponiveis = controlador_carreira.carreiras
+            carreiras_disponiveis = controlador_carreira.get_carreiras()
 
             if not carreiras_disponiveis:
                 self.__tela_menu_usuario.mostra_mensagem("Nenhuma carreira cadastrada. Não é possível cadastrar o usuário sem ao menos uma carreira.")
@@ -63,7 +62,7 @@ class ControladorUsuario:
                     carreiras_escolhidas.append(carreira)
                     
             novo_usuario = Usuario(dados_usuario['username'], dados_usuario['nome'])
-            self.__usuarios.append(novo_usuario)
+            self.__usuario_dao.add(novo_usuario)
             self.__tela_menu_usuario.mostra_mensagem('Usuário cadastrada com sucesso!')
         else:
             self.__tela_menu_usuario.mostra_mensagem("ATENCAO: Usuário com esse USERNAME já existe. Cadastre novamente, com outro USERNAME.")    
@@ -96,11 +95,10 @@ class ControladorUsuario:
     def ranking(self):
         ranking_usuarios = [
             (usuario.username, len(usuario.skills_aprendidas))
-            for usuario in self.__usuarios
+            for usuario in self.__usuario_dao.get_all()
         ]
         ranking_usuarios.sort(key=lambda x: x[1], reverse=True)
         self.__tela_usuario.mostrar_ranking(ranking_usuarios)
-    
         
     def login_usuario(self):
         self.__tela_usuario.mostra_mensagem("===== LOGIN DE USUÁRIO =====")

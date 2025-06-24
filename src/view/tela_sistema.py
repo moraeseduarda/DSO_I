@@ -3,9 +3,13 @@ from view.console_utils import limpar_console
 
 
 class TelaSistema:
+    
+    def __init__(self):
+        sg.theme('DarkPurple4')
+        
     def tela_opcoes_iniciais(self):
         layout = [
-            [sg.Text("===== BEM-VINDO AO SISTEMA DE MONITORAMENTO DE HARD SKILLS =====")],
+            [sg.Text("===== BEM-VINDO AO SISTEMA DE MONITORAMENTO DE HARD SKILLS =====",  font=('Arial', 16), justification='center')],
             [sg.Button("Entrar como Administrador", key="1")],
             [sg.Button("Entrar como Usuário", key="2")],
             [sg.Button("Sair", key="0")]

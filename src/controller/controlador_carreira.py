@@ -1,7 +1,7 @@
 from model.carreira import Carreira
 from view.tela_carreira import TelaCarreira
 from view.console_utils import limpar_console
-from DAOs.carreira_dao import CarreiraDAO
+from DAOs.carreiras_dao import CarreiraDAO
 
 
 class ControladorCarreira:
@@ -10,7 +10,7 @@ class ControladorCarreira:
         self.__controlador_sistema = controlador_sistema
         self.__tela_carreira = TelaCarreira()
         # self.__carreira_dao = []
-        self.__carreira_dao = CarreiraDAO
+        self.__carreira_dao = CarreiraDAO()
 
     def pega_carreira_por_id(self, id: int):
         """Pega carreira pelo seu id"""
@@ -113,3 +113,6 @@ class ControladorCarreira:
         ids_cadastrados = [carreira.id for carreira in self.__carreira_dao.get_all()]
         ids_validos = [id_ for id_ in ids_usuario if id_ in ids_cadastrados]
         return ids_validos
+    
+    def get_carreiras(self):
+        return self.__carreira_dao.get_all()

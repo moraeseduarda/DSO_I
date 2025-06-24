@@ -14,6 +14,7 @@ class TelaUsuario:
                 print(f"{posicao:<10}{username:<20}{qtd_skills}")
             print("---------------------------------\n")
             
+            
     def mostra_mensagem(self, mensagem):
         print(mensagem)
 
