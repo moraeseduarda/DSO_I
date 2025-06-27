@@ -76,7 +76,7 @@ class ControladorCarreira:
         carreira = self.pega_carreira_por_id(id_carreira)
 
         if carreira is not None:
-            self.__carreira_dao.remove(carreira)
+            self.__carreira_dao.remove(carreira.id)  
             self.lista_carreira()
         else:
             self.__tela_carreira.mostra_mensagem('Carreira não existe.')
