@@ -1,65 +1,112 @@
+import PySimpleGUI as sg
 from view.console_utils import limpar_console
 
 
 class TelaCarreira:    
     def tela_opcoes(self):
-        print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
-        print('--- CARREIRAS ---')
-        print('Escolha uma opção:')
-        print('1 - Cadastrar nova carreira')
-        print('2 - Alterar carreira existente')
-        print('3 - Excluir uma carreira')
-        print('4 - Listar todas as carreiras cadastradas')
-        print('0 - Retornar')
-        opcao = int(input('Digite a opção desejada: '))
-        limpar_console()
-        return opcao
-    
-    def pega_dados_carreira(self, cadastro):
-        if cadastro:
-            print('---------- CADASTRO CARREIRA ----------')
-        else:
-            print('---------- CARREIRA ----------')
-        id = int(input('Digite o ID da carreira: '))
-        nome = input('Digite o nome da carreira: ').upper()
-        descricao = input('Digite a descrição da carreira: ').upper()
-        return {'id': id, 'nome': nome, 'descricao': descricao}
-    
-    
-    def mostra_lista_carreiras(self, lista_carreiras):
-        print("\n--- Lista de Carreiras ---")
-        for carreira in lista_carreiras:
-            print(f"ID: {carreira['id']}")
-            print(f"Nome: {carreira['nome']}")
-            print(f"Descrição: {carreira['descricao']}")
-            print("------------------------------")
-        print()
+        layout = [
+            [sg.Text('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====', font=('Arial', 16), justification='center')],
+            [sg.Text('--- CARREIRAS ---', font=('Arial', 14))],
+            [sg.Button('1 - Cadastrar nova carreira')],
+            [sg.Button('2 - Alterar carreira existente')],
+            [sg.Button('3 - Excluir uma carreira')],
+            [sg.Button('4 - Listar todas as carreiras cadastradas')],
+            [sg.Button('0 - Retornar')],
+        ]
+        window = sg.Window('Menu Carreiras', layout)
+        while True:
+            event, _ = window.read()
+            if event in (sg.WIN_CLOSED, '0 - Retornar'):
+                window.close()
+                limpar_console()
+                return 0
+            elif event == '1 - Cadastrar nova carreira':
+                window.close()
+                limpar_console()
+                return 1
+            elif event == '2 - Alterar carreira existente':
+                window.close()
+                limpar_console()
+                return 2
+            elif event == '3 - Excluir uma carreira':
+                window.close()
+                limpar_console()
+                return 3
+            elif event == '4 - Listar todas as carreiras cadastradas':
+                window.close()
+                limpar_console()
+                return 4
 
-    
+    def pega_dados_carreira(self, cadastro):
+        titulo = '---------- CADASTRO CARREIRA ----------' if cadastro else '---------- CARREIRA ----------'
+        layout = [
+            [sg.Text(titulo, font=('Arial', 14))],
+            [sg.Text('Digite o ID da carreira:'), sg.Input(key='id')],
+            [sg.Text('Digite o nome da carreira:'), sg.Input(key='nome')],
+            [sg.Text('Digite a descrição da carreira:'), sg.Input(key='descricao')],
+            [sg.Button('Confirmar'), sg.Button('Cancelar')]
+        ]
+        window = sg.Window('Cadastro Carreira', layout)
+        while True:
+            event, values = window.read()
+            if event in (sg.WIN_CLOSED, 'Cancelar'):
+                window.close()
+                return None
+            elif event == 'Confirmar':
+                try:
+                    id = int(values['id'])
+                except (ValueError, TypeError):
+                    sg.popup('ID inválido. Digite um número inteiro.')
+                    continue
+                nome = values['nome'].strip().upper()
+                descricao = values['descricao'].strip().upper()
+                if not nome or not descricao:
+                    sg.popup('Nome e descrição não podem ser vazios.')
+                    continue
+                window.close()
+                return {'id': id, 'nome': nome, 'descricao': descricao}
+
+    def mostra_lista_carreiras(self, lista_carreiras):
+        if not lista_carreiras:
+            sg.popup("Nenhuma carreira cadastrada.")
+            return
+        texto = ""
+        for carreira in lista_carreiras:
+            texto += f"ID: {carreira['id']}\nNome: {carreira['nome']}\nDescrição: {carreira['descricao']}\n------------------------------\n"
+        sg.popup_scrolled(texto, title="Lista de Carreiras", size=(50, 15))
+
     def seleciona_carreira(self):
-        try:
-            id = int(input('Digite o ID da carreira: '))
-            return id
-        except ValueError:
-            print("Entrada inválida. Digite um número inteiro.")
-            return None
-    
+        layout = [
+            [sg.Text('Digite o ID da carreira:'), sg.Input(key='id')],
+            [sg.Button('Confirmar'), sg.Button('Cancelar')]
+        ]
+        window = sg.Window('Selecionar Carreira', layout)
+        while True:
+            event, values = window.read()
+            if event in (sg.WIN_CLOSED, 'Cancelar'):
+                window.close()
+                return None
+            try:
+                id = int(values['id'])
+                window.close()
+                return id
+            except (ValueError, TypeError):
+                sg.popup("Entrada inválida. Digite um número inteiro.")
+
     def mostra_mensagem(self, mensagem):
-        print(f"\n{mensagem}\n")
+        sg.popup(mensagem)
 
     def mensagem_inicio_alteracao(self):
-        print("-- Alterando uma carreira, informe o ID... --")
+        sg.popup("-- Alterando uma carreira, informe o ID... --")
 
     def mensagem_altere_campos(self):
-        print("-- Agora, altere os campos para os valores que você deseja: --")
+        sg.popup("-- Agora, altere os campos para os valores que você deseja: --")
         
     def retornar(self):
-        print("Retornando ao menu administrador...")
+        sg.popup("Retornando ao menu administrador...")
         
     def mostra_ids_carreiras_validas(self, ids_validos):
-        print("\nIDs de carreiras válidas selecionadas:")
         if not ids_validos:
-            print("Nenhum ID válido encontrado.")
+            sg.popup("Nenhum ID válido encontrado.")
         else:
-            print(", ".join(str(id_) for id_ in ids_validos))
-        print()
+            sg.popup("IDs de carreiras válidas selecionadas:\n" + ", ".join(str(id_) for id_ in ids_validos))

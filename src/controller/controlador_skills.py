@@ -138,7 +138,6 @@ class ControladorSkill:
                 self.__tela_skill.mostra_mensagem("Entrada inválida. Digite apenas números.")
 
     def adicionar_material_estudo(self):
-        self.lista_skill()
         id_skill = self.__tela_skill.seleciona_skill()
         skill = self.pega_skill_por_id(id_skill)
         if skill:

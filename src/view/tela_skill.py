@@ -64,12 +64,17 @@ class TelaSkill:
             if event == sg.WIN_CLOSED:
                 window.close()
                 return None
+            titulo = values['titulo']
+            descricao = values['descricao']
             tipo = values['tipo']
+            if not titulo or not descricao or not tipo:
+                sg.popup("Todos os campos são obrigatórios.")
+                continue
             if tipo in tipos.values():
                 window.close()
                 return {
-                    'titulo': values['titulo'].upper(),
-                    'descricao': values['descricao'].upper(),
+                    'titulo': titulo.upper(),
+                    'descricao': descricao.upper(),
                     'tipo': tipo
                 }
             sg.popup("Opção inválida. Escolha um tipo de material.")
