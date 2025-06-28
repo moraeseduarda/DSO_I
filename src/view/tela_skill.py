@@ -79,23 +79,36 @@ class TelaSkill:
                 }
             sg.popup("Opção inválida. Escolha um tipo de material.")
 
-    def mostra_skill(self, dados_skill):
-        materiais = '\n'.join(
-            [f"- {m['titulo']} ({m['tipo']})" for m in dados_skill['material_estudo']]
-        ) if dados_skill['material_estudo'] else "Nenhum material cadastrado"
-        carreiras = '\n'.join(
-            [f"- {c}" for c in dados_skill.get('carreiras', [])]
-        ) if dados_skill.get('carreiras') else "Nenhuma carreira associada"
-        mensagem = (
-            f"=== DETALHES DA SKILL ===\n"
-            f"ID: {dados_skill['id']}\n"
-            f"NOME: {dados_skill['nome']}\n"
-            f"DESCRIÇÃO: {dados_skill['descricao']}\n"
-            f"MATERIAIS DE ESTUDO:\n{materiais}\n"
-            f"CARREIRAS ASSOCIADAS:\n{carreiras}\n"
-            f"------------------------"
+    def mostra_skill(self, lista_dados_skill):
+        # lista_dados_skill deve ser uma lista de dicionários, um para cada skill
+        if not lista_dados_skill:
+            sg.popup_scrolled("Nenhuma skill cadastrada!", title="Skills", size=(60, 20))
+            return
+
+        linhas = []
+        for dados_skill in lista_dados_skill:
+            materiais = '\n'.join(
+                [f"- {m['titulo']} ({m['tipo']})" for m in dados_skill.get('material_estudo', [])]
+            ) if dados_skill.get('material_estudo') else "Nenhum material cadastrado"
+            carreiras = '\n'.join(
+                [f"- {c}" for c in dados_skill.get('carreiras', [])]
+            ) if dados_skill.get('carreiras') else "Nenhuma carreira associada"
+            mensagem = (
+                f"=== DETALHES DA SKILL ===\n"
+                f"ID: {dados_skill['id']}\n"
+                f"NOME: {dados_skill['nome']}\n"
+                f"DESCRIÇÃO: {dados_skill['descricao']}\n"
+                f"MATERIAIS DE ESTUDO:\n{materiais}\n"
+                f"CARREIRAS ASSOCIADAS:\n{carreiras}\n"
+                f"------------------------"
+            )
+            linhas.append(mensagem)
+
+        sg.popup_scrolled(
+            *linhas,
+            title="Skills",
+            size=(60, 20)
         )
-        sg.popup(mensagem)
 
     def seleciona_skill(self):
         layout = [
@@ -155,10 +168,14 @@ class TelaSkill:
 
     def mostra_skills_disponiveis(self, skills):
         if skills:
-            texto = '\n'.join([f'ID: {s["id"]} - Nome: {s["nome"]}' for s in skills])
+            lista = [f'ID: {s["id"]} - Nome: {s["nome"]}' for s in skills]
         else:
-            texto = "Nenhuma skill cadastrada!"
-        sg.popup('=== SKILLS DISPONÍVEIS ===\n' + texto + '\n-------------------------')
+            lista = ["Nenhuma skill cadastrada!"]
+        sg.popup_scrolled(
+            *lista,
+            title='SKILLS DISPONÍVEIS',
+            size=(60, 20)
+        )
 
     def enter(self):
         sg.popup('Pressione OK para continuar...')

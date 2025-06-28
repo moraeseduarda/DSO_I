@@ -2,6 +2,7 @@ from model.skill import Skill
 from view.tela_skill import TelaSkill
 from model.material_estudo import MaterialEstudo
 from view.console_utils import limpar_console
+from DAOs.skills_dao import SkillDAO
 
 
 class ControladorSkill:
@@ -9,10 +10,11 @@ class ControladorSkill:
     def __init__(self, controlador_sistema):
         self.__controlador_sistema = controlador_sistema
         self.__tela_skill = TelaSkill()
+        self.__skill_dao = SkillDAO()
         self.__skills = []
     
     def pega_skill_por_id(self, id: int):
-        for skill in self.__skills:
+        for skill in self.__skill_dao.get_all():
             if skill.id == id:
                 return skill
         return None
@@ -40,19 +42,20 @@ class ControladorSkill:
                 dados_skill['descricao'],
                 [],  
             )
-            self.__skills.append(nova_skill)
+            self.__skill_dao.add(nova_skill)  
             self.__tela_skill.mostra_mensagem('Skill cadastrada com sucesso\n')
         else:
             self.__tela_skill.mostra_mensagem('SKILL COM ESSE ID JÁ CADASTRADA')
 
     def lista_skill(self):
-        if not self.__skills:
+        skills = list(self.__skill_dao.get_all())
+        if not skills:
             self.__tela_skill.mostra_mensagem("Nenhuma skill cadastrada!")
             return
-            
 
-        for skill in self.__skills:
-            self.__tela_skill.mostra_skill({
+        lista_dados = []
+        for skill in skills:
+            lista_dados.append({
                 'id': skill.id,
                 'nome': skill.nome,
                 'descricao': skill.descricao,
@@ -61,6 +64,7 @@ class ControladorSkill:
                 ],
                 'carreiras': [c.nome for c in skill.carreiras]
             })
+        self.__tela_skill.mostra_skill(lista_dados)
         self.__tela_skill.enter()
         
     def excluir_skill(self):
@@ -69,26 +73,27 @@ class ControladorSkill:
         skill = self.pega_skill_por_id(id_skill)
 
         if skill is not None:
-            self.__skills.remove(skill)
+            self.__skill_dao.remove(skill.id)
             self.__tela_skill.mostra_mensagem('Skill excluída com sucesso\n')
         else:
             self.__tela_skill.mostra_mensagem('skill não existe.')
         
     def associar_skill_carreira(self):
-        skills_simples = [{'id': skill.id, 'nome': skill.nome} for skill in self.__skills]
+        skills = list(self.__skill_dao.get_all())
+        skills_simples = [{'id': skill.id, 'nome': skill.nome} for skill in skills]
         self.__tela_skill.mostra_skills_disponiveis(skills_simples)
-        if not self.__skills:
+        if not skills:
             return
         id_skill = self.__tela_skill.seleciona_skill()
         skill = self.pega_skill_por_id(id_skill)
         if not skill:
             self.__tela_skill.mostra_mensagem("Skill não encontrada!")
             return
-        carreiras = self.__controlador_sistema.controlador_carreira.carreiras
-        
+        carreiras = self.__controlador_sistema.controlador_carreira.get_carreiras() 
+
         carreiras_simples = [{'id': c.id, 'nome': c.nome} for c in carreiras]
         self.__tela_skill.mostra_carreiras_disponiveis(carreiras_simples)
-        
+
         if not carreiras:
             return
         id_carreira = self.__tela_skill.seleciona_carreira()
@@ -96,6 +101,7 @@ class ControladorSkill:
         if carreira:
             skill.adicionar_carreira(carreira)
             carreira.adicionar_skill(skill)
+            self.__skill_dao.update(skill)  # Atualiza no DAO
             self.__tela_skill.mostra_mensagem(f'Skill {skill.nome} adicionada à carreira {carreira.nome}')
         else:
             self.__tela_skill.mostra_mensagem("Carreira não encontrada!")
@@ -148,6 +154,7 @@ class ControladorSkill:
                 dados_material['tipo']
             )
             skill.adicionar_material_estudo(material)
+            self.__skill_dao.update(skill)  # Atualiza no DAO
             self.__tela_skill.mostra_mensagem('Material de estudo adicionado com sucesso!')
         else:
             self.__tela_skill.mostra_mensagem('Skill não encontrada.')
