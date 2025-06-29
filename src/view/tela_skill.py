@@ -1,5 +1,4 @@
 import PySimpleGUI as sg
-from view.console_utils import limpar_console
 
 
 class TelaSkill:
@@ -19,10 +18,8 @@ class TelaSkill:
             event, _ = window.read()
             window.close()
             if event in ('0', sg.WIN_CLOSED):
-                limpar_console()
                 return 0
             elif event in ('1', '2', '3', '4', '5'):
-                limpar_console()
                 return int(event)
 
     def pega_dados_skill(self):

@@ -1,5 +1,4 @@
 import PySimpleGUI as sg
-from view.console_utils import limpar_console
 
 
 class TelaSistema:
@@ -9,12 +8,12 @@ class TelaSistema:
         
     def tela_opcoes_iniciais(self):
         layout = [
-            [sg.Text("===== BEM-VINDO AO SISTEMA DE MONITORAMENTO DE HARD SKILLS =====",  font=('Arial', 16), justification='center')],
+            [sg.Text("SISTEMA DE MONITORAMENTO DE HARD SKILLS",  font=('Arial', 16), justification='center')],
             [sg.Button("Entrar como Administrador", key="1")],
             [sg.Button("Entrar como Usuário", key="2")],
             [sg.Button("Sair", key="0")]
         ]
-        window = sg.Window("Sistema de Monitoramento", layout)
+        window = sg.Window("Menu", layout)
         while True:
             event, _ = window.read()
             if event in ("0", sg.WIN_CLOSED):
@@ -27,7 +26,6 @@ class TelaSistema:
                 opcao = 2
                 break
         window.close()
-        limpar_console()
         return opcao
 
     def mostra_mensagem(self, mensagem):

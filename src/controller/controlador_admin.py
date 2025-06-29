@@ -1,5 +1,4 @@
 from view.tela_admin import TelaAdmin
-from view.console_utils import limpar_console
 from model.admin import Admin
 
 
@@ -44,8 +43,7 @@ class ControladorAdmin:
         while True:
             try:
                 opcao_admin = self.__tela_admin_view.tela_opcoes_admin()
-                if opcao_admin == 0: 
-                    limpar_console()
+                if opcao_admin == 0:
                     break 
                 
                 funcao_escolhida = opcoes_menu_admin.get(opcao_admin)
@@ -64,7 +62,6 @@ class ControladorAdmin:
         while True:
             opcao = self.__tela_admin_view.tela_opcoes_admin_usuarios()
             if opcao == 0:
-                limpar_console()
                 break 
                 
             try:

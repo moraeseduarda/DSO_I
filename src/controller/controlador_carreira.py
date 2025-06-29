@@ -1,6 +1,5 @@
 from model.carreira import Carreira
 from view.tela_carreira import TelaCarreira
-from view.console_utils import limpar_console
 from DAOs.carreiras_dao import CarreiraDAO
 
 

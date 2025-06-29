@@ -1,7 +1,6 @@
 from model.skill import Skill
 from view.tela_skill import TelaSkill
 from model.material_estudo import MaterialEstudo
-from view.console_utils import limpar_console
 from DAOs.skills_dao import SkillDAO
 
 
@@ -140,7 +139,6 @@ class ControladorSkill:
                 except KeyError:
                     self.__tela_skill.mostra_mensagem("Opção inválida. Tente novamente.")
             except ValueError:
-                limpar_console()
                 self.__tela_skill.mostra_mensagem("Entrada inválida. Digite apenas números.")
 
     def adicionar_material_estudo(self):

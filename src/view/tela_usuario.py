@@ -1,9 +1,11 @@
+import PySimpleGUI as sg
+
 class TelaUsuario:
     def usuario_retornar(self):
-        print('Saindo do menu usuário...\n')
+        sg.popup('Saindo do menu usuário...\n')
 
     def entrada_invalida(self):
-        print("Entrada inválida. Digite apenas números.")
+        sg.popup("Entrada inválida. Digite apenas números.")
 
     def mostrar_ranking(self, ranking_usuarios):
             print("\n--- RANKING DE APRENDIZADO ---")
@@ -14,10 +16,8 @@ class TelaUsuario:
                 print(f"{posicao:<10}{username:<20}{qtd_skills}")
             print("---------------------------------\n")
             
-            
     def mostra_mensagem(self, mensagem):
-        print(mensagem)
-
+        sg.popup(mensagem)
 
     def solicitar_username(self):
         return input("Digite seu USERNAME para entrar: @").strip().lower()
@@ -33,19 +33,19 @@ class TelaUsuario:
         return input("Digite a opção desejada: ").strip()
 
     def mensagem_username_vazio(self):
-        print("Username não pode ser vazio. Tente novamente.\n")
+        sg.popup("Username não pode ser vazio. Tente novamente.\n")
 
     def mensagem_usuario_nao_encontrado(self, tentativas):
-        print(f"Usuário não encontrado. Tente novamente. ({tentativas}/3 tentativas)\n")
+        sg.popup(f"Usuário não encontrado. Tente novamente. ({tentativas}/3 tentativas)\n")
 
     def mensagem_muitas_tentativas(self):
-        print("Muitas tentativas inválidas. Retornando...\n")
+        sg.popup("Muitas tentativas inválidas. Retornando...\n")
 
     def mensagem_opcao_invalida(self):
-        print("Opção inválida. Tente novamente.\n")
+        sg.popup("Opção inválida. Tente novamente.\n")
 
     def mensagem_deslogando(self, nome_usuario):
-        print(f"Deslogando usuário {nome_usuario}...\n")
+        sg.popup(f"Deslogando usuário {nome_usuario}...\n")
         
 
     def menu_projetos_pessoais(self):
@@ -59,7 +59,7 @@ class TelaUsuario:
         return input("Escolha uma opção: ").strip()
 
     def mensagem_opcao_invalida(self):
-        print("Opção inválida. Tente novamente.")
+        sg.popup("Opção inválida. Tente novamente.")
         
 
     def mostra_info_carreira(self, info):
@@ -125,20 +125,20 @@ class TelaUsuario:
         return {"nome": nome, "descricao": descricao, "status": status_str}
 
     def mensagem_erro_projeto_duplicado(self, nome):
-        print(f"Erro: Um projeto com o nome '{nome}' já existe.")
+        sg.popup(f"Erro: Um projeto com o nome '{nome}' já existe.")
 
     def mensagem_erro_status(self, erro):
-        print(f"Erro no status: {erro}")
+        sg.popup(f"Erro no status: {erro}")
 
     def mensagem_projeto_adicionado(self):
-        print("Projeto pessoal adicionado com sucesso!\n")
+        sg.popup("Projeto pessoal adicionado com sucesso!\n")
         
     def solicitar_nome_projeto_para_alterar(self):
         print("\n--- Alterar Projeto Pessoal ---")
         return input("Nome do projeto a ser alterado: ").strip()
 
     def mensagem_projeto_nao_encontrado(self, nome):
-        print(f"Projeto '{nome}' não encontrado.")
+        sg.popup(f"Projeto '{nome}' não encontrado.")
 
     def solicitar_novos_dados_projeto(self, projeto):
         print(f"Alterando projeto: {projeto.nome}")
@@ -149,23 +149,23 @@ class TelaUsuario:
         return {"novo_nome": novo_nome, "nova_descricao": nova_descricao, "novo_status_str": novo_status_str}
 
     def mensagem_erro_nome_duplicado(self, novo_nome):
-        print(f"Erro: Já existe um projeto com o nome '{novo_nome}'. Alteração de nome cancelada.")
+        sg.popup(f"Erro: Já existe um projeto com o nome '{novo_nome}'. Alteração de nome cancelada.")
 
     def mensagem_erro_status(self, erro):
-        print(f"Erro no novo status: {erro}. Status não alterado.")
+        sg.popup(f"Erro no novo status: {erro}. Status não alterado.")
 
     def mensagem_projeto_atualizado(self, nome_final):
-        print(f"Projeto '{nome_final}' atualizado com sucesso!\n")
+        sg.popup(f"Projeto '{nome_final}' atualizado com sucesso!\n")
         
     def solicitar_nome_projeto_para_excluir(self):
         print("\n--- Excluir Projeto Pessoal ---")
         return input("Nome do projeto a ser excluído: ").strip()
 
     def mensagem_projeto_nao_encontrado(self, nome):
-        print(f"Projeto '{nome}' não encontrado.")
+        sg.popup(f"Projeto '{nome}' não encontrado.")
 
     def mensagem_projeto_excluido(self, nome):
-        print(f"Projeto '{nome}' excluído com sucesso!\n")
+        sg.popup(f"Projeto '{nome}' excluído com sucesso!\n")
         
     def mostrar_projetos_pendentes(self, projetos):
         print("Projetos pessoais pendentes:")
@@ -179,26 +179,26 @@ class TelaUsuario:
         return input("Nome do projeto a ser concluído: ").strip()
 
     def mensagem_nenhum_projeto_pendente(self):
-        print("Nenhum projeto pessoal pendente para concluir.\n")
+        sg.popup("Nenhum projeto pessoal pendente para concluir.\n")
 
     def mensagem_projeto_nao_encontrado_ou_concluido(self, nome):
-        print(f"Projeto '{nome}' não encontrado ou já está concluído.")
+        sg.popup(f"Projeto '{nome}' não encontrado ou já está concluído.")
 
     def mensagem_erro_status_concluido(self, erro):
-        print(f"Erro ao definir status como CONCLUIDO: {erro}")
+        sg.popup(f"Erro ao definir status como CONCLUIDO: {erro}")
 
     def mensagem_projeto_concluido(self, nome):
-        print(f"Projeto '{nome}' marcado como CONCLUÍDO!\n")
+        sg.popup(f"Projeto '{nome}' marcado como CONCLUÍDO!\n")
 
     def mensagem_sem_carreira(self):
-        print("Usuário não está associado a nenhuma carreira.\n")
+        sg.popup("Usuário não está associado a nenhuma carreira.\n")
 
     def mostrar_skills_disponiveis(self, skills):
         for skill in skills:
             print(f"ID: {skill['id']} - Nome: {skill['nome']}")
 
     def mensagem_sem_skills_disponiveis(self):
-        print("Não há skills disponíveis para aprender.\n")
+        sg.popup("Não há skills disponíveis para aprender.\n")
 
     def solicitar_id_skill(self):
         try:
@@ -207,10 +207,10 @@ class TelaUsuario:
             return None
 
     def mensagem_id_invalido(self):
-        print("ID inválido. Tente novamente.")
+        sg.popup("ID inválido. Tente novamente.")
 
     def mensagem_entrada_invalida(self):
-        print("Entrada inválida. Digite um número.")
+        sg.popup("Entrada inválida. Digite um número.")
 
     def mensagem_skill_aprendida(self, nome_skill):
-        print(f"\nParabéns! Você aprendeu a skill: {nome_skill}")
+        sg.popup(f"\nParabéns! Você aprendeu a skill: {nome_skill}")
