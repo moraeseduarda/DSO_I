@@ -8,29 +8,54 @@ class TelaUsuario:
         sg.popup("Entrada inválida. Digite apenas números.")
 
     def mostrar_ranking(self, ranking_usuarios):
-            print("\n--- RANKING DE APRENDIZADO ---")
-            print("---------------------------------")
-            print(f"{'Posição':<10}{'Usuário':<20}{'Número de Skills aprendidas'}")
-            print("---------------------------------")
-            for posicao, (username, qtd_skills) in enumerate(ranking_usuarios, start=1):
-                print(f"{posicao:<10}{username:<20}{qtd_skills}")
-            print("---------------------------------\n")
-            
+        texto = "--- RANKING DE APRENDIZADO ---\n"
+        texto += "---------------------------------\n"
+        texto += f"{'Posição':<10}{'Usuário':<20}{'Número de Skills aprendidas'}\n"
+        texto += "---------------------------------\n"
+        for posicao, (username, qtd_skills) in enumerate(ranking_usuarios, start=1):
+            texto += f"{posicao:<10}{username:<20}{qtd_skills}\n"
+        texto += "---------------------------------\n"
+        sg.popup_scrolled(texto, title="Ranking de Aprendizado", size=(50, 15))
+
     def mostra_mensagem(self, mensagem):
         sg.popup(mensagem)
 
     def solicitar_username(self):
-        return input("Digite seu USERNAME para entrar: @").strip().lower()
+        layout = [
+            [sg.Text("Digite seu USERNAME para entrar: @")],
+            [sg.InputText(key="username")],
+            [sg.Submit("Entrar"), sg.Cancel("Cancelar")]
+        ]
+        window = sg.Window("Login de Usuário", layout)
+        event, values = window.read()
+        window.close()
+        if event == "Entrar" and values["username"]:
+            return values["username"].strip().lower()
+        else:
+            return None
 
     def mostrar_menu_usuario_logado(self, nome_usuario):
-        print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
-        print(f"\n--- Bem-vindo(a), {nome_usuario}! ---")
-        print("1 - Ver informações do usuário e carreiras escolhidas")
-        print("2 - Ver percentual concluído")
-        print("3 - Aprender skill")
-        print("4 - Gerenciar projetos pessoais")
-        print("0 - Sair (Deslogar)")
-        return input("Digite a opção desejada: ").strip()
+        layout = [
+            [sg.Text('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')],
+            [sg.Text(f"--- Bem-vindo(a), {nome_usuario}! ---")],
+            [sg.Button('1 - Ver informações do usuário e carreiras escolhidas', key='1')],
+            [sg.Button('2 - Ver percentual concluído', key='2')],
+            [sg.Button('3 - Aprender skill', key='3')],
+            [sg.Button('4 - Gerenciar projetos pessoais', key='4')],
+            [sg.Button('0 - Sair (Deslogar)', key='0')],
+            [sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Menu Usuário Logado', layout)
+        while True:
+            event, _ = window.read()
+            if event in (None, 'Cancelar', sg.WIN_CLOSED):
+                window.close()
+                return '0'
+            if event in ('0', '1', '2', '3', '4'):
+                window.close()
+                return event
+            else:
+                sg.popup("Opção inválida. Por favor, escolha uma opção entre 0 e 4.")
 
     def mensagem_username_vazio(self):
         sg.popup("Username não pode ser vazio. Tente novamente.\n")
@@ -49,80 +74,109 @@ class TelaUsuario:
         
 
     def menu_projetos_pessoais(self):
-        print("\n--- GERENCIAR PROJETOS PESSOAIS ---")
-        print("1 - Adicionar projeto pessoal")
-        print("2 - Ver projetos pessoais")
-        print("3 - Alterar projeto pessoal")
-        print("4 - Excluir projeto pessoal")
-        print("5 - Concluir projeto pessoal")
-        print("0 - Voltar ao menu anterior")
-        return input("Escolha uma opção: ").strip()
+        layout = [
+            [sg.Text("--- GERENCIAR PROJETOS PESSOAIS ---")],
+            [sg.Button('1 - Adicionar projeto pessoal', key='1')],
+            [sg.Button('2 - Ver projetos pessoais', key='2')],
+            [sg.Button('3 - Alterar projeto pessoal', key='3')],
+            [sg.Button('4 - Excluir projeto pessoal', key='4')],
+            [sg.Button('5 - Concluir projeto pessoal', key='5')],
+            [sg.Button('0 - Voltar ao menu anterior', key='0')],
+            [sg.Cancel('Cancelar')]
+        ]
+        window = sg.Window('Projetos Pessoais', layout)
+        while True:
+            event, _ = window.read()
+            if event in (None, 'Cancelar', sg.WIN_CLOSED):
+                window.close()
+                return '0'
+            if event in ('0', '1', '2', '3', '4', '5'):
+                window.close()
+                return event
+            else:
+                sg.popup("Opção inválida. Por favor, escolha uma opção entre 0 e 5.")
 
     def mensagem_opcao_invalida(self):
         sg.popup("Opção inválida. Tente novamente.")
         
 
     def mostra_info_carreira(self, info):
-        print("---- Informações do Usuário ----")
-        print(f"Nome: {info['nome']}")
-        print(f"Username: @{info['username']}")
+        texto = "---- Informações do Usuário ----\n"
+        texto += f"Nome: {info['nome']}\n"
+        texto += f"Username: @{info['username']}\n"
         if not info["carreiras"]:
-            print("Usuário não está associado a nenhuma carreira.\n")
-            return
-        print("--- INFORMAÇÕES DAS CARREIRAS ESCOLHIDAS PELO USUÁRIO")
-        for carreira in info["carreiras"]:
-            print(f"\nCarreira Escolhida: {carreira['nome']}")
-            print(f"Descrição: {carreira['descricao']}")
-            skills = carreira["skills"]
-            print(f"Skills da Carreira: {', '.join(skills) if skills else 'Nenhuma skill cadastrada.'}\n")
+            texto += "Usuário não está associado a nenhuma carreira.\n"
+        else:
+            texto += "--- INFORMAÇÕES DAS CARREIRAS ESCOLHIDAS PELO USUÁRIO ---\n"
+            for carreira in info["carreiras"]:
+                texto += f"\nCarreira Escolhida: {carreira['nome']}\n"
+                texto += f"Descrição: {carreira['descricao']}\n"
+                skills = carreira["skills"]
+                texto += f"Skills da Carreira: {', '.join(skills) if skills else 'Nenhuma skill cadastrada.'}\n"
+        sg.popup_scrolled(texto, title="Informações do Usuário", size=(60, 20))
             
     def mostra_percentual_concluido(self, dados_carreiras):
         if not dados_carreiras:
-            print("Usuário não está associado a nenhuma carreira.\n")
+            sg.popup("Usuário não está associado a nenhuma carreira.\n")
             return
+
+        texto = ""
         for dados in dados_carreiras:
             carreira = dados["carreira"]
             aprendidas = dados["aprendidas"]
             para_aprender = dados["para_aprender"]
             percentual = dados["percentual"]
 
-            print("\n--- Skills já aprendidas ---")
+            texto += f"\n--- Skills já aprendidas ---\n"
             if aprendidas:
                 for idx, skill in enumerate(aprendidas, start=1):
-                    print(f"{idx}. {skill.nome}")
+                    texto += f"{idx}. {skill.nome}\n"
             else:
-                print("Nenhuma skill aprendida ainda.")
+                texto += "Nenhuma skill aprendida ainda.\n"
 
-            print(f"\nPercentual concluído na carreira {carreira.nome}: {percentual:.2f}%\n")
+            texto += f"\nPercentual concluído na carreira {carreira.nome}: {percentual:.2f}%\n"
 
-            print("\n--- Skills disponíveis para aprender ---")
+            texto += "\n--- Skills disponíveis para aprender ---\n"
             if para_aprender:
                 for idx, skill in enumerate(para_aprender, start=1):
-                    print(f"{idx}. {skill.nome}")
+                    texto += f"{idx}. {skill.nome}\n"
             else:
-                print("Nenhuma skill disponível para aprender.\n")
-            print("-------\n")
+                texto += "Nenhuma skill disponível para aprender.\n"
+            texto += "-------\n"
+        sg.popup_scrolled(texto, title="Progresso nas Carreiras", size=(60, 20))
             
     def mostrar_projetos_pessoais(self, projetos):
-        print("\n--- Projetos Pessoais do Usuário ---")
         if not projetos:
-            print("Nenhum projeto pessoal cadastrado.\n")
+            sg.popup("Nenhum projeto pessoal cadastrado.\n")
             return
+
+        texto = "\n--- Projetos Pessoais do Usuário ---\n"
         for projeto in projetos:
-            print(f"Nome: {projeto['nome']}")
-            print(f"Descrição: {projeto['descricao']}")
-            print(f"Status: {projeto['status']}")
-            print("-" * 30)
+            texto += f"Nome: {projeto['nome']}\n"
+            texto += f"Descrição: {projeto['descricao']}\n"
+            texto += f"Status: {projeto['status']}\n"
+            texto += "-" * 30 + "\n"
+        sg.popup_scrolled(texto, title="Projetos Pessoais", size=(60, 20))
 
     def solicitar_dados_projeto(self):
-        print("\n--- Adicionar Novo Projeto Pessoal ---")
-        nome = input("Nome do projeto: ").strip()
-        if not nome:
-            print("Nome do projeto não pode ser vazio.")
+        layout = [
+            [sg.Text("Nome do projeto:"), sg.Input(key="nome")],
+            [sg.Text("Descrição do projeto:"), sg.Input(key="descricao")],
+            [sg.Text("Status inicial (A_FAZER, EM_ANDAMENTO, CONCLUIDO):"), sg.Input(key="status")],
+            [sg.Submit("OK"), sg.Cancel("Cancelar")]
+        ]
+        window = sg.Window("Adicionar Projeto Pessoal", layout)
+        event, values = window.read()
+        window.close()
+        if event == "OK" and values["nome"].strip():
+            return {
+                "nome": values["nome"].strip(),
+                "descricao": values["descricao"].strip(),
+                "status": values["status"].strip().upper()
+            }
+        else:
+            sg.popup("Nome do projeto não pode ser vazio.")
             return None
-        descricao = input("Descrição do projeto: ").strip()
-        status_str = input("Status inicial do projeto (ex: A_FAZER, EM_ANDAMENTO, CONCLUIDO): ").strip().upper()
-        return {"nome": nome, "descricao": descricao, "status": status_str}
 
     def mensagem_erro_projeto_duplicado(self, nome):
         sg.popup(f"Erro: Um projeto com o nome '{nome}' já existe.")
@@ -134,19 +188,33 @@ class TelaUsuario:
         sg.popup("Projeto pessoal adicionado com sucesso!\n")
         
     def solicitar_nome_projeto_para_alterar(self):
-        print("\n--- Alterar Projeto Pessoal ---")
-        return input("Nome do projeto a ser alterado: ").strip()
+        layout = [[sg.Text("Nome do projeto a ser alterado:")], [sg.Input(key="nome")], [sg.Submit(), sg.Cancel()]]
+        window = sg.Window("Alterar Projeto", layout)
+        event, values = window.read()
+        window.close()
+        return values["nome"].strip() if event == "Submit" and values["nome"].strip() else None
 
     def mensagem_projeto_nao_encontrado(self, nome):
         sg.popup(f"Projeto '{nome}' não encontrado.")
 
     def solicitar_novos_dados_projeto(self, projeto):
-        print(f"Alterando projeto: {projeto.nome}")
-        novo_nome = input(f"Novo nome (deixe em branco para manter '{projeto.nome}'): ").strip()
-        nova_descricao = input("Nova descrição (deixe em branco para manter): ").strip()
-        status_atual = projeto.status.status if hasattr(projeto.status, 'status') else projeto.status
-        novo_status_str = input(f"Novo status (deixe em branco para manter '{status_atual}'): ").strip().upper()
-        return {"novo_nome": novo_nome, "nova_descricao": nova_descricao, "novo_status_str": novo_status_str}
+        layout = [
+            [sg.Text(f"Novo nome (deixe em branco para manter '{projeto.nome}'):"), sg.Input(key="novo_nome")],
+            [sg.Text("Nova descrição (deixe em branco para manter):"), sg.Input(key="nova_descricao")],
+            [sg.Text(f"Novo status (deixe em branco para manter '{projeto.status.status}'):"), sg.Input(key="novo_status_str")],
+            [sg.Submit(), sg.Cancel()]
+        ]
+        window = sg.Window("Editar Projeto", layout)
+        event, values = window.read()
+        window.close()
+        if event == "Submit":
+            return {
+                "novo_nome": values["novo_nome"].strip(),
+                "nova_descricao": values["nova_descricao"].strip(),
+                "novo_status_str": values["novo_status_str"].strip().upper()
+            }
+        else:
+            return None
 
     def mensagem_erro_nome_duplicado(self, novo_nome):
         sg.popup(f"Erro: Já existe um projeto com o nome '{novo_nome}'. Alteração de nome cancelada.")
@@ -158,8 +226,11 @@ class TelaUsuario:
         sg.popup(f"Projeto '{nome_final}' atualizado com sucesso!\n")
         
     def solicitar_nome_projeto_para_excluir(self):
-        print("\n--- Excluir Projeto Pessoal ---")
-        return input("Nome do projeto a ser excluído: ").strip()
+        layout = [[sg.Text("Nome do projeto a ser excluído:")], [sg.Input(key="nome")], [sg.Submit(), sg.Cancel()]]
+        window = sg.Window("Excluir Projeto", layout)
+        event, values = window.read()
+        window.close()
+        return values["nome"].strip() if event == "Submit" and values["nome"].strip() else None
 
     def mensagem_projeto_nao_encontrado(self, nome):
         sg.popup(f"Projeto '{nome}' não encontrado.")
@@ -168,15 +239,23 @@ class TelaUsuario:
         sg.popup(f"Projeto '{nome}' excluído com sucesso!\n")
         
     def mostrar_projetos_pendentes(self, projetos):
-        print("Projetos pessoais pendentes:")
+        if not projetos:
+            sg.popup("Nenhum projeto pendente.")
+            return
+        texto = "Projetos pessoais pendentes:\n"
         for projeto in projetos:
-            print(f"Nome: {projeto['nome']}")
-            print(f"Descrição: {projeto['descricao']}")
-            print(f"Status: {projeto['status']}")
-            print("-" * 30)
+            texto += f"Nome: {projeto['nome']}\n"
+            texto += f"Descrição: {projeto['descricao']}\n"
+            texto += f"Status: {projeto['status']}\n"
+            texto += "-" * 30 + "\n"
+        sg.popup_scrolled(texto, title="Projetos Pendentes", size=(60, 20))
 
     def solicitar_nome_projeto_para_concluir(self):
-        return input("Nome do projeto a ser concluído: ").strip()
+        layout = [[sg.Text("Nome do projeto a ser concluído:")], [sg.Input(key="nome")], [sg.Submit(), sg.Cancel()]]
+        window = sg.Window("Concluir Projeto", layout)
+        event, values = window.read()
+        window.close()
+        return values["nome"].strip() if event == "Submit" and values["nome"].strip() else None
 
     def mensagem_nenhum_projeto_pendente(self):
         sg.popup("Nenhum projeto pessoal pendente para concluir.\n")
@@ -194,17 +273,31 @@ class TelaUsuario:
         sg.popup("Usuário não está associado a nenhuma carreira.\n")
 
     def mostrar_skills_disponiveis(self, skills):
+        if not skills:
+            sg.popup("Nenhuma skill disponível.")
+            return
+        texto = "Skills disponíveis:\n"
         for skill in skills:
-            print(f"ID: {skill['id']} - Nome: {skill['nome']}")
+            texto += f"ID: {skill['id']} - Nome: {skill['nome']}\n"
+        sg.popup_scrolled(texto, title="Skills Disponíveis", size=(50, 15))
 
     def mensagem_sem_skills_disponiveis(self):
         sg.popup("Não há skills disponíveis para aprender.\n")
 
     def solicitar_id_skill(self):
-        try:
-            return int(input("\nDigite o ID da skill que deseja aprender: "))
-        except ValueError:
-            return None
+        layout = [[sg.Text("Digite o ID da skill que deseja aprender:")],
+                  [sg.Input(key="id")],
+                  [sg.Submit(), sg.Cancel()]]
+        window = sg.Window("Aprender Skill", layout)
+        event, values = window.read()
+        window.close()
+        if event == "Submit":
+            try:
+                return int(values["id"])
+            except ValueError:
+                self.mensagem_entrada_invalida()
+                return None
+        return None
 
     def mensagem_id_invalido(self):
         sg.popup("ID inválido. Tente novamente.")
