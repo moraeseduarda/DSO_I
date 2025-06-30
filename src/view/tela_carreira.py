@@ -58,8 +58,13 @@ class TelaCarreira:
                 except (ValueError, TypeError):
                     sg.popup('ID inválido. Digite um número inteiro.')
                     continue
-                nome = values['nome'].strip().upper()
-                descricao = values['descricao'].strip().upper()
+                nome = values['nome']
+                descricao = values['descricao']
+                if nome is None or descricao is None:
+                    sg.popup('Nome e descrição não podem ser vazios.')
+                    continue
+                nome = nome.strip().upper()
+                descricao = descricao.strip().upper()
                 if not nome or not descricao:
                     sg.popup('Nome e descrição não podem ser vazios.')
                     continue
