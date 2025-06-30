@@ -43,12 +43,11 @@ class TelaUsuario:
             [sg.Button('3 - Aprender skill', key='3')],
             [sg.Button('4 - Gerenciar projetos pessoais', key='4')],
             [sg.Button('0 - Sair (Deslogar)', key='0')],
-            [sg.Cancel('Cancelar')]
         ]
         window = sg.Window('Menu Usuário Logado', layout)
         while True:
             event, _ = window.read()
-            if event in (None, 'Cancelar', sg.WIN_CLOSED):
+            if event in (None, sg.WIN_CLOSED):
                 window.close()
                 return '0'
             if event in ('0', '1', '2', '3', '4'):
@@ -82,12 +81,11 @@ class TelaUsuario:
             [sg.Button('4 - Excluir projeto pessoal', key='4')],
             [sg.Button('5 - Concluir projeto pessoal', key='5')],
             [sg.Button('0 - Voltar ao menu anterior', key='0')],
-            [sg.Cancel('Cancelar')]
         ]
         window = sg.Window('Projetos Pessoais', layout)
         while True:
             event, _ = window.read()
-            if event in (None, 'Cancelar', sg.WIN_CLOSED):
+            if event in (None, sg.WIN_CLOSED):
                 window.close()
                 return '0'
             if event in ('0', '1', '2', '3', '4', '5'):

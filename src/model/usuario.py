@@ -4,13 +4,21 @@ from model.projeto_pessoal import ProjetoPessoal
 
 
 class Usuario(PessoaSistema):
-    def __init__(self, username: str, nome: str):
+    def __init__(self, username: str, nome: str, carreiras):
         super().__init__(palavra_chave=username)
         self.__nome = nome
-        self.__carreiras = []
+        self.__carreiras = carreiras
         self.__skills_para_aprender = [] 
         self.__skills_aprendidas = []   
         self.__projetos_pessoais = {}   
+        
+    @property
+    def carreiras(self):
+        return self.__carreiras
+    
+    @carreiras.setter
+    def carreiras(self, carreiras):
+        self.__carreiras = carreiras
         
     @property
     def username(self):

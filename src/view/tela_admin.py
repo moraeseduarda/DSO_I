@@ -8,12 +8,11 @@ class TelaAdmin:
             [sg.Text('Escolha uma opção:')],
             [sg.Button('1 - Listar usuários', key=1)],
             [sg.Button('0 - Retornar', key=0)],
-            [sg.Cancel('Cancelar')]
         ]
         window = sg.Window('Menu Admin. Usuários', layout)
         while True:
             event, _ = window.read()
-            if event in (None, 'Cancelar', sg.WIN_CLOSED):
+            if event in (None, sg.WIN_CLOSED):
                 window.close()
                 return 0
             if event in (0, 1):
@@ -47,12 +46,11 @@ class TelaAdmin:
             [sg.Button('2 - SKILLS', key=2)],
             [sg.Button('3 - USUÁRIOS', key=3)],
             [sg.Button('0 - VOLTAR AO MENU PRINCIPAL', key=0)],
-            [sg.Cancel('Cancelar')]
         ]
         window = sg.Window('Menu Administrador', layout)
         while True:
             event, _ = window.read()
-            if event in (None, 'Cancelar', sg.WIN_CLOSED):
+            if event in (None, sg.WIN_CLOSED):
                 window.close()
                 return 0
             if event in (0, 1, 2, 3):
