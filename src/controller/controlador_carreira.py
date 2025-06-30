@@ -1,6 +1,7 @@
 from model.carreira import Carreira
 from view.tela_carreira import TelaCarreira
 from DAOs.carreiras_dao import CarreiraDAO
+from exceptions.exceptions import CarreiraNaoEncontradaError
 
 
 class ControladorCarreira:
@@ -16,7 +17,7 @@ class ControladorCarreira:
         for carreira in self.__carreira_dao.get_all():
             if carreira.id == id:
                 return carreira
-        return None
+        raise CarreiraNaoEncontradaError(f"Carreira com ID {id} não encontrada.")
 
     def cadastro_carreira(self):
         """Cadastra uma carreira e coloca na lista do controlador (carreiras)"""
@@ -26,7 +27,10 @@ class ControladorCarreira:
         if dados_carreira is None:
             return
         
-        carreira = self.pega_carreira_por_id(dados_carreira['id'])
+        try:
+            carreira = self.pega_carreira_por_id(dados_carreira['id'])
+        except CarreiraNaoEncontradaError as e:
+            self.__tela_carreira.mostra_mensagem(str(e))
         if carreira is None:
             nova_carreira = Carreira(dados_carreira['id'], dados_carreira['nome'], dados_carreira['descricao'])
             self.__carreira_dao.add(nova_carreira)

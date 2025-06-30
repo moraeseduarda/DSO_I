@@ -4,6 +4,7 @@ from model.usuario import Usuario
 from model.projeto_pessoal import ProjetoPessoal
 from model.status import Status
 from DAOs.usuarios_dao import UsuarioDAO
+from exceptions.exceptions import UsuarioNaoEncontradoError
 
 class ControladorUsuario:
     def __init__(self, controlador_sistema):
@@ -19,7 +20,7 @@ class ControladorUsuario:
         for usuario in self.__usuario_dao.get_all():
             if usuario.username == username:
                 return usuario
-        return None
+        raise UsuarioNaoEncontradoError(f"Usuário '{username}' não encontrado.")
            
     # O método lista_usuarios pode ser chamado pelo ControladorAdmin.
     # Se a exibição for feita pela TelaAdminUsuario, o ControladorAdmin pode chamar este método
@@ -107,7 +108,10 @@ class ControladorUsuario:
                 self.__tela_usuario.mensagem_username_vazio()
                 continue
 
-            usuario = self.pega_usuario_por_username(username_usuario)
+            try:
+                usuario = self.pega_usuario_por_username(username_usuario)
+            except UsuarioNaoEncontradoError as e:
+                self.__tela_usuario.mostra_mensagem(str(e))
             if usuario is None:
                 tentativas += 1
                 self.__tela_usuario.mensagem_usuario_nao_encontrado(tentativas)
