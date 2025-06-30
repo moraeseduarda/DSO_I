@@ -6,28 +6,28 @@ class TelaCarreira:
         layout = [
             [sg.Text('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====', font=('Arial', 16), justification='center')],
             [sg.Text('--- CARREIRAS ---', font=('Arial', 14))],
-            [sg.Button('1 - Cadastrar nova carreira')],
-            [sg.Button('2 - Alterar carreira existente')],
-            [sg.Button('3 - Excluir uma carreira')],
-            [sg.Button('4 - Listar todas as carreiras cadastradas')],
-            [sg.Button('0 - Retornar')],
+            [sg.Button('Cadastrar nova carreira')],
+            [sg.Button('Alterar carreira existente')],
+            [sg.Button('Excluir uma carreira')],
+            [sg.Button('Listar todas as carreiras cadastradas')],
+            [sg.Button('Retornar')],
         ]
         window = sg.Window('Menu Carreiras', layout)
         while True:
             event, _ = window.read()
-            if event in (sg.WIN_CLOSED, 'Retornar'):
+            if event in (sg.WIN_CLOSED, 'Retornar'): 
                 window.close()
                 return 0
-            elif event == 'Cadastrar nova carreira':
+            elif event == 'Cadastrar nova carreira': 
                 window.close()
                 return 1
             elif event == 'Alterar carreira existente':
                 window.close()
                 return 2
-            elif event == 'Excluir uma carreira':
+            elif event == 'Excluir uma carreira': 
                 window.close()
                 return 3
-            elif event == 'Listar todas as carreiras cadastradas':
+            elif event == 'Listar todas as carreiras cadastradas':  
                 window.close()
                 return 4
 
