@@ -16,23 +16,23 @@ class TelaCarreira:
         window = sg.Window('Menu Carreiras', layout)
         while True:
             event, _ = window.read()
-            if event in (sg.WIN_CLOSED, '0 - Retornar'):
+            if event in (sg.WIN_CLOSED, 'Retornar'):
                 window.close()
                 limpar_console()
                 return 0
-            elif event == '1 - Cadastrar nova carreira':
+            elif event == 'Cadastrar nova carreira':
                 window.close()
                 limpar_console()
                 return 1
-            elif event == '2 - Alterar carreira existente':
+            elif event == 'Alterar carreira existente':
                 window.close()
                 limpar_console()
                 return 2
-            elif event == '3 - Excluir uma carreira':
+            elif event == 'Excluir uma carreira':
                 window.close()
                 limpar_console()
                 return 3
-            elif event == '4 - Listar todas as carreiras cadastradas':
+            elif event == 'Listar todas as carreiras cadastradas':
                 window.close()
                 limpar_console()
                 return 4
