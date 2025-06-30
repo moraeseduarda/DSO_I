@@ -1,5 +1,4 @@
 import PySimpleGUI as sg
-from view.console_utils import limpar_console
 
 
 class TelaCarreira:    
@@ -18,23 +17,18 @@ class TelaCarreira:
             event, _ = window.read()
             if event in (sg.WIN_CLOSED, 'Retornar'):
                 window.close()
-                limpar_console()
                 return 0
             elif event == 'Cadastrar nova carreira':
                 window.close()
-                limpar_console()
                 return 1
             elif event == 'Alterar carreira existente':
                 window.close()
-                limpar_console()
                 return 2
             elif event == 'Excluir uma carreira':
                 window.close()
-                limpar_console()
                 return 3
             elif event == 'Listar todas as carreiras cadastradas':
                 window.close()
-                limpar_console()
                 return 4
 
     def pega_dados_carreira(self, cadastro):

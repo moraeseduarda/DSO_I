@@ -1,59 +1,74 @@
-from view.console_utils import limpar_console
-
+import PySimpleGUI as sg
 
 class TelaAdmin:
     def tela_opcoes_admin_usuarios(self):
+        layout = [
+            [sg.Text('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')],
+            [sg.Text('--- MENU ADMIN. USUÁRIOS ---')],
+            [sg.Text('Escolha uma opção:')],
+            [sg.Button('1 - Listar usuários', key=1)],
+            [sg.Button('0 - Retornar', key=0)],
+        ]
+        window = sg.Window('Menu Admin. Usuários', layout)
         while True:
-            print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
-            print('--- MENU ADMIN. USUARIOS ---')
-            print('Escolha uma opção:')
-            print('1 - Listar usuarios')
-            print('0 - Retornar')
-            try:
-                opcao = int(input('Digite a opção desejada: '))
-                if opcao < 0 or opcao > 1:
-                    limpar_console()
-                    print("Opção inválida. Por favor, escolha uma opção entre 0 e 1.")
-                    continue
-                return opcao
-            except ValueError:
-                limpar_console()
-                print("Entrada inválida. Digite apenas números.")
+            event, _ = window.read()
+            if event in (None, sg.WIN_CLOSED):
+                window.close()
+                return 0
+            if event in (0, 1):
+                window.close()
+                return event
+            else:
+                sg.popup("Opção inválida. Por favor, escolha 0 ou 1.")
     
     def mostra_usuario(self, dados_usuario):
-        print('-----------------------------------')
-        print('USERNAME DO USUÁRIO: @', dados_usuario['username'])
-        print('NOME DO USUARIO: ', dados_usuario['nome'])
-        print('CARREIRAS: ', ", ".join(dados_usuario['carreiras']) if dados_usuario['carreiras'] else "Nenhuma")
-        print('SKILLS APRENDIDAS: ', ", ".join(dados_usuario['skills_aprendidas']) if dados_usuario['skills_aprendidas'] else "Nenhuma")
-        print('-----------------------------------')
+        mensagem = (
+            '-----------------------------------\n'
+            f'USERNAME DO USUÁRIO: @{dados_usuario["username"]}\n'
+            f'NOME DO USUÁRIO: {dados_usuario["nome"]}\n'
+            f'CARREIRAS: {", ".join(dados_usuario["carreiras"]) if dados_usuario["carreiras"] else "Nenhuma"}\n'
+            f'SKILLS APRENDIDAS: {", ".join(dados_usuario["skills_aprendidas"]) if dados_usuario["skills_aprendidas"] else "Nenhuma"}\n'
+            '-----------------------------------'
+        )
+        sg.popup(mensagem, title="Detalhes do Usuário")
 
 
     def mostra_mensagem(self, mensagem):
-        print(mensagem)
-        input("Pressione ENTER para continuar...")
-        limpar_console()
+        sg.popup(mensagem)
     
 
     def tela_opcoes_admin(self):
+        layout = [
+            [sg.Text('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')],
+            [sg.Text('--- MENU ADMINISTRADOR ---')],
+            [sg.Text('Escolha uma opção:')],
+            [sg.Button('1 - CARREIRAS', key=1)],
+            [sg.Button('2 - SKILLS', key=2)],
+            [sg.Button('3 - USUÁRIOS', key=3)],
+            [sg.Button('0 - VOLTAR AO MENU PRINCIPAL', key=0)],
+        ]
+        window = sg.Window('Menu Administrador', layout)
         while True:
-            print('===== SISTEMA DE MONITORAMENTO DE HARD SKILLS =====')
-            print('--- MENU ADMINISTRADOR ---')
-            print('Escolha uma opção:')
-            print('1 - CARREIRAS')
-            print('2 - SKILLS')
-            print('3 - USUÁRIOS')
-            print('0 - VOLTAR AO MENU PRINCIPAL')
-            try:
-                opcao = int(input('Digite a opção desejada: '))
-                limpar_console()
-                if opcao < 0 or opcao > 3:
-                    print("Opção inválida. Por favor, escolha uma opção entre 0 e 3.")
-                    continue
-                return opcao
-            except ValueError:
-                limpar_console()
-                print("Entrada inválida. Por favor, digite um número.")
+            event, _ = window.read()
+            if event in (None, sg.WIN_CLOSED):
+                window.close()
+                return 0
+            if event in (0, 1, 2, 3):
+                window.close()
+                return event
+            else:
+                sg.popup("Opção inválida. Por favor, escolha uma opção entre 0 e 3.")
 
     def solicitar_palavra_chave_admin(self):
-        return input("Digite a palavra-chave do administrador: ").strip()
+        layout = [
+            [sg.Text("Digite a palavra-chave do administrador: ")],
+            [sg.Text("Palavra-chave: "), sg.InputText(key="palavra_chave")],
+            [sg.Submit("Enviar"), sg.Cancel("Cancelar")]
+        ]
+        window = sg.Window('Permissão administrador', layout)
+        event, values = window.read()
+        window.close()
+        if event == 'Enviar':
+            return values['palavra_chave'].strip()
+        else:
+            return None

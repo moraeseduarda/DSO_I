@@ -3,7 +3,6 @@ from view.tela_usuario import TelaUsuario
 from model.usuario import Usuario
 from model.projeto_pessoal import ProjetoPessoal
 from model.status import Status
-from view.console_utils import limpar_console
 from DAOs.usuarios_dao import UsuarioDAO
 
 class ControladorUsuario:
@@ -40,7 +39,6 @@ class ControladorUsuario:
 
    
     def cadastrar_usuario(self):
-        # falta parte de cadastrar carreira usuario
         dados_usuario = self.__tela_menu_usuario.pega_dados_cadastro_usuario()
         usuario = self.pega_usuario_por_username(dados_usuario['username'])
 
@@ -61,7 +59,7 @@ class ControladorUsuario:
                 if carreira and carreira not in carreiras_escolhidas:
                     carreiras_escolhidas.append(carreira)
                     
-            novo_usuario = Usuario(dados_usuario['username'], dados_usuario['nome'])
+            novo_usuario = Usuario(dados_usuario['username'], dados_usuario['nome'], carreiras_escolhidas)
             self.__usuario_dao.add(novo_usuario)
             self.__tela_menu_usuario.mostra_mensagem('Usuário cadastrada com sucesso!')
         else:
@@ -87,7 +85,6 @@ class ControladorUsuario:
             except KeyError:
                 self.__tela_menu_usuario.mostra_mensagem("Opção inválida. Digite um número entre 0 e 3.")
             except ValueError:
-                limpar_console()
                 self.__tela_usuario.entrada_invalida()
 
             
@@ -122,7 +119,7 @@ class ControladorUsuario:
 
         while True:
             opcao = self.__tela_usuario.mostrar_menu_usuario_logado(usuario.nome)
-            limpar_console()
+            
             if opcao == '1':
                 self.mostra_info_carreira(usuario)
             elif opcao == '2':
@@ -135,13 +132,12 @@ class ControladorUsuario:
                 self.__tela_usuario.mensagem_deslogando(usuario.nome)
                 return
             else:
-                limpar_console()
                 self.__tela_usuario.mensagem_opcao_invalida()
 
     def menu_projetos_pessoais(self, usuario):
         while True:
             opcao = self.__tela_usuario.menu_projetos_pessoais()
-            limpar_console()
+            
             if opcao == '1':
                 self.adicionar_projeto_pessoal(usuario)
             elif opcao == '2':

@@ -1,5 +1,4 @@
 from view.tela_sistema import TelaSistema
-from view.console_utils import limpar_console
 from controller.controlador_carreira import ControladorCarreira
 from controller.controlador_usuario import ControladorUsuario
 from controller.controlador_skills import ControladorSkill
@@ -48,5 +47,4 @@ class ControladorSistema:
                 except KeyError:
                     self.__tela_sistema.mostra_mensagem("Opção inválida. Escolha 0, 1 ou 2.")
             except ValueError:
-                limpar_console()
                 self.__tela_sistema.mostra_mensagem("Entrada inválida. Digite apenas números.")
