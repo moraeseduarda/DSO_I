@@ -190,7 +190,7 @@ class ControladorUsuario:
                 "para_aprender": para_aprender,
                 "percentual": percentual
             })
-        self.__tela_usuario.mostra_percentual_concluido(usuario, dados_carreiras)
+        self.__tela_usuario.mostra_percentual_concluido(dados_carreiras)
 
     def listar_projetos_pessoais(self, usuario):
         projetos_do_usuario = usuario.projetos_pessoais
