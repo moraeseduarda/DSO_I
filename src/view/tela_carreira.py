@@ -15,19 +15,19 @@ class TelaCarreira:
         window = sg.Window('Menu Carreiras', layout)
         while True:
             event, _ = window.read()
-            if event in (sg.WIN_CLOSED, '0 - Retornar'):
+            if event in (sg.WIN_CLOSED, 'Retornar'):
                 window.close()
                 return 0
-            elif event == '1 - Cadastrar nova carreira':
+            elif event == 'Cadastrar nova carreira':
                 window.close()
                 return 1
-            elif event == '2 - Alterar carreira existente':
+            elif event == 'Alterar carreira existente':
                 window.close()
                 return 2
-            elif event == '3 - Excluir uma carreira':
+            elif event == 'Excluir uma carreira':
                 window.close()
                 return 3
-            elif event == '4 - Listar todas as carreiras cadastradas':
+            elif event == 'Listar todas as carreiras cadastradas':
                 window.close()
                 return 4
 
@@ -52,8 +52,13 @@ class TelaCarreira:
                 except (ValueError, TypeError):
                     sg.popup('ID inválido. Digite um número inteiro.')
                     continue
-                nome = values['nome'].strip().upper()
-                descricao = values['descricao'].strip().upper()
+                nome = values['nome']
+                descricao = values['descricao']
+                if nome is None or descricao is None:
+                    sg.popup('Nome e descrição não podem ser vazios.')
+                    continue
+                nome = nome.strip().upper()
+                descricao = descricao.strip().upper()
                 if not nome or not descricao:
                     sg.popup('Nome e descrição não podem ser vazios.')
                     continue

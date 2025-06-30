@@ -22,6 +22,10 @@ class ControladorCarreira:
         """Cadastra uma carreira e coloca na lista do controlador (carreiras)"""
         cadastro = True
         dados_carreira = self.__tela_carreira.pega_dados_carreira(cadastro)
+        
+        if dados_carreira is None:
+            return
+        
         carreira = self.pega_carreira_por_id(dados_carreira['id'])
         if carreira is None:
             nova_carreira = Carreira(dados_carreira['id'], dados_carreira['nome'], dados_carreira['descricao'])

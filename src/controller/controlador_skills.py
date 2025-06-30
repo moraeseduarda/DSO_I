@@ -32,6 +32,9 @@ class ControladorSkill:
     
     def incluir_skill(self):
         dados_skill = self.__tela_skill.pega_dados_skill()
+        if dados_skill is None: 
+            return
+        
         skill = self.pega_skill_por_id(dados_skill['id'])
         
         if skill is None:

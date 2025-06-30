@@ -28,12 +28,12 @@ class TelaSkill:
             [sg.Text('ID da habilidade:'), sg.Input(key='id')],
             [sg.Text('Nome da habilidade:'), sg.Input(key='nome')],
             [sg.Text('Descrição da habilidade:'), sg.Input(key='descricao')],
-            [sg.Button('OK')]
+            [sg.Button('OK'), sg.Button('Cancelar')]
         ]
         window = sg.Window('Cadastrar Habilidade', layout)
         while True:
             event, values = window.read()
-            if event == sg.WIN_CLOSED:
+            if event in (sg.WIN_CLOSED, 'Cancelar'):
                 window.close()
                 return None
             try:
